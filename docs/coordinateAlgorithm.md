@@ -11,7 +11,7 @@ For the 2D algorithm, we only consider a single slice from the top down perspect
 Coordinate conversion $(x,y) \rightarrow (\theta, r)$:<br>
 <br>$$x = r \cos(\theta)$$
 <br>$$y = r \sin(\theta)$$
-<br>Solving for $(\theta, r)$:
+<br><br>Solving for $(\theta, r)$:
 <br>$$\boxed{r = \sqrt{x^2+y^2}}$$
 <br>$$\boxed{\theta = \arctan 2(y,x)}$$
 ### 3D General Algorithm

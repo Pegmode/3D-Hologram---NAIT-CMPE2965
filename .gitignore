@@ -1,1 +1,7 @@
 #Initial git ignore...
+
+##VSCode
+.vscode/
+
+##Python
+.venv/
