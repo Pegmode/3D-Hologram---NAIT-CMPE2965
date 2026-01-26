@@ -1,7 +1,7 @@
 #lookup table generator. See coordinate conversion algorithm document
 #Author: Daniel Chu
 import numpy
-
+import matplotlib.pyplot as plt
 LED_DISTANCE = 10#
 
 ##functions
@@ -24,14 +24,24 @@ def carteseian2Cylindrical(cartesianCoordinate):
     
 ##LUT functions
 def debugConvertSystem2D():
+    '''
+    Debug test for visual verification of cartesian => cylindrical conversion
+    '''
     cartesianSize = 30#
     coordList = []
     for y in range(cartesianSize):
         for x in range(cartesianSize):
             theta, r, _ = carteseian2Cylindrical((x,y,0))
             coordList.append((theta, r))
-
+    return coordList
 
 ##main
 if __name__ == "__main__":
+    figure = plt.figure()
+    ax = figure.add_subplot(111, projection="polar")
+    points = debugConvertSystem2D()
+    thetas, rs = zip(*points)
+    ax.scatter(thetas, rs)
+    plt.show()
+
     pass
