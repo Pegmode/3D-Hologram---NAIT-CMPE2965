@@ -9,9 +9,9 @@ Given a 3D point $(x,y,z)$ and a point $(\theta, r, h)$ on a cylinder where:
 ### 2D General Algorithm
 For the 2D algorithm, we only consider a single slice from the top down perspective. This matches a cartesian to polar mapping.<br><br>
 Coordinate conversion $(x,y) \rightarrow (\theta, r)$:<br>
-$$x = r \cos(\theta)$$
+<br>$$x = r \cos(\theta)$$
 <br>$$y = r \sin(\theta)$$
-Solving for $(\theta, r)$:
+<br>Solving for $(\theta, r)$:
 $$\boxed{r = \sqrt{x^2+y^2}}$$
 <br>$$\boxed{\theta = \arctan 2(y,x)}$$
 ### 3D General Algorithm
