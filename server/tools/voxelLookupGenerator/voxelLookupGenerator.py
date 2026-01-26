@@ -18,30 +18,36 @@ def carteseian2Cylindrical(cartesianCoordinate):
     #r = sqrt(x^2+y^2)
     #h = z
     x, y, z = cartesianCoordinate
-    r = numpy.sqrt(x^2+y^2)
+    r = numpy.sqrt(x*x+y*y)
     theta = numpy.arctan2(y,x)#angle in radians
     return theta, r, z
     
 ##LUT functions
+
+##visual debug
 def debugConvertSystem2D():
     '''
     Debug test for visual verification of cartesian => cylindrical conversion
     '''
     cartesianSize = 30#
+    cartesianValues = numpy.linspace(-cartesianSize // 2, cartesianSize // 2, cartesianSize)
     coordList = []
-    for y in range(cartesianSize):
-        for x in range(cartesianSize):
+    #convert the cartesian coords to polar ones
+    for y in cartesianValues:
+        for x in cartesianValues:
             theta, r, _ = carteseian2Cylindrical((x,y,0))
             coordList.append((theta, r))
+    #make plot
+    figure = plt.figure()
+    ax = figure.add_subplot(111, projection="polar")
+    thetas, rs = zip(*coordList)#pull out the coords into 2 lists for scatter plot useage
+    ax.scatter(thetas, rs)
+    plt.show()
     return coordList
+
 
 ##main
 if __name__ == "__main__":
-    figure = plt.figure()
-    ax = figure.add_subplot(111, projection="polar")
-    points = debugConvertSystem2D()
-    thetas, rs = zip(*points)
-    ax.scatter(thetas, rs)
-    plt.show()
+    debugConvertSystem2D()
 
     pass
