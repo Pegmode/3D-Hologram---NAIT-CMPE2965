@@ -25,7 +25,7 @@ def carteseian2Cylindrical(cartesianCoordinate):
 ##LUT functions
 
 ##visual debug
-def debugConvertSystem2D():
+def debugConvertSystem2DAndVisualize():
     '''
     Debug test for visual verification of cartesian => cylindrical conversion
     '''
@@ -48,6 +48,6 @@ def debugConvertSystem2D():
 
 ##main
 if __name__ == "__main__":
-    debugConvertSystem2D()
+    debugConvertSystem2DAndVisualize()
 
     pass

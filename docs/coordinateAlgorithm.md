@@ -1,8 +1,8 @@
 # Coordinate Translation Algorithm 
 The hologram consists of a virtical circuit board rotating about a central axis. Therefore this requires translating a standard $(x,y,z)$ cartesian coordinate system to a $(\theta, r, h)$ cylindrical system.
-## Description
+## Math Description
 ### Definitions
-Given a 3D point $(x,y,z)$ and a point $(\theta, r, h)$ on a cylinder where:
+Given a 3D cartesian point $(x,y,z)$ and a cylindrical point $(\theta, r, h)$ on a cylinder where:
 - $\theta$ is the angle of rotation within the inclusive range $[0^\circ\text{ - }180^\circ]$
 - $r$ is the radius from the center of rotation
 - $h$ is the height on the cylinder
@@ -18,3 +18,5 @@ Coordinate conversion $(x,y) \rightarrow (\theta, r)$:<br>
 To adapt the algorithm to 3D, we add a $x \rightarrow h$ mapping.<br><br>
 $$\boxed{h=z}$$
 
+## Lookup Algorithm
+The cartesian and cylindrical coordinates are both represented as 3D arrays of 1-bit values. Because the cylindrical coordinates are a representation of slices on a rotating object, the angular coordinate $\theta$ is descrete and represented as $(\theta_n, r, h)$.<br><br>
