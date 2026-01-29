@@ -1,0 +1,6 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "sm6206s")(type "KiCad")(uri "${KIPRJMOD}/lib/sm16206/easyeda2kicad.kicad_sym")(options "")(descr ""))
+  (lib (name "esp32-s3-wroom-1")(type "KiCad")(uri "${KIPRJMOD}/lib/esp32-s3-wroom-1-n16r8/easyeda2kicad.kicad_sym")(options "")(descr ""))
+  (lib (name "led-kt0805g")(type "KiCad")(uri "${KIPRJMOD}/lib/kt0805g/easyeda.kicad_sym")(options "")(descr ""))
+)
