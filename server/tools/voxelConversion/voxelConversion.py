@@ -22,6 +22,9 @@ def readVL32(path):
             x, y, z, a, _, _, _ = struct.unpack(">iiiBBBB", chunk)# unpack the struct given in the format spec, ignore color data, keep alpha for pixel is present
             if a != 0: #dont save the voxel if its see through / not present
                 voxels.append((x, y, z))
+    return voxels
+
+
 
 if __name__ == "__main__":
     voxels = readVL32(DEBUG_FILEPATH)
