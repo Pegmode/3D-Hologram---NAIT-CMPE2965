@@ -24,4 +24,4 @@ def readVL32(path):
                 voxels.append((x, y, z))
 
 if __name__ == "__main__":
-    pass
+    voxels = readVL32(DEBUG_FILEPATH)
