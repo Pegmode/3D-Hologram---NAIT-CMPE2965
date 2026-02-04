@@ -24,7 +24,19 @@ def readVL32(path):
                 voxels.append((x, y, z))
     return voxels
 
-
+def plotVoxels(voxels):
+    '''
+    Plot converted voxels using mat plot lib 3D projection plot
+    
+    :param voxels: List of voxels (x, y, z)
+    '''
+    xList, yList, zList = zip(*voxels)#unpack coords for matplot lib
+    ##setup minimum matplotlib 3D plot
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection="3d")
+    ax.scatter(xList, yList, zList, marker='s', s=20)
+    plt.show()
 
 if __name__ == "__main__":
     voxels = readVL32(DEBUG_FILEPATH)
+    plotVoxels(voxels)
