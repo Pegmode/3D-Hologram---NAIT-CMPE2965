@@ -320,7 +320,7 @@
 		(uuid "ad15cf73-01e3-4665-9b98-42666f072e76")
 	)
 	(embedded_fonts no)
-	(model "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/QSOP-24_L8.7-W3.9-H1.6-LS6.0-P0.64.wrl"
+	(model "${KIPRJMOD}/lib/sm16206/easyeda2kicad.3dshapes/QSOP-24_L8.7-W3.9-H1.6-LS6.0-P0.64.wrl"
 		(offset
 			(xyz 0 -0 -0)
 		)

@@ -3,4 +3,5 @@
   (lib (name "sm6206s")(type "KiCad")(uri "${KIPRJMOD}/lib/sm16206/easyeda2kicad.kicad_sym")(options "")(descr ""))
   (lib (name "esp32-s3-wroom-1")(type "KiCad")(uri "${KIPRJMOD}/lib/esp32-s3-wroom-1-n16r8/easyeda2kicad.kicad_sym")(options "")(descr ""))
   (lib (name "led-kt0805g")(type "KiCad")(uri "${KIPRJMOD}/lib/kt0805g/easyeda.kicad_sym")(options "")(descr ""))
+  (lib (name "LMS1585AIS-3.3/NOPB")(type "KiCad")(uri "${KIPRJMOD}/lib/LMS1585AIS_3_3_NOPB/KiCADv6/2026-02-05_00-12-53.kicad_sym")(options "")(descr ""))
 )
