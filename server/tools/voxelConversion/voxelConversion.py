@@ -6,8 +6,10 @@ import struct
 import matplotlib.pyplot as plt
 import os, subprocess
 
-DEBUG_IN_FILEPATH = "hand.vl32"
+DEBUG_OBJ_FILEPATH = "hand.obj"
+DEBUG_VL32_FILEPATH = "hand.vl32"
 DEFAULT_OBJ2VOX_FILEPATH = "obj2voxel-v1.3.4.exe"
+DEFAULT_VOXEL_RESOLUTION = 32 #
 
 def readVL32(path):
     '''
@@ -47,9 +49,12 @@ def externalConvertObj2Vl32(objFilepath):
     :param objFilepath: Filepath to .obj
     '''
     pass
-
+    ##TEMP DEBG
+    #BUild args
+    subprocessArgs = [DEBUG_VL32_FILEPATH, DEBUG_OBJ_FILEPATH, DEBUG_VL32_FILEPATH, "r",  DEFAULT_VOXEL_RESOLUTION]
+    subprocess.run(subprocessArgs)
 
 
 if __name__ == "__main__":
-    voxels = readVL32(DEBUG_IN_FILEPATH)
+    voxels = readVL32(DEBUG_VL32_FILEPATH)
     plotVoxels(voxels)
