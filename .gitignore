@@ -5,3 +5,6 @@
 
 ##Python
 .venv/
+
+#Don't include any executables outside of github releases
+*.exe
