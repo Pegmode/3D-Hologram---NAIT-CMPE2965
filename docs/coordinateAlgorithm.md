@@ -19,4 +19,4 @@ To adapt the algorithm to 3D, we add a $x \rightarrow h$ mapping.<br><br>
 $$\boxed{h=z}$$
 
 ## Lookup Algorithm
-The cartesian and cylindrical coordinates are both represented as 3D arrays of 1-bit values. Because the cylindrical coordinates are a representation of slices on a rotating object with set spacing, the angular coordinates $\theta$, $r$ and $h$ are descrete and represented as $(\theta_n, r_n, h_n)$, where $n$ is the $\text{n}_\text{th}$ position on the board or a given slice out of the set number. <br><br>
+The cartesian and cylindrical coordinates are both represented as 3D arrays of 1-bit values. Because the cylindrical coordinates are a representation of slices on a rotating object with set spacing, the cylindrical coordinates $\theta$, $r$ and $h$ are descrete and represented as $(\theta_n, r_n, h_n)$, where $n$ is the $\text{n}_\text{th}$ position on the board or a given slice out of the set number. <br><br>
