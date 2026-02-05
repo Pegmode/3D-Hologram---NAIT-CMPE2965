@@ -4,8 +4,10 @@
 # VL32 format spec: https://eisenwave.github.io/voxel-compression-docs/file_formats/vl32.html
 import struct
 import matplotlib.pyplot as plt
+import os, subprocess
 
-DEBUG_FILEPATH = "tea.vl32"
+DEBUG_IN_FILEPATH = "hand.vl32"
+DEFAULT_OBJ2VOX_FILEPATH = "obj2voxel-v1.3.4.exe"
 
 def readVL32(path):
     '''
@@ -37,6 +39,17 @@ def plotVoxels(voxels):
     ax.scatter(xList, yList, zList, marker='s', s=20)
     plt.show()
 
+
+def externalConvertObj2Vl32(objFilepath):
+    '''
+    Using external obj2voxel tool, convert an obj to vl32 format
+    
+    :param objFilepath: Filepath to .obj
+    '''
+    pass
+
+
+
 if __name__ == "__main__":
-    voxels = readVL32(DEBUG_FILEPATH)
+    voxels = readVL32(DEBUG_IN_FILEPATH)
     plotVoxels(voxels)
