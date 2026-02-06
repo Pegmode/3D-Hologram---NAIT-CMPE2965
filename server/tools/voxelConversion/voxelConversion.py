@@ -13,13 +13,6 @@ DEFAULT_OBJ2VOX_FILEPATH = "obj2voxel-v1.3.4.exe"
 DEFAULT_VOXEL_RESOLUTION = 60 #
 OBJ2VOXEL_EXE_URL = "https://github.com/eisenwave/obj2voxel/releases/download/v1.3.4/obj2voxel-v1.3.4.exe"
 
-HELPSTRING = '''
-.obj 2 .hvox tool by daniel chu
-
-stand alone use:
-voxelConversion.py [optional .obj filepath]
-'''
-
 def readVL32(path):
     '''
     Read a vl32 file and return a 3D list of coordinates (x, y, z)
@@ -80,21 +73,35 @@ def downloadConversionProgram():
         print(f"ERROR: could not write {DEFAULT_OBJ2VOX_FILEPATH} file!")
     print(f"downloaded {DEFAULT_OBJ2VOX_FILEPATH}!")
 
-if __name__ == "__main__":
-    objFilepath = DEFAULT_OBJ_FILEPATH
-    if len(sys.argv) > 1:#set custom filepath if given
-        if not os.path.exists:#does the file exist
-            print(f"ERROR: file {sys.argv[1]} not found\n\n{HELPSTRING}")
-            sys.exit(0)
-        objFilepath = sys.argv[1]
-    ##Check if containts obj extension
+def getVoxelsFromObj(objFilepath):
+    '''
+    Convert a .obj file to voxels. Returns the voxel list.
+    
+    :param objFilepath: filepath to OBJ file
+    '''
+    ##Check if filepath containts obj extension
     if objFilepath.split(".")[-1] != "obj":
-        print(f"ERROR: file {objFilepath} does not have .obj extension\n\n{HELPSTRING}")
-        sys.exit(0)
+        raise Exception(f"ERROR: file {objFilepath} does not have .obj extension")
     vl32Filepath = f"{''.join(objFilepath.split('.')[:-1])}.vl32"
     if vl32Filepath[0] == "\\":#TODO running in os can have bad stuff here, figure out a way to filter this better
         vl32Filepath = "." + vl32Filepath
     downloadConversionProgram()
     externalConvertObj2Vl32(objFilepath, vl32Filepath)
     voxels = readVL32(vl32Filepath)
-    plotVoxels(voxels)
+    return voxels
+
+if __name__ == "__main__":
+    HELPSTRING = '''
+.obj 2 .hvox tool by daniel chu
+
+stand alone use:
+voxelConversion.py [optional .obj filepath]
+'''
+    objFilepath = DEFAULT_OBJ_FILEPATH
+    if len(sys.argv) > 1:#set custom filepath if given
+        if not os.path.exists:#does the file exist
+            print(f"ERROR: file {sys.argv[1]} not found\n\n{HELPSTRING}")
+            sys.exit(0)
+        objFilepath = sys.argv[1]
+    voxels = getVoxelsFromObj(objFilepath)#get the voxels from file
+    plotVoxels(voxels)#visualize the voxels for debug
