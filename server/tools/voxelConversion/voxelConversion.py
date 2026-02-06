@@ -6,10 +6,12 @@ import struct
 import matplotlib.pyplot as plt
 import os, subprocess
 import sys, time, pdb
-DEBUG_OBJ_FILEPATH = "cat.obj"
-DEBUG_VL32_FILEPATH = "cat.vl32"
+import requests
+DEFAULT_OBJ_FILEPATH = "tea.obj"
+DEFAULT_VL32_FILEPATH = "tea.vl32"
 DEFAULT_OBJ2VOX_FILEPATH = "obj2voxel-v1.3.4.exe"
 DEFAULT_VOXEL_RESOLUTION = 60 #
+OBJ2VOXEL_EXE_URL = "https://github.com/eisenwave/obj2voxel/releases/download/v1.3.4/obj2voxel-v1.3.4.exe"
 
 HELPSTRING = '''
 .obj 2 .hvox tool by daniel chu
@@ -61,9 +63,25 @@ def externalConvertObj2Vl32(objFilepath, vl32Filepath):
     subprocessArgs = [DEFAULT_OBJ2VOX_FILEPATH, objFilepath, vl32Filepath, "-r",  str(DEFAULT_VOXEL_RESOLUTION)]
     subprocess.run(subprocessArgs)
 
+def downloadConversionProgram():
+    '''
+    Docstring for downloadConversionProgram
+    '''
+    if os.path.exists(DEFAULT_OBJ2VOX_FILEPATH):#if the file is already there do nothing\
+        print(f"{DEFAULT_OBJ2VOX_FILEPATH} found!")
+        return
+    print(f"{DEFAULT_OBJ2VOX_FILEPATH} not found downloading from github....")
+    response = requests.get(OBJ2VOXEL_EXE_URL, stream=True, timeout=30)
+    with open(DEFAULT_OBJ2VOX_FILEPATH, "wb") as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                f.write(chunk)
+    print(f"downloaded {DEFAULT_OBJ2VOX_FILEPATH}!")
+    
+ 
 
 if __name__ == "__main__":
-    objFilepath = DEBUG_OBJ_FILEPATH
+    objFilepath = DEFAULT_OBJ_FILEPATH
     if len(sys.argv) > 1:#set custom filepath if given
         if not os.path.exists:#does the file exist
             print(f"ERROR: file {sys.argv[1]} not found\n\n{HELPSTRING}")
@@ -73,9 +91,10 @@ if __name__ == "__main__":
     if objFilepath.split(".")[-1] != "obj":
         print(f"ERROR: file {objFilepath} does not have .obj extension\n\n{HELPSTRING}")
         sys.exit(0)
-    vl32Filepath = f"{''.join(objFilepath.split(".")[:-1])}.vl32"
+    vl32Filepath = f"{''.join(objFilepath.split('.')[:-1])}.vl32"
     if vl32Filepath[0] == "\\":#TODO running in os can have bad stuff here, figure out a way to filter this better
         vl32Filepath = "." + vl32Filepath
+    downloadConversionProgram()
     externalConvertObj2Vl32(objFilepath, vl32Filepath)
     voxels = readVL32(vl32Filepath)
     plotVoxels(voxels)
