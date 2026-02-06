@@ -9,6 +9,7 @@
 ##3d models (may need to clean up later)
 *.obj
 *.stl
+*.vl32 #cartesian voxel data
 
 #Don't include any executables outside of github releases
 *.exe
