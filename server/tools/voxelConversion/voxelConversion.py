@@ -77,6 +77,5 @@ if __name__ == "__main__":
     if vl32Filepath[0] == "\\":#TODO running in os can have bad stuff here, figure out a way to filter this better
         vl32Filepath = "." + vl32Filepath
     externalConvertObj2Vl32(objFilepath, vl32Filepath)
-    time.sleep(3)
     voxels = readVL32(vl32Filepath)
     plotVoxels(voxels)
