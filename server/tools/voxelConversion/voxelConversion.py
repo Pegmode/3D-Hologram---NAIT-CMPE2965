@@ -5,11 +5,18 @@
 import struct
 import matplotlib.pyplot as plt
 import os, subprocess
-
-DEBUG_OBJ_FILEPATH = "hand.obj"
-DEBUG_VL32_FILEPATH = "hand.vl32"
+import sys, time, pdb
+DEBUG_OBJ_FILEPATH = "cat.obj"
+DEBUG_VL32_FILEPATH = "cat.vl32"
 DEFAULT_OBJ2VOX_FILEPATH = "obj2voxel-v1.3.4.exe"
-DEFAULT_VOXEL_RESOLUTION = 32 #
+DEFAULT_VOXEL_RESOLUTION = 60 #
+
+HELPSTRING = '''
+.obj 2 .hvox tool by daniel chu
+
+stand alone use:
+voxelConversion.py [optional .obj filepath]
+'''
 
 def readVL32(path):
     '''
@@ -42,7 +49,7 @@ def plotVoxels(voxels):
     plt.show()
 
 
-def externalConvertObj2Vl32(objFilepath):
+def externalConvertObj2Vl32(objFilepath, vl32Filepath):
     '''
     Using external obj2voxel tool, convert an obj to vl32 format
     
@@ -51,10 +58,25 @@ def externalConvertObj2Vl32(objFilepath):
     pass
     ##TEMP DEBG
     #BUild args
-    subprocessArgs = [DEBUG_VL32_FILEPATH, DEBUG_OBJ_FILEPATH, DEBUG_VL32_FILEPATH, "r",  DEFAULT_VOXEL_RESOLUTION]
+    subprocessArgs = [DEFAULT_OBJ2VOX_FILEPATH, objFilepath, vl32Filepath, "-r",  str(DEFAULT_VOXEL_RESOLUTION)]
     subprocess.run(subprocessArgs)
 
 
 if __name__ == "__main__":
-    voxels = readVL32(DEBUG_VL32_FILEPATH)
+    objFilepath = DEBUG_OBJ_FILEPATH
+    if len(sys.argv) > 1:#set custom filepath if given
+        if not os.path.exists:#does the file exist
+            print(f"ERROR: file {sys.argv[1]} not found\n\n{HELPSTRING}")
+            sys.exit(0)
+        objFilepath = sys.argv[1]
+    ##Check if containts obj extension
+    if objFilepath.split(".")[-1] != "obj":
+        print(f"ERROR: file {objFilepath} does not have .obj extension\n\n{HELPSTRING}")
+        sys.exit(0)
+    vl32Filepath = f"{''.join(objFilepath.split(".")[:-1])}.vl32"
+    if vl32Filepath[0] == "\\":#TODO running in os can have bad stuff here, figure out a way to filter this better
+        vl32Filepath = "." + vl32Filepath
+    externalConvertObj2Vl32(objFilepath, vl32Filepath)
+    time.sleep(3)
+    voxels = readVL32(vl32Filepath)
     plotVoxels(voxels)
