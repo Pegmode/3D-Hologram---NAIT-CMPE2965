@@ -65,7 +65,7 @@ def externalConvertObj2Vl32(objFilepath, vl32Filepath):
 
 def downloadConversionProgram():
     '''
-    Docstring for downloadConversionProgram
+    Check if obj2voxel executable exists. If it does not exist, download it.
     '''
     if os.path.exists(DEFAULT_OBJ2VOX_FILEPATH):#if the file is already there do nothing\
         print(f"{DEFAULT_OBJ2VOX_FILEPATH} found!")
