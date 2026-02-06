@@ -71,11 +71,17 @@ def downloadConversionProgram():
         print(f"{DEFAULT_OBJ2VOX_FILEPATH} found!")
         return
     print(f"{DEFAULT_OBJ2VOX_FILEPATH} not found downloading from github....")
-    response = requests.get(OBJ2VOXEL_EXE_URL, stream=True, timeout=30)
-    with open(DEFAULT_OBJ2VOX_FILEPATH, "wb") as f:
-        for chunk in response.iter_content(chunk_size=8192):
-            if chunk:
-                f.write(chunk)
+    try:
+        response = requests.get(OBJ2VOXEL_EXE_URL, stream=True, timeout=30)
+    except:
+        print(f"ERROR: failed attempting to download {DEFAULT_OBJ2VOX_FILEPATH} from {OBJ2VOXEL_EXE_URL}!")
+    try:
+        with open(DEFAULT_OBJ2VOX_FILEPATH, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+    except:
+        print(f"ERROR: could not write {DEFAULT_OBJ2VOX_FILEPATH} file!")
     print(f"downloaded {DEFAULT_OBJ2VOX_FILEPATH}!")
     
  
