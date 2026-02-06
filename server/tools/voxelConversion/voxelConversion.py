@@ -1,4 +1,4 @@
-##Converts something from the `VL332` format to something we can use in python
+##Converts something from .obj to 'VL32' format. THen the `VL32` format to something we can use in python
 #by Daniel Chu
 #
 # VL32 format spec: https://eisenwave.github.io/voxel-compression-docs/file_formats/vl32.html
