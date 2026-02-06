@@ -50,16 +50,12 @@ def plotVoxels(voxels):
     ax.scatter(xList, yList, zList, marker='s', s=20)
     plt.show()
 
-
 def externalConvertObj2Vl32(objFilepath, vl32Filepath):
     '''
     Using external obj2voxel tool, convert an obj to vl32 format
     
     :param objFilepath: Filepath to .obj
     '''
-    pass
-    ##TEMP DEBG
-    #BUild args
     subprocessArgs = [DEFAULT_OBJ2VOX_FILEPATH, objFilepath, vl32Filepath, "-r",  str(DEFAULT_VOXEL_RESOLUTION)]
     subprocess.run(subprocessArgs)
 
@@ -83,8 +79,6 @@ def downloadConversionProgram():
     except:
         print(f"ERROR: could not write {DEFAULT_OBJ2VOX_FILEPATH} file!")
     print(f"downloaded {DEFAULT_OBJ2VOX_FILEPATH}!")
-    
- 
 
 if __name__ == "__main__":
     objFilepath = DEFAULT_OBJ_FILEPATH
