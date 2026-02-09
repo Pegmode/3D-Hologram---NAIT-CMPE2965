@@ -11,5 +11,10 @@
 *.stl
 *.vl32 #cartesian voxel data
 
+
+## Allow 3D models in the hardware folder for mountings/board
+!Hardware/**/*.stl 
+!Hardware/**/*.obj 
+
 #Don't include any executables outside of github releases
 *.exe
