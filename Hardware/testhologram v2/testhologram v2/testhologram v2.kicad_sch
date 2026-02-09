@@ -2494,6 +2494,394 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "easyeda:TPS7A5601RTER"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 0 19.05 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TPS7A5601RTER"
+				(at 0 -13.97 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "easyeda:QFN-16_L3.0-W3.0-P0.50-TL-EP1.5-1"
+				(at 0 -16.51 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "LCSC Part" "C47150939"
+				(at 0 -19.05 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TPS7A5601RTER_0_1"
+				(rectangle
+					(start -10.16 11.43)
+					(end 10.16 -11.43)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center -8.89 10.16)
+					(radius 0.38)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at -12.7 8.89 0)
+					(length 2.54)
+					(name "IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -12.7 6.35 0)
+					(length 2.54)
+					(name "IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -12.7 3.81 0)
+					(length 2.54)
+					(name "IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -12.7 1.27 0)
+					(length 2.54)
+					(name "IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -12.7 -1.27 0)
+					(length 2.54)
+					(name "BIAS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -12.7 -3.81 0)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -12.7 -6.35 0)
+					(length 2.54)
+					(name "REF"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -12.7 -8.89 0)
+					(length 2.54)
+					(name "NR/SS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 0 13.97 270)
+					(length 2.54)
+					(name "EP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 12.7 8.89 180)
+					(length 2.54)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 12.7 6.35 180)
+					(length 2.54)
+					(name "CP_EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 12.7 3.81 180)
+					(length 2.54)
+					(name "PG"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 12.7 1.27 180)
+					(length 2.54)
+					(name "SNS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 12.7 -1.27 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 12.7 -3.81 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 12.7 -6.35 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 12.7 -8.89 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "esp32-s3-wroom-1:ESP32-S3-WROOM-1(N16R8)"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -32263,7 +32651,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:WIRELM-SMD_ESP32-S3-WROOM-1"
+		(property "Footprint" "esp32-s3-wroom-1:WIRELM-SMD_ESP32-S3-WROOM-1"
 			(at 99.06 125.73 0)
 			(effects
 				(font
@@ -32457,7 +32845,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 414.02 100.33 0)
 			(effects
 				(font
@@ -32543,7 +32931,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 120.65 -101.6 0)
 			(effects
 				(font
@@ -32629,7 +33017,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 242.57 -144.78 0)
 			(effects
 				(font
@@ -32715,7 +33103,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 444.5 -12.7 0)
 			(effects
 				(font
@@ -32801,7 +33189,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 365.76 -25.4 0)
 			(effects
 				(font
@@ -33088,7 +33476,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 699.77 -133.35 0)
 			(effects
 				(font
@@ -33174,7 +33562,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 478.79 139.7 0)
 			(effects
 				(font
@@ -33395,7 +33783,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 195.58 -55.88 0)
 			(effects
 				(font
@@ -33547,7 +33935,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -13.97 -66.04 0)
 			(effects
 				(font
@@ -33633,7 +34021,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 574.04 -55.88 0)
 			(effects
 				(font
@@ -34267,7 +34655,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 565.15 185.42 0)
 			(effects
 				(font
@@ -34353,7 +34741,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 477.52 46.99 0)
 			(effects
 				(font
@@ -34439,7 +34827,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 21.59 -88.9 0)
 			(effects
 				(font
@@ -34593,7 +34981,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 562.61 -10.16 0)
 			(effects
 				(font
@@ -34679,7 +35067,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 575.31 -95.25 0)
 			(effects
 				(font
@@ -34835,7 +35223,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 547.37 142.24 0)
 			(effects
 				(font
@@ -34990,7 +35378,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 585.47 -140.97 0)
 			(effects
 				(font
@@ -35076,7 +35464,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 266.7 -50.8 0)
 			(effects
 				(font
@@ -35227,7 +35615,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 180.34 -7.62 0)
 			(effects
 				(font
@@ -35379,7 +35767,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 704.85 -95.25 0)
 			(effects
 				(font
@@ -35465,7 +35853,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 514.35 -17.78 0)
 			(effects
 				(font
@@ -35551,7 +35939,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 434.34 40.64 0)
 			(effects
 				(font
@@ -35637,7 +36025,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 636.27 -102.87 0)
 			(effects
 				(font
@@ -35723,7 +36111,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 499.11 149.86 0)
 			(effects
 				(font
@@ -35952,7 +36340,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 635 -21.59 0)
 			(effects
 				(font
@@ -36038,7 +36426,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 520.7 -55.88 0)
 			(effects
 				(font
@@ -36512,7 +36900,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 309.88 -50.8 0)
 			(effects
 				(font
@@ -36598,7 +36986,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 405.13 205.74 0)
 			(effects
 				(font
@@ -36684,7 +37072,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 473.71 137.16 0)
 			(effects
 				(font
@@ -36913,7 +37301,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 510.54 -60.96 0)
 			(effects
 				(font
@@ -36999,7 +37387,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 266.7 -10.16 0)
 			(effects
 				(font
@@ -37151,7 +37539,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 1.27 -58.42 0)
 			(effects
 				(font
@@ -37237,7 +37625,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 80.01 -60.96 0)
 			(effects
 				(font
@@ -37532,7 +37920,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 660.4 -8.89 0)
 			(effects
 				(font
@@ -37618,7 +38006,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 205.74 -142.24 0)
 			(effects
 				(font
@@ -37704,7 +38092,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 335.28 43.18 0)
 			(effects
 				(font
@@ -37790,7 +38178,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 565.15 -130.81 0)
 			(effects
 				(font
@@ -37876,7 +38264,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 626.11 -148.59 0)
 			(effects
 				(font
@@ -37962,7 +38350,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 381 -99.06 0)
 			(effects
 				(font
@@ -38186,7 +38574,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 469.9 -25.4 0)
 			(effects
 				(font
@@ -38272,7 +38660,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 533.4 99.06 0)
 			(effects
 				(font
@@ -38358,7 +38746,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 626.11 -107.95 0)
 			(effects
 				(font
@@ -38647,7 +39035,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 391.16 -134.62 0)
 			(effects
 				(font
@@ -38733,7 +39121,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 180.34 -48.26 0)
 			(effects
 				(font
@@ -38885,7 +39273,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 16.51 -91.44 0)
 			(effects
 				(font
@@ -38971,7 +39359,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 360.68 105.41 0)
 			(effects
 				(font
@@ -39126,7 +39514,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 132.08 -137.16 0)
 			(effects
 				(font
@@ -39278,7 +39666,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 381 -139.7 0)
 			(effects
 				(font
@@ -39364,7 +39752,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 271.78 -48.26 0)
 			(effects
 				(font
@@ -39450,7 +39838,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 527.05 -92.71 0)
 			(effects
 				(font
@@ -39536,7 +39924,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 334.01 147.32 0)
 			(effects
 				(font
@@ -39622,7 +40010,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 459.74 -142.24 0)
 			(effects
 				(font
@@ -39983,7 +40371,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 355.6 53.34 0)
 			(effects
 				(font
@@ -40069,7 +40457,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 651.51 -55.88 0)
 			(effects
 				(font
@@ -40155,7 +40543,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 708.66 -16.51 0)
 			(effects
 				(font
@@ -40307,7 +40695,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 387.35 -55.88 0)
 			(effects
 				(font
@@ -40393,7 +40781,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 267.97 -132.08 0)
 			(effects
 				(font
@@ -40548,7 +40936,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 386.08 -137.16 0)
 			(effects
 				(font
@@ -40634,7 +41022,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 454.66 -17.78 0)
 			(effects
 				(font
@@ -40720,7 +41108,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 189.23 -93.98 0)
 			(effects
 				(font
@@ -40806,7 +41194,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 370.84 -22.86 0)
 			(effects
 				(font
@@ -40892,7 +41280,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 360.68 55.88 0)
 			(effects
 				(font
@@ -41312,7 +41700,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 234.95 -106.68 0)
 			(effects
 				(font
@@ -41463,7 +41851,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 462.28 39.37 0)
 			(effects
 				(font
@@ -41549,7 +41937,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 419.1 97.79 0)
 			(effects
 				(font
@@ -41635,7 +42023,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 471.17 190.5 0)
 			(effects
 				(font
@@ -41721,7 +42109,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 314.96 -53.34 0)
 			(effects
 				(font
@@ -42085,7 +42473,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 464.82 -104.14 0)
 			(effects
 				(font
@@ -42302,7 +42690,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 699.77 -92.71 0)
 			(effects
 				(font
@@ -42586,7 +42974,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 488.95 144.78 0)
 			(effects
 				(font
@@ -42672,7 +43060,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 631.19 -146.05 0)
 			(effects
 				(font
@@ -42758,7 +43146,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 146.05 -88.9 0)
 			(effects
 				(font
@@ -42844,7 +43232,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 570.23 -92.71 0)
 			(effects
 				(font
@@ -42930,7 +43318,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 354.33 157.48 0)
 			(effects
 				(font
@@ -43146,7 +43534,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 713.74 -19.05 0)
 			(effects
 				(font
@@ -43232,7 +43620,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 398.78 107.95 0)
 			(effects
 				(font
@@ -43318,7 +43706,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 341.63 205.74 0)
 			(effects
 				(font
@@ -43404,7 +43792,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 572.77 -15.24 0)
 			(effects
 				(font
@@ -43490,7 +43878,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 273.05 -129.54 0)
 			(effects
 				(font
@@ -43576,7 +43964,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 6.35 -96.52 0)
 			(effects
 				(font
@@ -43662,7 +44050,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 59.69 -132.08 0)
 			(effects
 				(font
@@ -43748,7 +44136,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 565.15 -90.17 0)
 			(effects
 				(font
@@ -43834,7 +44222,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 246.38 -60.96 0)
 			(effects
 				(font
@@ -43986,7 +44374,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 21.59 -7.62 0)
 			(effects
 				(font
@@ -44072,7 +44460,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 420.37 198.12 0)
 			(effects
 				(font
@@ -44158,7 +44546,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 326.39 -139.7 0)
 			(effects
 				(font
@@ -44579,7 +44967,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -13.97 -106.68 0)
 			(effects
 				(font
@@ -44665,7 +45053,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 69.85 -96.52 0)
 			(effects
 				(font
@@ -44817,7 +45205,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 345.44 48.26 0)
 			(effects
 				(font
@@ -44903,7 +45291,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 6.35 -55.88 0)
 			(effects
 				(font
@@ -44989,7 +45377,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 116.84 -144.78 0)
 			(effects
 				(font
@@ -45206,7 +45594,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 589.28 -63.5 0)
 			(effects
 				(font
@@ -45426,7 +45814,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 340.36 -66.04 0)
 			(effects
 				(font
@@ -45652,7 +46040,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 209.55 -104.14 0)
 			(effects
 				(font
@@ -45738,7 +46126,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 422.91 139.7 0)
 			(effects
 				(font
@@ -45890,7 +46278,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 90.17 -66.04 0)
 			(effects
 				(font
@@ -45976,7 +46364,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 194.31 -96.52 0)
 			(effects
 				(font
@@ -46062,7 +46450,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 365.76 -147.32 0)
 			(effects
 				(font
@@ -46148,7 +46536,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 636.27 -143.51 0)
 			(effects
 				(font
@@ -46368,7 +46756,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 215.9 -147.32 0)
 			(effects
 				(font
@@ -46454,7 +46842,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 549.91 193.04 0)
 			(effects
 				(font
@@ -46609,7 +46997,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 111.76 -25.4 0)
 			(effects
 				(font
@@ -46695,7 +47083,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 506.73 -143.51 0)
 			(effects
 				(font
@@ -46781,7 +47169,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 391.16 -93.98 0)
 			(effects
 				(font
@@ -46867,7 +47255,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 111.76 -147.32 0)
 			(effects
 				(font
@@ -47022,7 +47410,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 387.35 157.48 0)
 			(effects
 				(font
@@ -47177,7 +47565,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 316.23 -134.62 0)
 			(effects
 				(font
@@ -47263,7 +47651,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 325.12 -17.78 0)
 			(effects
 				(font
@@ -47480,7 +47868,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 251.46 -58.42 0)
 			(effects
 				(font
@@ -47566,7 +47954,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 265.43 -91.44 0)
 			(effects
 				(font
@@ -47722,7 +48110,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 516.89 -97.79 0)
 			(effects
 				(font
@@ -47808,7 +48196,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 501.65 -146.05 0)
 			(effects
 				(font
@@ -47959,7 +48347,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 339.09 149.86 0)
 			(effects
 				(font
@@ -48045,7 +48433,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 335.28 -22.86 0)
 			(effects
 				(font
@@ -48274,7 +48662,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 1.27 -99.06 0)
 			(effects
 				(font
@@ -48492,7 +48880,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 147.32 -7.62 0)
 			(effects
 				(font
@@ -48578,7 +48966,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 511.81 -140.97 0)
 			(effects
 				(font
@@ -48664,7 +49052,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 532.13 -130.81 0)
 			(effects
 				(font
@@ -48815,7 +49203,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 325.12 -58.42 0)
 			(effects
 				(font
@@ -48901,7 +49289,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 704.85 -135.89 0)
 			(effects
 				(font
@@ -48987,7 +49375,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 190.5 -12.7 0)
 			(effects
 				(font
@@ -49073,7 +49461,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 365.76 -106.68 0)
 			(effects
 				(font
@@ -49291,7 +49679,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 655.32 -11.43 0)
 			(effects
 				(font
@@ -49377,7 +49765,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 195.58 -15.24 0)
 			(effects
 				(font
@@ -49463,7 +49851,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 482.6 49.53 0)
 			(effects
 				(font
@@ -49549,7 +49937,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 600.71 -148.59 0)
 			(effects
 				(font
@@ -49704,7 +50092,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 54.61 -129.54 0)
 			(effects
 				(font
@@ -49790,7 +50178,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 381 -17.78 0)
 			(effects
 				(font
@@ -49945,7 +50333,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 562.61 134.62 0)
 			(effects
 				(font
@@ -50031,7 +50419,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -3.81 -60.96 0)
 			(effects
 				(font
@@ -50183,7 +50571,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 330.2 -20.32 0)
 			(effects
 				(font
@@ -50269,7 +50657,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 496.57 -148.59 0)
 			(effects
 				(font
@@ -50355,7 +50743,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 261.62 -53.34 0)
 			(effects
 				(font
@@ -50506,7 +50894,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 556.26 44.45 0)
 			(effects
 				(font
@@ -50592,7 +50980,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 566.42 39.37 0)
 			(effects
 				(font
@@ -50678,7 +51066,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 179.07 -88.9 0)
 			(effects
 				(font
@@ -50899,7 +51287,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 85.09 -144.78 0)
 			(effects
 				(font
@@ -50985,7 +51373,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 311.15 -132.08 0)
 			(effects
 				(font
@@ -51071,7 +51459,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 54.61 -88.9 0)
 			(effects
 				(font
@@ -51509,7 +51897,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 334.01 -104.14 0)
 			(effects
 				(font
@@ -51595,7 +51983,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 132.08 -15.24 0)
 			(effects
 				(font
@@ -51681,7 +52069,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 434.34 -7.62 0)
 			(effects
 				(font
@@ -51836,7 +52224,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 704.85 -55.88 0)
 			(effects
 				(font
@@ -51922,7 +52310,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 262.89 -134.62 0)
 			(effects
 				(font
@@ -52008,7 +52396,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 656.59 -133.35 0)
 			(effects
 				(font
@@ -52225,7 +52613,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 215.9 -66.04 0)
 			(effects
 				(font
@@ -52454,7 +52842,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -8.89 -22.86 0)
 			(effects
 				(font
@@ -52609,7 +52997,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 350.52 100.33 0)
 			(effects
 				(font
@@ -52695,7 +53083,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 367.03 -66.04 0)
 			(effects
 				(font
@@ -52781,7 +53169,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 439.42 -91.44 0)
 			(effects
 				(font
@@ -52867,7 +53255,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 340.36 45.72 0)
 			(effects
 				(font
@@ -52953,7 +53341,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 641.35 -60.96 0)
 			(effects
 				(font
@@ -53039,7 +53427,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 185.42 -10.16 0)
 			(effects
 				(font
@@ -53125,7 +53513,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 558.8 86.36 0)
 			(effects
 				(font
@@ -53211,7 +53599,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 579.12 -58.42 0)
 			(effects
 				(font
@@ -53440,7 +53828,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 403.86 105.41 0)
 			(effects
 				(font
@@ -53750,7 +54138,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 434.34 -88.9 0)
 			(effects
 				(font
@@ -53905,7 +54293,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 485.14 96.52 0)
 			(effects
 				(font
@@ -53991,7 +54379,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 210.82 -144.78 0)
 			(effects
 				(font
@@ -54142,7 +54530,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 391.16 -12.7 0)
 			(effects
 				(font
@@ -54228,7 +54616,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 80.01 -142.24 0)
 			(effects
 				(font
@@ -54314,7 +54702,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 698.5 -11.43 0)
 			(effects
 				(font
@@ -54470,7 +54858,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 21.59 -129.54 0)
 			(effects
 				(font
@@ -54834,7 +55222,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 516.89 -138.43 0)
 			(effects
 				(font
@@ -55054,7 +55442,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 127 -139.7 0)
 			(effects
 				(font
@@ -55140,7 +55528,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 147.32 -129.54 0)
 			(effects
 				(font
@@ -55226,7 +55614,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 130.81 -96.52 0)
 			(effects
 				(font
@@ -55377,7 +55765,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 11.43 -53.34 0)
 			(effects
 				(font
@@ -55529,7 +55917,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 636.27 -63.5 0)
 			(effects
 				(font
@@ -55750,7 +56138,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 199.39 -99.06 0)
 			(effects
 				(font
@@ -55836,7 +56224,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 425.45 195.58 0)
 			(effects
 				(font
@@ -55922,7 +56310,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 74.93 -58.42 0)
 			(effects
 				(font
@@ -56074,7 +56462,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 580.39 -138.43 0)
 			(effects
 				(font
@@ -56160,7 +56548,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -3.81 -101.6 0)
 			(effects
 				(font
@@ -56246,7 +56634,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 210.82 -22.86 0)
 			(effects
 				(font
@@ -56332,7 +56720,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 496.57 -107.95 0)
 			(effects
 				(font
@@ -56418,7 +56806,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 529.59 -10.16 0)
 			(effects
 				(font
@@ -56504,7 +56892,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 365.76 58.42 0)
 			(effects
 				(font
@@ -56733,7 +57121,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 483.87 142.24 0)
 			(effects
 				(font
@@ -57085,7 +57473,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 54.61 -7.62 0)
 			(effects
 				(font
@@ -57171,7 +57559,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 210.82 -63.5 0)
 			(effects
 				(font
@@ -57257,7 +57645,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 142.24 -10.16 0)
 			(effects
 				(font
@@ -57343,7 +57731,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 125.73 -99.06 0)
 			(effects
 				(font
@@ -57628,7 +58016,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 539.75 198.12 0)
 			(effects
 				(font
@@ -57845,7 +58233,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -13.97 -25.4 0)
 			(effects
 				(font
@@ -57997,7 +58385,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 730.25 -68.58 0)
 			(effects
 				(font
@@ -58226,7 +58614,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 530.86 -50.8 0)
 			(effects
 				(font
@@ -58377,7 +58765,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 694.69 -90.17 0)
 			(effects
 				(font
@@ -58463,7 +58851,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 335.28 -63.5 0)
 			(effects
 				(font
@@ -58549,7 +58937,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 590.55 -102.87 0)
 			(effects
 				(font
@@ -58635,7 +59023,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 521.97 -135.89 0)
 			(effects
 				(font
@@ -58786,7 +59174,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 524.51 -12.7 0)
 			(effects
 				(font
@@ -58872,7 +59260,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 434.34 90.17 0)
 			(effects
 				(font
@@ -58958,7 +59346,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 543.56 93.98 0)
 			(effects
 				(font
@@ -59044,7 +59432,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 407.67 147.32 0)
 			(effects
 				(font
@@ -59130,7 +59518,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 184.15 -91.44 0)
 			(effects
 				(font
@@ -59216,7 +59604,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 459.74 -20.32 0)
 			(effects
 				(font
@@ -59302,7 +59690,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 303.53 -88.9 0)
 			(effects
 				(font
@@ -59388,7 +59776,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 64.77 -53.34 0)
 			(effects
 				(font
@@ -59474,7 +59862,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 720.09 -63.5 0)
 			(effects
 				(font
@@ -59560,7 +59948,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 529.59 203.2 0)
 			(effects
 				(font
@@ -59646,7 +60034,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 580.39 -97.79 0)
 			(effects
 				(font
@@ -59732,7 +60120,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 487.68 52.07 0)
 			(effects
 				(font
@@ -59818,7 +60206,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 240.03 -104.14 0)
 			(effects
 				(font
@@ -59904,7 +60292,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 64.77 -12.7 0)
 			(effects
 				(font
@@ -59990,7 +60378,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 709.93 -97.79 0)
 			(effects
 				(font
@@ -60145,7 +60533,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 142.24 -132.08 0)
 			(effects
 				(font
@@ -60231,7 +60619,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 16.51 -10.16 0)
 			(effects
 				(font
@@ -60383,7 +60771,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 429.26 92.71 0)
 			(effects
 				(font
@@ -60731,7 +61119,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 561.34 41.91 0)
 			(effects
 				(font
@@ -60817,7 +61205,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 110.49 -106.68 0)
 			(effects
 				(font
@@ -61034,7 +61422,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 532.13 -90.17 0)
 			(effects
 				(font
@@ -61186,7 +61574,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 694.69 -130.81 0)
 			(effects
 				(font
@@ -61337,7 +61725,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 392.43 154.94 0)
 			(effects
 				(font
@@ -61423,7 +61811,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 355.6 102.87 0)
 			(effects
 				(font
@@ -61575,7 +61963,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 330.2 40.64 0)
 			(effects
 				(font
@@ -61661,7 +62049,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 538.48 96.52 0)
 			(effects
 				(font
@@ -61747,7 +62135,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 594.36 -66.04 0)
 			(effects
 				(font
@@ -61899,7 +62287,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 185.42 -50.8 0)
 			(effects
 				(font
@@ -62117,7 +62505,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 323.85 -99.06 0)
 			(effects
 				(font
@@ -62203,7 +62591,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 506.73 -102.87 0)
 			(effects
 				(font
@@ -62354,7 +62742,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 90.17 -106.68 0)
 			(effects
 				(font
@@ -62440,7 +62828,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 200.66 -58.42 0)
 			(effects
 				(font
@@ -62665,7 +63053,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 147.32 -48.26 0)
 			(effects
 				(font
@@ -62820,7 +63208,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 499.11 -25.4 0)
 			(effects
 				(font
@@ -62906,7 +63294,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 557.53 137.16 0)
 			(effects
 				(font
@@ -63124,7 +63512,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 723.9 -24.13 0)
 			(effects
 				(font
@@ -63210,7 +63598,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 69.85 -55.88 0)
 			(effects
 				(font
@@ -63361,7 +63749,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 137.16 -53.34 0)
 			(effects
 				(font
@@ -63649,7 +64037,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 260.35 -93.98 0)
 			(effects
 				(font
@@ -63870,7 +64258,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 424.18 45.72 0)
 			(effects
 				(font
@@ -64022,7 +64410,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 412.75 144.78 0)
 			(effects
 				(font
@@ -64174,7 +64562,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 313.69 -93.98 0)
 			(effects
 				(font
@@ -64260,7 +64648,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 389.89 213.36 0)
 			(effects
 				(font
@@ -64346,7 +64734,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -8.89 -104.14 0)
 			(effects
 				(font
@@ -64432,7 +64820,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 595.63 -146.05 0)
 			(effects
 				(font
@@ -64518,7 +64906,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 585.47 -100.33 0)
 			(effects
 				(font
@@ -64673,7 +65061,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 349.25 154.94 0)
 			(effects
 				(font
@@ -64759,7 +65147,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 534.67 200.66 0)
 			(effects
 				(font
@@ -64910,7 +65298,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 449.58 -137.16 0)
 			(effects
 				(font
@@ -64996,7 +65384,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 121.92 -60.96 0)
 			(effects
 				(font
@@ -65082,7 +65470,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 205.74 -20.32 0)
 			(effects
 				(font
@@ -65367,7 +65755,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 599.44 -68.58 0)
 			(effects
 				(font
@@ -65583,7 +65971,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 429.26 43.18 0)
 			(effects
 				(font
@@ -65669,7 +66057,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 694.69 -50.8 0)
 			(effects
 				(font
@@ -65755,7 +66143,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 415.29 200.66 0)
 			(effects
 				(font
@@ -65841,7 +66229,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 459.74 -101.6 0)
 			(effects
 				(font
@@ -65927,7 +66315,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 728.98 -26.67 0)
 			(effects
 				(font
@@ -66013,7 +66401,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 257.81 -137.16 0)
 			(effects
 				(font
@@ -66099,7 +66487,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 542.29 144.78 0)
 			(effects
 				(font
@@ -66185,7 +66573,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 132.08 -55.88 0)
 			(effects
 				(font
@@ -66336,7 +66724,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 137.16 -12.7 0)
 			(effects
 				(font
@@ -66422,7 +66810,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 537.21 147.32 0)
 			(effects
 				(font
@@ -66651,7 +67039,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 590.55 -143.51 0)
 			(effects
 				(font
@@ -66737,7 +67125,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 568.96 -53.34 0)
 			(effects
 				(font
@@ -66823,7 +67211,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 377.19 -60.96 0)
 			(effects
 				(font
@@ -67118,7 +67506,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 715.01 -60.96 0)
 			(effects
 				(font
@@ -67204,7 +67592,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 351.79 210.82 0)
 			(effects
 				(font
@@ -67290,7 +67678,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 330.2 90.17 0)
 			(effects
 				(font
@@ -67441,7 +67829,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 651.51 -95.25 0)
 			(effects
 				(font
@@ -67527,7 +67915,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 237.49 -147.32 0)
 			(effects
 				(font
@@ -67682,7 +68070,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 251.46 -17.78 0)
 			(effects
 				(font
@@ -67768,7 +68156,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 386.08 -15.24 0)
 			(effects
 				(font
@@ -67988,7 +68376,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 335.28 92.71 0)
 			(effects
 				(font
@@ -68074,7 +68462,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 582.93 -20.32 0)
 			(effects
 				(font
@@ -68160,7 +68548,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 396.24 -91.44 0)
 			(effects
 				(font
@@ -68312,7 +68700,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 730.25 -107.95 0)
 			(effects
 				(font
@@ -68398,7 +68786,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 205.74 -60.96 0)
 			(effects
 				(font
@@ -68484,7 +68872,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 509.27 -20.32 0)
 			(effects
 				(font
@@ -68915,7 +69303,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 308.61 -91.44 0)
 			(effects
 				(font
@@ -69066,7 +69454,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 69.85 -137.16 0)
 			(effects
 				(font
@@ -69222,7 +69610,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 552.45 139.7 0)
 			(effects
 				(font
@@ -69374,7 +69762,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 16.51 -132.08 0)
 			(effects
 				(font
@@ -69460,7 +69848,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 402.59 -48.26 0)
 			(effects
 				(font
@@ -69612,7 +70000,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 481.33 195.58 0)
 			(effects
 				(font
@@ -69698,7 +70086,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 137.16 -134.62 0)
 			(effects
 				(font
@@ -69784,7 +70172,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 715.01 -100.33 0)
 			(effects
 				(font
@@ -69935,7 +70323,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 375.92 -101.6 0)
 			(effects
 				(font
@@ -70159,7 +70547,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 180.34 -129.54 0)
 			(effects
 				(font
@@ -70245,7 +70633,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 725.17 -105.41 0)
 			(effects
 				(font
@@ -70397,7 +70785,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 471.17 -66.04 0)
 			(effects
 				(font
@@ -70548,7 +70936,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 551.18 46.99 0)
 			(effects
 				(font
@@ -70634,7 +71022,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 401.32 -88.9 0)
 			(effects
 				(font
@@ -70720,7 +71108,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 461.01 185.42 0)
 			(effects
 				(font
@@ -70806,7 +71194,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 401.32 -7.62 0)
 			(effects
 				(font
@@ -71170,7 +71558,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 59.69 -10.16 0)
 			(effects
 				(font
@@ -71322,7 +71710,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 563.88 -50.8 0)
 			(effects
 				(font
@@ -71473,7 +71861,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 318.77 139.7 0)
 			(effects
 				(font
@@ -71559,7 +71947,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 304.8 -48.26 0)
 			(effects
 				(font
@@ -71645,7 +72033,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 74.93 -17.78 0)
 			(effects
 				(font
@@ -71797,7 +72185,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 344.17 152.4 0)
 			(effects
 				(font
@@ -71883,7 +72271,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 331.47 -142.24 0)
 			(effects
 				(font
@@ -71969,7 +72357,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 469.9 -106.68 0)
 			(effects
 				(font
@@ -72124,7 +72512,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 500.38 -66.04 0)
 			(effects
 				(font
@@ -72276,7 +72664,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 392.43 -53.34 0)
 			(effects
 				(font
@@ -72362,7 +72750,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 641.35 -140.97 0)
 			(effects
 				(font
@@ -72514,7 +72902,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 631.19 -66.04 0)
 			(effects
 				(font
@@ -72600,7 +72988,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 480.06 93.98 0)
 			(effects
 				(font
@@ -72686,7 +73074,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 505.46 -63.5 0)
 			(effects
 				(font
@@ -72772,7 +73160,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 241.3 -63.5 0)
 			(effects
 				(font
@@ -72923,7 +73311,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 440.69 -50.8 0)
 			(effects
 				(font
@@ -73009,7 +73397,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 401.32 -129.54 0)
 			(effects
 				(font
@@ -73095,7 +73483,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 725.17 -66.04 0)
 			(effects
 				(font
@@ -73181,7 +73569,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 256.54 -15.24 0)
 			(effects
 				(font
@@ -73398,7 +73786,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 463.55 132.08 0)
 			(effects
 				(font
@@ -73553,7 +73941,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 449.58 -96.52 0)
 			(effects
 				(font
@@ -73639,7 +74027,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 346.71 208.28 0)
 			(effects
 				(font
@@ -73725,7 +74113,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 204.47 -101.6 0)
 			(effects
 				(font
@@ -73811,7 +74199,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 215.9 -25.4 0)
 			(effects
 				(font
@@ -73897,7 +74285,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 718.82 -21.59 0)
 			(effects
 				(font
@@ -74049,7 +74437,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 449.58 -15.24 0)
 			(effects
 				(font
@@ -74135,7 +74523,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 535.94 54.61 0)
 			(effects
 				(font
@@ -74290,7 +74678,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 241.3 -22.86 0)
 			(effects
 				(font
@@ -74376,7 +74764,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 142.24 -50.8 0)
 			(effects
 				(font
@@ -74462,7 +74850,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 454.66 -99.06 0)
 			(effects
 				(font
@@ -74548,7 +74936,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 699.77 -53.34 0)
 			(effects
 				(font
@@ -74634,7 +75022,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 127 -58.42 0)
 			(effects
 				(font
@@ -74923,7 +75311,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 530.86 57.15 0)
 			(effects
 				(font
@@ -75009,7 +75397,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 600.71 -107.95 0)
 			(effects
 				(font
@@ -75230,7 +75618,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 410.21 203.2 0)
 			(effects
 				(font
@@ -75316,7 +75704,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 236.22 -25.4 0)
 			(effects
 				(font
@@ -75468,7 +75856,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 464.82 -144.78 0)
 			(effects
 				(font
@@ -75554,7 +75942,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 59.69 -91.44 0)
 			(effects
 				(font
@@ -75839,7 +76227,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 247.65 -142.24 0)
 			(effects
 				(font
@@ -75925,7 +76313,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 656.59 -53.34 0)
 			(effects
 				(font
@@ -76011,7 +76399,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 336.55 203.2 0)
 			(effects
 				(font
@@ -76097,7 +76485,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 567.69 -12.7 0)
 			(effects
 				(font
@@ -76183,7 +76571,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 575.31 -135.89 0)
 			(effects
 				(font
@@ -76269,7 +76657,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 525.78 -53.34 0)
 			(effects
 				(font
@@ -76486,7 +76874,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 445.77 -53.34 0)
 			(effects
 				(font
@@ -76702,7 +77090,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 331.47 200.66 0)
 			(effects
 				(font
@@ -76788,7 +77176,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 321.31 195.58 0)
 			(effects
 				(font
@@ -76939,7 +77327,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 336.55 -144.78 0)
 			(effects
 				(font
@@ -77025,7 +77413,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 730.25 -148.59 0)
 			(effects
 				(font
@@ -77111,7 +77499,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 725.17 -146.05 0)
 			(effects
 				(font
@@ -77197,7 +77585,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 85.09 -63.5 0)
 			(effects
 				(font
@@ -77283,7 +77671,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 135.89 -93.98 0)
 			(effects
 				(font
@@ -77438,7 +77826,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 567.69 132.08 0)
 			(effects
 				(font
@@ -77524,7 +77912,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 306.07 -129.54 0)
 			(effects
 				(font
@@ -77741,7 +78129,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 497.84 57.15 0)
 			(effects
 				(font
@@ -77827,7 +78215,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 408.94 102.87 0)
 			(effects
 				(font
@@ -77913,7 +78301,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 532.13 149.86 0)
 			(effects
 				(font
@@ -77999,7 +78387,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 661.67 -90.17 0)
 			(effects
 				(font
@@ -78085,7 +78473,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 356.87 213.36 0)
 			(effects
 				(font
@@ -78171,7 +78559,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 646.43 -97.79 0)
 			(effects
 				(font
@@ -78257,7 +78645,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 494.03 -27.94 0)
 			(effects
 				(font
@@ -78476,7 +78864,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 372.11 -63.5 0)
 			(effects
 				(font
@@ -78562,7 +78950,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 469.9 88.9 0)
 			(effects
 				(font
@@ -78713,7 +79101,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 474.98 91.44 0)
 			(effects
 				(font
@@ -78799,7 +79187,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 651.51 -135.89 0)
 			(effects
 				(font
@@ -78951,7 +79339,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 554.99 190.5 0)
 			(effects
 				(font
@@ -79172,7 +79560,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 261.62 -12.7 0)
 			(effects
 				(font
@@ -79401,7 +79789,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 631.19 -105.41 0)
 			(effects
 				(font
@@ -79552,7 +79940,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 417.83 142.24 0)
 			(effects
 				(font
@@ -79638,7 +80026,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 450.85 -55.88 0)
 			(effects
 				(font
@@ -79724,7 +80112,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 16.51 -50.8 0)
 			(effects
 				(font
@@ -79810,7 +80198,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 309.88 -10.16 0)
 			(effects
 				(font
@@ -79896,7 +80284,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 245.11 -101.6 0)
 			(effects
 				(font
@@ -79982,7 +80370,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 584.2 -60.96 0)
 			(effects
 				(font
@@ -80273,7 +80661,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 370.84 -104.14 0)
 			(effects
 				(font
@@ -80359,7 +80747,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 444.5 -134.62 0)
 			(effects
 				(font
@@ -80445,7 +80833,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 720.09 -143.51 0)
 			(effects
 				(font
@@ -80531,7 +80919,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 548.64 91.44 0)
 			(effects
 				(font
@@ -80617,7 +81005,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 85.09 -22.86 0)
 			(effects
 				(font
@@ -80703,7 +81091,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 527.05 -133.35 0)
 			(effects
 				(font
@@ -80789,7 +81177,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 504.19 -22.86 0)
 			(effects
 				(font
@@ -80942,7 +81330,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 626.11 -68.58 0)
 			(effects
 				(font
@@ -81028,7 +81416,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 646.43 -138.43 0)
 			(effects
 				(font
@@ -81114,7 +81502,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 382.27 -58.42 0)
 			(effects
 				(font
@@ -81270,7 +81658,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 629.92 -24.13 0)
 			(effects
 				(font
@@ -81356,7 +81744,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 693.42 -8.89 0)
 			(effects
 				(font
@@ -81442,7 +81830,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 339.09 -106.68 0)
 			(effects
 				(font
@@ -81598,7 +81986,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 434.34 -129.54 0)
 			(effects
 				(font
@@ -81749,7 +82137,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 641.35 -100.33 0)
 			(effects
 				(font
@@ -81835,7 +82223,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 541.02 52.07 0)
 			(effects
 				(font
@@ -82072,7 +82460,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 323.85 142.24 0)
 			(effects
 				(font
@@ -82158,7 +82546,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 140.97 -91.44 0)
 			(effects
 				(font
@@ -82244,7 +82632,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 492.76 54.61 0)
 			(effects
 				(font
@@ -82461,7 +82849,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 459.74 83.82 0)
 			(effects
 				(font
@@ -82682,7 +83070,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 314.96 -12.7 0)
 			(effects
 				(font
@@ -82768,7 +83156,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -13.97 -147.32 0)
 			(effects
 				(font
@@ -82854,7 +83242,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 255.27 -96.52 0)
 			(effects
 				(font
@@ -82940,7 +83328,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 74.93 -99.06 0)
 			(effects
 				(font
@@ -83026,7 +83414,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 345.44 97.79 0)
 			(effects
 				(font
@@ -83178,7 +83566,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 80.01 -101.6 0)
 			(effects
 				(font
@@ -83330,7 +83718,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 519.43 -15.24 0)
 			(effects
 				(font
@@ -83416,7 +83804,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 375.92 -20.32 0)
 			(effects
 				(font
@@ -83502,7 +83890,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 424.18 95.25 0)
 			(effects
 				(font
@@ -83588,7 +83976,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 439.42 -132.08 0)
 			(effects
 				(font
@@ -83740,7 +84128,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 408.94 53.34 0)
 			(effects
 				(font
@@ -83826,7 +84214,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 59.69 -50.8 0)
 			(effects
 				(font
@@ -83912,7 +84300,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 250.19 -99.06 0)
 			(effects
 				(font
@@ -83998,7 +84386,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 318.77 -96.52 0)
 			(effects
 				(font
@@ -84149,7 +84537,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 495.3 -68.58 0)
 			(effects
 				(font
@@ -84509,7 +84897,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 444.5 -93.98 0)
 			(effects
 				(font
@@ -84595,7 +84983,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 454.66 -139.7 0)
 			(effects
 				(font
@@ -84746,7 +85134,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 256.54 -55.88 0)
 			(effects
 				(font
@@ -84963,7 +85351,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 472.44 44.45 0)
 			(effects
 				(font
@@ -85049,7 +85437,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 54.61 -48.26 0)
 			(effects
 				(font
@@ -85135,7 +85523,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 116.84 -63.5 0)
 			(effects
 				(font
@@ -85287,7 +85675,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 494.03 147.32 0)
 			(effects
 				(font
@@ -85373,7 +85761,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 185.42 -132.08 0)
 			(effects
 				(font
@@ -85459,7 +85847,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 467.36 41.91 0)
 			(effects
 				(font
@@ -85545,7 +85933,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 419.1 48.26 0)
 			(effects
 				(font
@@ -85696,7 +86084,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 370.84 -144.78 0)
 			(effects
 				(font
@@ -85782,7 +86170,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 521.97 -95.25 0)
 			(effects
 				(font
@@ -85868,7 +86256,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 400.05 208.28 0)
 			(effects
 				(font
@@ -85954,7 +86342,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 709.93 -58.42 0)
 			(effects
 				(font
@@ -86040,7 +86428,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 624.84 -26.67 0)
 			(effects
 				(font
@@ -86126,7 +86514,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 304.8 -7.62 0)
 			(effects
 				(font
@@ -86212,7 +86600,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 490.22 99.06 0)
 			(effects
 				(font
@@ -86364,7 +86752,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 1.27 -17.78 0)
 			(effects
 				(font
@@ -86516,7 +86904,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 200.66 -17.78 0)
 			(effects
 				(font
@@ -86602,7 +86990,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 595.63 -105.41 0)
 			(effects
 				(font
@@ -86758,7 +87146,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 6.35 -137.16 0)
 			(effects
 				(font
@@ -86844,7 +87232,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 469.9 -147.32 0)
 			(effects
 				(font
@@ -86930,7 +87318,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -8.89 -63.5 0)
 			(effects
 				(font
@@ -87082,7 +87470,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 115.57 -104.14 0)
 			(effects
 				(font
@@ -87234,7 +87622,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 320.04 -55.88 0)
 			(effects
 				(font
@@ -87389,7 +87777,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 271.78 -7.62 0)
 			(effects
 				(font
@@ -87541,7 +87929,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 468.63 134.62 0)
 			(effects
 				(font
@@ -87627,7 +88015,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 64.77 -93.98 0)
 			(effects
 				(font
@@ -87713,7 +88101,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 515.62 -58.42 0)
 			(effects
 				(font
@@ -87865,7 +88253,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 397.51 152.4 0)
 			(effects
 				(font
@@ -87951,7 +88339,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -3.81 -20.32 0)
 			(effects
 				(font
@@ -88037,7 +88425,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 69.85 -15.24 0)
 			(effects
 				(font
@@ -88332,7 +88720,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 461.01 -60.96 0)
 			(effects
 				(font
@@ -88418,7 +88806,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 195.58 -137.16 0)
 			(effects
 				(font
@@ -88917,7 +89305,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 593.09 -25.4 0)
 			(effects
 				(font
@@ -89134,7 +89522,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 720.09 -102.87 0)
 			(effects
 				(font
@@ -89616,7 +90004,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 74.93 -139.7 0)
 			(effects
 				(font
@@ -89702,7 +90090,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 466.09 187.96 0)
 			(effects
 				(font
@@ -89788,7 +90176,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 1.27 -139.7 0)
 			(effects
 				(font
@@ -89874,7 +90262,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 252.73 -139.7 0)
 			(effects
 				(font
@@ -90025,7 +90413,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 439.42 -10.16 0)
 			(effects
 				(font
@@ -90180,7 +90568,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 661.67 -130.81 0)
 			(effects
 				(font
@@ -90409,7 +90797,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 414.02 50.8 0)
 			(effects
 				(font
@@ -90565,7 +90953,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 511.81 -100.33 0)
 			(effects
 				(font
@@ -90651,7 +91039,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 402.59 149.86 0)
 			(effects
 				(font
@@ -90802,7 +91190,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 11.43 -134.62 0)
 			(effects
 				(font
@@ -91031,7 +91419,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 650.24 -13.97 0)
 			(effects
 				(font
@@ -91183,7 +91571,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 640.08 -19.05 0)
 			(effects
 				(font
@@ -91269,7 +91657,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 64.77 -134.62 0)
 			(effects
 				(font
@@ -91355,7 +91743,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 21.59 -48.26 0)
 			(effects
 				(font
@@ -91441,7 +91829,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 214.63 -106.68 0)
 			(effects
 				(font
@@ -91593,7 +91981,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 270.51 -88.9 0)
 			(effects
 				(font
@@ -92085,7 +92473,7 @@
 				)
 			)
 		)
-		(property "Footprint" "KTT0003B"
+		(property "Footprint" "LMS1585AIS-3.3/NOPB:KTT0003B"
 			(at 57.15 185.42 0)
 			(effects
 				(font
@@ -92161,7 +92549,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 121.92 -20.32 0)
 			(effects
 				(font
@@ -92732,7 +93120,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 495.3 101.6 0)
 			(effects
 				(font
@@ -92887,7 +93275,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 403.86 55.88 0)
 			(effects
 				(font
@@ -92973,7 +93361,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 116.84 -22.86 0)
 			(effects
 				(font
@@ -93059,7 +93447,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 496.57 203.2 0)
 			(effects
 				(font
@@ -93145,7 +93533,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 340.36 -25.4 0)
 			(effects
 				(font
@@ -93231,7 +93619,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 121.92 -142.24 0)
 			(effects
 				(font
@@ -93317,7 +93705,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 398.78 58.42 0)
 			(effects
 				(font
@@ -93403,7 +93791,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 476.25 193.04 0)
 			(effects
 				(font
@@ -93489,7 +93877,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 328.93 -101.6 0)
 			(effects
 				(font
@@ -93575,7 +93963,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 715.01 -140.97 0)
 			(effects
 				(font
@@ -93661,7 +94049,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 598.17 -27.94 0)
 			(effects
 				(font
@@ -93747,7 +94135,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 588.01 -22.86 0)
 			(effects
 				(font
@@ -93833,7 +94221,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 200.66 -139.7 0)
 			(effects
 				(font
@@ -93919,7 +94307,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 464.82 86.36 0)
 			(effects
 				(font
@@ -94005,7 +94393,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 11.43 -12.7 0)
 			(effects
 				(font
@@ -94091,7 +94479,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 553.72 88.9 0)
 			(effects
 				(font
@@ -94313,7 +94701,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 321.31 -137.16 0)
 			(effects
 				(font
@@ -94399,7 +94787,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 501.65 -105.41 0)
 			(effects
 				(font
@@ -94485,7 +94873,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 464.82 -22.86 0)
 			(effects
 				(font
@@ -94571,7 +94959,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -3.81 -142.24 0)
 			(effects
 				(font
@@ -94657,7 +95045,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 6.35 -15.24 0)
 			(effects
 				(font
@@ -94743,7 +95131,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 528.32 101.6 0)
 			(effects
 				(font
@@ -95042,7 +95430,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 236.22 -66.04 0)
 			(effects
 				(font
@@ -95197,7 +95585,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 709.93 -138.43 0)
 			(effects
 				(font
@@ -95419,7 +95807,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 563.88 83.82 0)
 			(effects
 				(font
@@ -95637,7 +96025,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 341.63 -147.32 0)
 			(effects
 				(font
@@ -95723,7 +96111,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 656.59 -92.71 0)
 			(effects
 				(font
@@ -95809,7 +96197,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 320.04 -15.24 0)
 			(effects
 				(font
@@ -96148,6 +96536,128 @@
 		)
 	)
 	(symbol
+		(lib_id "easyeda:TPS7A5601RTER")
+		(at 121.92 148.59 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ee05f487-6733-4b1e-9c73-4cca78d797b4")
+		(property "Reference" "U35"
+			(at 121.92 162.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TPS7A5601RTER"
+			(at 121.92 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "easyeda:QFN-16_L3.0-W3.0-P0.50-TL-EP1.5-1"
+			(at 121.92 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 121.92 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" "C47150939"
+			(at 121.92 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "4adf684d-d4b5-4d57-b9d6-c3579abb51fd")
+		)
+		(pin "6"
+			(uuid "0101c947-0870-4938-8a52-fdf5fdc31c28")
+		)
+		(pin "17"
+			(uuid "a22a70e0-0cdc-4820-afc2-51951c26ad53")
+		)
+		(pin "11"
+			(uuid "bc815065-0646-4621-9443-b4102978afce")
+		)
+		(pin "3"
+			(uuid "613a8901-764d-4b5a-9f3d-6b0e09af5e8c")
+		)
+		(pin "2"
+			(uuid "f0a88c3a-036d-48a6-baba-7d2eeace6673")
+		)
+		(pin "15"
+			(uuid "26c96cb9-841c-4eca-8f30-347ea2a38a2c")
+		)
+		(pin "9"
+			(uuid "af92cece-e095-4b19-8535-c7350977a933")
+		)
+		(pin "13"
+			(uuid "45f87d0c-47ff-49e4-8034-8eed38006336")
+		)
+		(pin "12"
+			(uuid "f5f60b0d-9cd6-4755-ae9f-7a74262ea51b")
+		)
+		(pin "8"
+			(uuid "45dfe8b3-12c3-4673-bf10-fbdc470f6d92")
+		)
+		(pin "16"
+			(uuid "32913a3c-d13f-45df-ae50-4193b3b9d686")
+		)
+		(pin "14"
+			(uuid "36eadaa1-46bb-4105-a284-77d1e5ed5279")
+		)
+		(pin "10"
+			(uuid "31f41230-7e12-4431-a518-f0534cd0756e")
+		)
+		(pin "4"
+			(uuid "fb069c89-eea6-40e4-aaaf-dd3368064405")
+		)
+		(pin "7"
+			(uuid "fe18ceba-9e9a-4973-84bd-f909799319c1")
+		)
+		(pin "1"
+			(uuid "13e57f4c-573f-4875-8070-e2562fe88f9b")
+		)
+		(instances
+			(project ""
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "U35")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_Small_US")
 		(at 36.83 83.82 270)
 		(unit 1)
@@ -96240,7 +96750,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 326.39 198.12 0)
 			(effects
 				(font
@@ -96326,7 +96836,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 246.38 -20.32 0)
 			(effects
 				(font
@@ -96412,7 +96922,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 11.43 -93.98 0)
 			(effects
 				(font
@@ -96498,7 +97008,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 386.08 -96.52 0)
 			(effects
 				(font
@@ -96584,7 +97094,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 396.24 -10.16 0)
 			(effects
 				(font
@@ -96871,7 +97381,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 486.41 198.12 0)
 			(effects
 				(font
@@ -97026,7 +97536,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 328.93 144.78 0)
 			(effects
 				(font
@@ -97112,7 +97622,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 645.16 -16.51 0)
 			(effects
 				(font
@@ -97198,7 +97708,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 560.07 187.96 0)
 			(effects
 				(font
@@ -97354,7 +97864,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 90.17 -147.32 0)
 			(effects
 				(font
@@ -97440,7 +97950,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 85.09 -104.14 0)
 			(effects
 				(font
@@ -97662,7 +98172,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 330.2 -60.96 0)
 			(effects
 				(font
@@ -97748,7 +98258,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 435.61 -48.26 0)
 			(effects
 				(font
@@ -97834,7 +98344,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 190.5 -53.34 0)
 			(effects
 				(font
@@ -97986,7 +98496,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 80.01 -20.32 0)
 			(effects
 				(font
@@ -98281,7 +98791,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 375.92 -142.24 0)
 			(effects
 				(font
@@ -98367,7 +98877,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at -8.89 -144.78 0)
 			(effects
 				(font
@@ -98518,7 +99028,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 577.85 -17.78 0)
 			(effects
 				(font
@@ -98604,7 +99114,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 190.5 -134.62 0)
 			(effects
 				(font
@@ -98690,7 +99200,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 111.76 -66.04 0)
 			(effects
 				(font
@@ -98842,7 +99352,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 546.1 49.53 0)
 			(effects
 				(font
@@ -98997,7 +99507,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 491.49 200.66 0)
 			(effects
 				(font
@@ -99083,7 +99593,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 455.93 -58.42 0)
 			(effects
 				(font
@@ -99312,7 +99822,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 340.36 95.25 0)
 			(effects
 				(font
@@ -99398,7 +99908,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 466.09 -63.5 0)
 			(effects
 				(font
@@ -99484,7 +99994,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 646.43 -58.42 0)
 			(effects
 				(font
@@ -99570,7 +100080,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 570.23 -133.35 0)
 			(effects
 				(font
@@ -99725,7 +100235,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 90.17 -25.4 0)
 			(effects
 				(font
@@ -99943,7 +100453,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 661.67 -50.8 0)
 			(effects
 				(font
@@ -100095,7 +100605,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 365.76 107.95 0)
 			(effects
 				(font
@@ -100181,7 +100691,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 703.58 -13.97 0)
 			(effects
 				(font
@@ -100267,7 +100777,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 544.83 195.58 0)
 			(effects
 				(font
@@ -100419,7 +100929,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 397.51 -50.8 0)
 			(effects
 				(font
@@ -100505,7 +101015,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 127 -17.78 0)
 			(effects
 				(font
@@ -100591,7 +101101,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 394.97 210.82 0)
 			(effects
 				(font
@@ -100820,7 +101330,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 396.24 -132.08 0)
 			(effects
 				(font
@@ -100906,7 +101416,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "led-kt0805g:LED0805-R-RD"
+		(property "Footprint" "easyeda:LED0805-RD"
 			(at 350.52 50.8 0)
 			(effects
 				(font
