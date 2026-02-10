@@ -1844,6 +1844,191 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:LED_Small"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.254)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at -1.27 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "LED_Small"
+				(at -4.445 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Light emitting diode, small symbol"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Sim.Pin" "1=K 2=A"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "LED diode light-emitting-diode"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LED_Small_0_1"
+				(polyline
+					(pts
+						(xy -0.762 -1.016) (xy -0.762 1.016)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0.762) (xy -0.508 1.27) (xy -0.254 1.27) (xy -0.508 1.27) (xy -0.508 1.016)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.508 1.27) (xy 0 1.778) (xy 0.254 1.778) (xy 0 1.778) (xy 0 1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 -1.016) (xy -0.762 0) (xy 0.762 1.016) (xy 0.762 -1.016)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.016 0) (xy -0.762 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LED_Small_1_1"
+				(pin passive line
+					(at -2.54 0 0)
+					(length 1.778)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 0 180)
+					(length 1.778)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:Polyfuse_Small"
 			(pin_numbers
 				(hide yes)
@@ -2444,6 +2629,262 @@
 						)
 					)
 					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Switch:SW_SPST"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "SW"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SW_SPST"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Single Pole Single Throw (SPST) switch"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "switch lever"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SW_SPST_0_0"
+				(circle
+					(center -2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.524 0.254) (xy 1.524 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SW_SPST_1_1"
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "easyeda:SMBJ13A"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SMBJ13A"
+				(at 0 -5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "easyeda:SMB_L4.6-W3.6-LS5.3-RD"
+				(at 0 -7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://lcsc.com/product-detail/TVS_SMBJ13A_C10209.html"
+				(at 0 -10.16 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "LCSC Part" "C10209"
+				(at 0 -12.7 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SMBJ13A_0_1"
+				(polyline
+					(pts
+						(xy -1.78 -2.03) (xy -1.27 -2.03) (xy -1.27 1.78) (xy -0.51 1.78)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.52) (xy -1.27 0) (xy 1.27 -1.78) (xy 1.27 1.52)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin unspecified line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -5581,6 +6022,12 @@
 		(uuid "3030e49c-8cec-4214-bee0-4ecb308aa6d4")
 	)
 	(junction
+		(at 214.63 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "31804ba0-69a9-4c80-b54a-ccea1bae5365")
+	)
+	(junction
 		(at 96.52 -17.78)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6293,12 +6740,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7273a56d-236c-47eb-91d7-3de9abc18147")
-	)
-	(junction
-		(at 214.63 77.47)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "72f72ceb-c1d2-423a-bcbb-3327178aa665")
 	)
 	(junction
 		(at 490.22 -146.05)
@@ -7327,6 +7768,12 @@
 		(uuid "c51cd61b-84a9-4c7f-be37-010a62c9881c")
 	)
 	(junction
+		(at 125.73 129.54)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c5436c32-1e26-468c-9d9e-870eaa8d2d3c")
+	)
+	(junction
 		(at 605.79 -66.04)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7465,6 +7912,12 @@
 		(uuid "d332583d-f474-4611-a84c-704ce3472a80")
 	)
 	(junction
+		(at 149.86 130.81)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d3b7f908-5047-447f-8af8-4b6f6731f2f8")
+	)
+	(junction
 		(at 314.96 195.58)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7571,6 +8024,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d99141ac-49e8-41e9-b84d-cad49f31b0e2")
+	)
+	(junction
+		(at 149.86 153.67)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d9e9fd6c-e531-444d-8e4d-f9e6130c3f25")
 	)
 	(junction
 		(at -20.32 -17.78)
@@ -8065,12 +8524,12 @@
 		(uuid "18fdfbf8-26b1-4047-bb31-093e3dc1ed55")
 	)
 	(no_connect
-		(at 109.22 118.11)
-		(uuid "1a64e85e-21e0-4f7b-9b01-55e4fc275132")
-	)
-	(no_connect
 		(at 217.17 154.94)
 		(uuid "2c0977ab-9bc3-47dd-acd9-4ef4181fe482")
+	)
+	(no_connect
+		(at 114.3 118.11)
+		(uuid "2c1d369e-6506-4957-99b1-7da47c0ceb0b")
 	)
 	(no_connect
 		(at 173.99 33.02)
@@ -8137,6 +8596,16 @@
 			(type default)
 		)
 		(uuid "004ec1de-44dd-4df0-84f9-92bf5c91f332")
+	)
+	(wire
+		(pts
+			(xy 142.24 134.62) (xy 96.52 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0087e14d-0656-477e-bcca-81aa57095ded")
 	)
 	(wire
 		(pts
@@ -9277,6 +9746,16 @@
 			(type default)
 		)
 		(uuid "0db99d54-7011-4682-b2ea-0982fd349bcf")
+	)
+	(wire
+		(pts
+			(xy 157.48 139.7) (xy 157.48 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0dc664d6-1492-4e9a-a73c-c57922dce2d8")
 	)
 	(wire
 		(pts
@@ -10650,6 +11129,16 @@
 	)
 	(wire
 		(pts
+			(xy 125.73 129.54) (xy 139.7 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1ce7ef98-e56e-4ccd-b582-a89092265806")
+	)
+	(wire
+		(pts
 			(xy 431.8 200.66) (xy 419.1 200.66)
 		)
 		(stroke
@@ -11000,6 +11489,16 @@
 	)
 	(wire
 		(pts
+			(xy 104.14 118.11) (xy 104.14 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "20e2e408-7efe-4442-9d44-2e11e7c7fa5c")
+	)
+	(wire
+		(pts
 			(xy 31.75 144.78) (xy 31.75 135.89)
 		)
 		(stroke
@@ -11127,6 +11626,16 @@
 			(type default)
 		)
 		(uuid "22a2cca7-5de6-49bd-9820-314db117b1e8")
+	)
+	(wire
+		(pts
+			(xy 149.86 144.78) (xy 149.86 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "22a3951f-1f13-4462-9ba0-72ea02b96d8b")
 	)
 	(wire
 		(pts
@@ -11357,6 +11866,16 @@
 			(type default)
 		)
 		(uuid "24ca184c-86c6-4060-b5a5-498aa5f433be")
+	)
+	(wire
+		(pts
+			(xy 157.48 132.08) (xy 101.6 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24ce6a0a-5484-4a44-b7ce-d126fc261c68")
 	)
 	(wire
 		(pts
@@ -12300,6 +12819,26 @@
 	)
 	(wire
 		(pts
+			(xy 142.24 144.78) (xy 142.24 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d909ef9-bfcf-4d60-8b86-084ecab976b7")
+	)
+	(wire
+		(pts
+			(xy 149.86 153.67) (xy 157.48 153.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d9113a6-c80f-45de-a511-efc4b5e2f6dc")
+	)
+	(wire
+		(pts
 			(xy 134.62 -96.52) (xy 149.86 -96.52)
 		)
 		(stroke
@@ -12457,6 +12996,16 @@
 			(type default)
 		)
 		(uuid "2fc7e73d-9bde-4f1b-baab-57da8587aafb")
+	)
+	(wire
+		(pts
+			(xy 147.32 130.81) (xy 149.86 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "302c9541-fbf7-48b2-b266-a9b48cda5726")
 	)
 	(wire
 		(pts
@@ -12687,6 +13236,16 @@
 			(type default)
 		)
 		(uuid "3352c600-0e21-4213-9fed-4d959e1c9bb4")
+	)
+	(wire
+		(pts
+			(xy 157.48 144.78) (xy 157.48 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "33d537a7-32b5-4ca1-a7ca-d9b011b4f95e")
 	)
 	(wire
 		(pts
@@ -13630,16 +14189,6 @@
 	)
 	(wire
 		(pts
-			(xy 214.63 77.47) (xy 222.25 77.47)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3dec7871-b059-47d5-8284-3f88e5dbaeb8")
-	)
-	(wire
-		(pts
 			(xy 520.7 -138.43) (xy 535.94 -138.43)
 		)
 		(stroke
@@ -14337,6 +14886,16 @@
 			(type default)
 		)
 		(uuid "4505d394-5d64-4a29-8bbe-89db4af7c231")
+	)
+	(wire
+		(pts
+			(xy 149.86 139.7) (xy 149.86 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "45207621-d67b-4732-977b-560dd7f2f42a")
 	)
 	(wire
 		(pts
@@ -15040,6 +15599,26 @@
 	)
 	(wire
 		(pts
+			(xy 104.14 130.81) (xy 142.24 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4e6e6818-11c3-4c45-9e57-a45d7e9e833c")
+	)
+	(wire
+		(pts
+			(xy 125.73 129.54) (xy 125.73 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4e714802-546b-4841-a276-8bc71b6588eb")
+	)
+	(wire
+		(pts
 			(xy 200.66 -96.52) (xy 198.12 -96.52)
 		)
 		(stroke
@@ -15377,6 +15956,16 @@
 			(type default)
 		)
 		(uuid "528aedc3-4724-4ba9-8ead-3ab2c5a5ad36")
+	)
+	(wire
+		(pts
+			(xy 106.68 129.54) (xy 118.11 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52c3bd56-46c5-4792-a273-379e3c5d05ab")
 	)
 	(wire
 		(pts
@@ -16067,6 +16656,16 @@
 			(type default)
 		)
 		(uuid "5b778fb4-0a55-43ee-8179-8f97e51771cb")
+	)
+	(wire
+		(pts
+			(xy 96.52 134.62) (xy 96.52 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5ba70702-c79b-4daa-9693-e69af1f4a3c6")
 	)
 	(wire
 		(pts
@@ -18250,6 +18849,16 @@
 	)
 	(wire
 		(pts
+			(xy 101.6 132.08) (xy 101.6 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "75f0df09-5c8e-4a01-b788-932331cff8bf")
+	)
+	(wire
+		(pts
 			(xy 454.66 -157.48) (xy 454.66 -149.86)
 		)
 		(stroke
@@ -18527,6 +19136,16 @@
 			(type default)
 		)
 		(uuid "7a090a9f-5854-490e-8bec-482cb441daf2")
+	)
+	(wire
+		(pts
+			(xy 99.06 133.35) (xy 99.06 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7a352d48-7955-4196-80fc-dea19b9067bd")
 	)
 	(wire
 		(pts
@@ -19147,6 +19766,16 @@
 			(type default)
 		)
 		(uuid "81c33bcd-ae8a-49bc-9012-2599418bd941")
+	)
+	(wire
+		(pts
+			(xy 149.86 130.81) (xy 149.86 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "81db5441-662d-4f36-a1e9-e670c5ee546b")
 	)
 	(wire
 		(pts
@@ -19817,16 +20446,6 @@
 			(type default)
 		)
 		(uuid "8b32457c-7cb9-4a50-9ffb-decd8e84a9bf")
-	)
-	(wire
-		(pts
-			(xy 201.93 77.47) (xy 214.63 77.47)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8b807e8d-abd8-4af9-ad9c-c5f5ce4816d9")
 	)
 	(wire
 		(pts
@@ -21720,6 +22339,16 @@
 	)
 	(wire
 		(pts
+			(xy 106.68 129.54) (xy 106.68 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a1dc8efa-0998-4609-a297-98065e7b0b91")
+	)
+	(wire
+		(pts
 			(xy 477.52 -60.96) (xy 477.52 -58.42)
 		)
 		(stroke
@@ -22960,6 +23589,16 @@
 	)
 	(wire
 		(pts
+			(xy 123.19 129.54) (xy 125.73 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ae8079db-9a55-46da-8a45-73d84a9509ec")
+	)
+	(wire
+		(pts
 			(xy 201.93 -10.16) (xy 201.93 -7.62)
 		)
 		(stroke
@@ -24190,6 +24829,16 @@
 	)
 	(wire
 		(pts
+			(xy 142.24 153.67) (xy 149.86 153.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ba0957b8-77ac-4ae8-bafd-d3bf8fc3d8ad")
+	)
+	(wire
+		(pts
 			(xy 419.1 30.48) (xy 419.1 38.1)
 		)
 		(stroke
@@ -24327,6 +24976,16 @@
 			(type default)
 		)
 		(uuid "bbd84883-ddbc-4afa-ab80-810264faa04c")
+	)
+	(wire
+		(pts
+			(xy 214.63 77.47) (xy 222.25 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bbee9f2a-5de1-4335-96c7-1036fd296a21")
 	)
 	(wire
 		(pts
@@ -24620,6 +25279,16 @@
 	)
 	(wire
 		(pts
+			(xy 139.7 127) (xy 139.7 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bf7ed196-6fb1-41ea-a53b-b48b181ea993")
+	)
+	(wire
+		(pts
 			(xy 312.42 -134.62) (xy 302.26 -134.62)
 		)
 		(stroke
@@ -24697,6 +25366,16 @@
 			(type default)
 		)
 		(uuid "c06cb4ae-424c-4276-affb-a708c86796f4")
+	)
+	(wire
+		(pts
+			(xy 201.93 77.47) (xy 214.63 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c06e305c-2261-4b69-834e-d69ced527abc")
 	)
 	(wire
 		(pts
@@ -25457,6 +26136,16 @@
 			(type default)
 		)
 		(uuid "ca701b88-dcd8-4d77-9f6e-709decc6125a")
+	)
+	(wire
+		(pts
+			(xy 142.24 139.7) (xy 142.24 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca8c961f-bd34-4a1c-af67-cab49f5c077a")
 	)
 	(wire
 		(pts
@@ -26610,6 +27299,16 @@
 	)
 	(wire
 		(pts
+			(xy 149.86 130.81) (xy 163.83 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d669c0ac-bb19-4dbf-9529-12ff5d73ce37")
+	)
+	(wire
+		(pts
 			(xy 552.45 54.61) (xy 552.45 57.15)
 		)
 		(stroke
@@ -26937,6 +27636,16 @@
 			(type default)
 		)
 		(uuid "dab46599-1dbe-44e5-8bb1-632d9b55dd03")
+	)
+	(wire
+		(pts
+			(xy 163.83 129.54) (xy 163.83 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dada4fb6-1c58-48b4-a4ea-02a291ff86a5")
 	)
 	(wire
 		(pts
@@ -27507,6 +28216,16 @@
 			(type default)
 		)
 		(uuid "e0b54e46-77bf-4e3f-b950-0f1994b35543")
+	)
+	(wire
+		(pts
+			(xy 99.06 133.35) (xy 149.86 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e0ce4da7-6779-470c-950d-50420775b0a9")
 	)
 	(wire
 		(pts
@@ -34036,7 +34755,7 @@
 				)
 			)
 		)
-		(property "Footprint" "esp32-s3-wroom-1:WIRELM-SMD_ESP32-S3-WROOM-1"
+		(property "Footprint" "easyeda2kicad:WIRELM-SMD_ESP32-S3-WROOM-1"
 			(at 99.06 125.73 0)
 			(effects
 				(font
@@ -34828,6 +35547,72 @@
 			(project "testhologram v2"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "#PWR0190")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 125.73 120.65 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "01dd5cbb-5114-4487-9787-9382acd795a4")
+		(property "Reference" "#PWR0227"
+			(at 125.73 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 125.73 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.73 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 125.73 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 125.73 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8d45dfcd-da7f-43fa-a2a9-6fc4029fd159")
+		)
+		(instances
+			(project ""
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "#PWR0227")
 					(unit 1)
 				)
 			)
@@ -35882,7 +36667,7 @@
 		(dnp no)
 		(uuid "049c7213-6a6c-402a-afc7-a95d8e786560")
 		(property "Reference" "F1"
-			(at 224.282 73.406 90)
+			(at 225.552 75.692 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35890,7 +36675,7 @@
 			)
 		)
 		(property "Value" "SMD1812-300C-30V"
-			(at 227.838 75.438 90)
+			(at 235.204 78.994 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -36097,7 +36882,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 289.56 -121.92 0)
 			(effects
 				(font
@@ -36998,6 +37783,71 @@
 			(project "testhologram"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "R29")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 139.7 116.84 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "08e2561e-874c-4908-9f8c-da1bf9496286")
+		(property "Reference" "#PWR0235"
+			(at 139.7 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 137.668 115.062 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f4f8a2ab-4124-4922-b0be-20182ce01a07")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "#PWR0235")
 					(unit 1)
 				)
 			)
@@ -37917,7 +38767,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 38.1 -81.28 0)
 			(effects
 				(font
@@ -38479,7 +39329,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 370.84 165.1 0)
 			(effects
 				(font
@@ -39081,7 +39931,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 546.1 -2.54 0)
 			(effects
 				(font
@@ -39700,7 +40550,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 287.02 -81.28 0)
 			(effects
 				(font
@@ -40791,6 +41641,75 @@
 			(project "testhologram"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "LED337")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 157.48 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "17036cb9-617d-4a5b-8b2c-9c76bea87c39")
+		(property "Reference" "R60"
+			(at 159.766 141.732 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "330"
+			(at 155.448 144.272 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 157.48 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 157.48 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small US symbol"
+			(at 157.48 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0ced4c0c-3eec-4c96-b09c-aa599869fe9c")
+		)
+		(pin "2"
+			(uuid "4fbf28c4-545d-4d84-ac7d-c93c1c517cba")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "R60")
 					(unit 1)
 				)
 			)
@@ -42284,7 +43203,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 515.62 157.48 0)
 			(effects
 				(font
@@ -43354,6 +44273,84 @@
 			(project "testhologram"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "LED91")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:LED_Small")
+		(at 149.86 151.13 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "21d22d77-2a63-462d-b8e0-5ee346fe111c")
+		(property "Reference" "D11"
+			(at 151.13 146.304 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "KT-0603Y"
+			(at 147.574 148.844 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 149.86 151.13 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 149.86 151.13 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Light emitting diode, small symbol"
+			(at 149.86 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pin" "1=K 2=A"
+			(at 149.86 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "a52c2cc0-3605-4060-9440-034a583bc772")
+		)
+		(pin "1"
+			(uuid "9fcaac9e-c8ff-4458-a764-e78ba6c6a7be")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "D11")
 					(unit 1)
 				)
 			)
@@ -44524,7 +45521,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 38.1 -121.92 0)
 			(effects
 				(font
@@ -44717,7 +45714,7 @@
 		(dnp no)
 		(uuid "29ba382c-5c65-4c33-955c-7ee55d9b4011")
 		(property "Reference" "C44"
-			(at 96.774 131.826 90)
+			(at 88.138 132.08 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -44725,7 +45722,7 @@
 			)
 		)
 		(property "Value" "0.1n"
-			(at 99.314 131.826 90)
+			(at 90.678 132.08 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -46670,6 +47667,73 @@
 			(project "testhologram"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "#PWR010")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 144.78 130.81 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "33316298-7a81-4892-8a48-3680a6e5a04c")
+		(property "Reference" "R65"
+			(at 144.78 127.254 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 144.272 129.286 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 144.78 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 144.78 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small US symbol"
+			(at 144.78 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "2cafa403-1770-4bdb-8ca4-5e09d59acc30")
+		)
+		(pin "1"
+			(uuid "3f67d1b8-8a28-4123-9047-f27d0278fa04")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "R65")
 					(unit 1)
 				)
 			)
@@ -51242,7 +52306,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 678.18 -43.18 0)
 			(effects
 				(font
@@ -54472,7 +55536,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 676.91 -1.27 0)
 			(effects
 				(font
@@ -54681,7 +55745,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 678.18 -123.19 0)
 			(effects
 				(font
@@ -55693,7 +56757,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 373.38 220.98 0)
 			(effects
 				(font
@@ -56534,6 +57598,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 163.83 119.38 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "58a383c2-a75f-44e0-b74c-f75d1a87aa87")
+		(property "Reference" "#PWR0236"
+			(at 163.83 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 162.814 115.824 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 163.83 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 163.83 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 163.83 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cf0c2e8b-fa9d-4822-bd8e-8e946b5e0314")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "#PWR0236")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:LED")
 		(at 185.42 -10.16 0)
 		(unit 1)
@@ -56886,7 +58015,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 417.83 0 0)
 			(effects
 				(font
@@ -58210,7 +59339,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 419.1 -40.64 0)
 			(effects
 				(font
@@ -59267,7 +60396,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "easyeda:SOD-523_L1.2-W0.8-LS1.6-BI"
 			(at 201.93 92.71 0)
 			(effects
 				(font
@@ -60310,7 +61439,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 38.1 -40.64 0)
 			(effects
 				(font
@@ -62000,7 +63129,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 382.27 115.57 0)
 			(effects
 				(font
@@ -69114,7 +70243,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "1.65k 0.25%"
 			(at 57.404 -156.464 90)
 			(effects
 				(font
@@ -71026,7 +72155,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 288.29 0 0)
 			(effects
 				(font
@@ -71427,7 +72556,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 163.83 -40.64 0)
 			(effects
 				(font
@@ -73289,7 +74418,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 548.64 -123.19 0)
 			(effects
 				(font
@@ -73401,6 +74530,73 @@
 			(project "testhologram"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "U17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 120.65 129.54 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8deb86f9-55a1-4031-a44b-5047115a9ea8")
+		(property "Reference" "R66"
+			(at 120.142 127.254 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 120.65 125.222 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 120.65 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 120.65 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small US symbol"
+			(at 120.65 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "2d41bb08-7d6a-44af-84e0-bff542c3ef23")
+		)
+		(pin "1"
+			(uuid "05bb25e9-f491-40be-9815-893c991c8215")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "R66")
 					(unit 1)
 				)
 			)
@@ -74251,6 +75447,75 @@
 			(project "testhologram"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "LED501")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Switch:SW_SPST")
+		(at 163.83 124.46 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "903b805d-8d29-41d2-8f47-979a4e233661")
+		(property "Reference" "SW4"
+			(at 165.1 123.1899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "SW_opt2"
+			(at 160.274 119.888 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "easyeda:KEY-SMD_L4.0-W3.0-LS4.9-1"
+			(at 163.83 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 163.83 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Single Pole Single Throw (SPST) switch"
+			(at 163.83 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "93139f01-414b-49ac-abd1-48253214717c")
+		)
+		(pin "2"
+			(uuid "af179634-b099-4b58-8d5f-52944add539a")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "SW4")
 					(unit 1)
 				)
 			)
@@ -75749,7 +77014,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 678.18 -82.55 0)
 			(effects
 				(font
@@ -82043,6 +83308,84 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:LED_Small")
+		(at 142.24 151.13 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a81d1b45-3135-41b7-b4ee-e466b0930a94")
+		(property "Reference" "D10"
+			(at 143.51 146.558 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "KT-0603R"
+			(at 139.954 148.844 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 142.24 151.13 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 142.24 151.13 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Light emitting diode, small symbol"
+			(at 142.24 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pin" "1=K 2=A"
+			(at 142.24 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "ba9930d9-a897-44d8-b0e0-42fb6d3bc87d")
+		)
+		(pin "1"
+			(uuid "f8e28b64-d832-411d-a97c-f1c5b6a4907e")
+		)
+		(instances
+			(project ""
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "D10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 222.25 27.94 0)
 		(unit 1)
@@ -84654,7 +85997,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 417.83 -81.28 0)
 			(effects
 				(font
@@ -86616,6 +87959,75 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 149.86 123.19 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b6f61fde-e1c5-409b-9d96-8eeb055eacc0")
+		(property "Reference" "R64"
+			(at 151.892 124.46 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47k"
+			(at 147.828 124.968 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small US symbol"
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e8a4281e-c808-4bfa-93b1-1142b952b48f")
+		)
+		(pin "2"
+			(uuid "dffda282-daec-4e29-9fa9-c1e7713e2b40")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "R64")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:LED")
 		(at 382.27 -58.42 180)
 		(unit 1)
@@ -87095,8 +88507,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:D_TVS")
-		(at 214.63 73.66 270)
+		(lib_id "easyeda:SMBJ13A")
+		(at 214.63 73.66 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -87104,7 +88516,7 @@
 		(dnp no)
 		(uuid "b85ca9d0-2551-4373-9715-247460305cf9")
 		(property "Reference" "D9"
-			(at 210.566 73.406 90)
+			(at 210.82 73.66 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -87113,7 +88525,7 @@
 			)
 		)
 		(property "Value" "SMBJ13A"
-			(at 211.836 76.962 0)
+			(at 217.424 68.834 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -87121,8 +88533,8 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
-			(at 214.63 73.66 0)
+		(property "Footprint" "easyeda:SMB_L4.6-W3.6-LS5.3-RD"
+			(at 222.25 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -87130,8 +88542,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 214.63 73.66 0)
+		(property "Datasheet" "https://lcsc.com/product-detail/TVS_SMBJ13A_C10209.html"
+			(at 224.79 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -87141,6 +88553,15 @@
 		)
 		(property "Description" "Bidirectional transient-voltage-suppression diode"
 			(at 214.63 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" "C10209"
+			(at 222.758 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -88599,6 +90020,84 @@
 			(project "testhologram"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "LED187")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:LED_Small")
+		(at 157.48 151.13 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "bd756ebe-197c-45d4-a2a1-b434130381db")
+		(property "Reference" "D12"
+			(at 158.75 146.558 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "KT-0603B"
+			(at 155.194 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 157.48 151.13 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 157.48 151.13 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Light emitting diode, small symbol"
+			(at 157.48 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pin" "1=K 2=A"
+			(at 157.48 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "fe8a595f-ccbc-44c7-90cc-b6e26fd9bbfb")
+		)
+		(pin "1"
+			(uuid "8a6368c2-8f39-46c5-940b-72cb9d83eef0")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "D12")
 					(unit 1)
 				)
 			)
@@ -90231,7 +91730,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 288.29 -40.64 0)
 			(effects
 				(font
@@ -94320,7 +95819,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 514.35 64.77 0)
 			(effects
 				(font
@@ -94902,7 +96401,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 38.1 0 0)
 			(effects
 				(font
@@ -95014,6 +96513,75 @@
 			(project "testhologram"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "U4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Switch:SW_SPST")
+		(at 139.7 121.92 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d08624a1-36df-4609-bccc-587daa4af762")
+		(property "Reference" "SW3"
+			(at 140.97 120.6499 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "SW_opt1"
+			(at 135.89 117.856 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "easyeda:KEY-SMD_L4.0-W3.0-LS4.9-1"
+			(at 139.7 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 139.7 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Single Pole Single Throw (SPST) switch"
+			(at 139.7 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3bcc0395-a4fe-496a-b17c-cb5eb1362707")
+		)
+		(pin "2"
+			(uuid "45b4d5d4-55d3-4520-a3e1-a7caae4e43bf")
+		)
+		(instances
+			(project ""
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "SW3")
 					(unit 1)
 				)
 			)
@@ -96792,7 +98360,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 548.64 -82.55 0)
 			(effects
 				(font
@@ -97238,6 +98806,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+3.3V")
+		(at 149.86 120.65 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d65b5a23-a650-4d7e-8c82-4676ae7508c4")
+		(property "Reference" "#PWR0229"
+			(at 149.86 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 149.86 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 149.86 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 149.86 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 149.86 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "02eaeb6d-8c1f-4ab7-8f8f-b078a0b1ab0e")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "#PWR0229")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 144.78 -120.65 0)
 		(unit 1)
@@ -97297,6 +98931,71 @@
 			(project "testhologram"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "#PWR027")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 149.86 153.67 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d74b9007-c38e-4666-a540-f95425db3949")
+		(property "Reference" "#PWR0223"
+			(at 149.86 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 150.876 157.226 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 149.86 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 149.86 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 149.86 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7c5d5021-b1e6-4bc8-a4ce-d5aeb8b20478")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "#PWR0223")
 					(unit 1)
 				)
 			)
@@ -97414,7 +99113,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 513.08 210.82 0)
 			(effects
 				(font
@@ -98403,7 +100102,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 547.37 -43.18 0)
 			(effects
 				(font
@@ -98833,7 +100532,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 382.27 66.04 0)
 			(effects
 				(font
@@ -100910,6 +102609,75 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 125.73 123.19 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e3142ad9-3b42-4972-a5eb-5d6c73be1623")
+		(property "Reference" "R63"
+			(at 123.698 121.412 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47k"
+			(at 127.762 121.412 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.73 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 125.73 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small US symbol"
+			(at 125.73 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "185f6e48-0dfc-4967-a92c-fa870f0b7eff")
+		)
+		(pin "2"
+			(uuid "43e0f655-32f6-49fc-95e8-df1db419f6e6")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "R63")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:LED")
 		(at 464.82 -22.86 0)
 		(unit 1)
@@ -101483,7 +103251,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 511.81 109.22 0)
 			(effects
 				(font
@@ -102480,7 +104248,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 162.56 -81.28 0)
 			(effects
 				(font
@@ -104065,6 +105833,75 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 142.24 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f3b1c344-37aa-4c79-b4d6-eeb51d694f66")
+		(property "Reference" "R57"
+			(at 144.272 141.732 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1.5k"
+			(at 140.208 144.018 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 142.24 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 142.24 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small US symbol"
+			(at 142.24 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0aa10d51-7915-4567-823e-cbdc501591cb")
+		)
+		(pin "2"
+			(uuid "7d9f59ff-ba63-4b2f-800e-6a9656d09e0f")
+		)
+		(instances
+			(project ""
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "R57")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:LED")
 		(at 85.09 -104.14 0)
 		(unit 1)
@@ -104722,7 +106559,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 163.83 0 0)
 			(effects
 				(font
@@ -105206,6 +107043,75 @@
 			(project "testhologram v2"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "#PWR0172")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 149.86 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f784c46d-12a8-4b91-9b35-5a955edb7484")
+		(property "Reference" "R59"
+			(at 152.146 141.732 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1.2k"
+			(at 147.828 144.018 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 149.86 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 149.86 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small US symbol"
+			(at 149.86 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "86bb26ff-5f6c-4c80-85dd-dc642d6ee80a")
+		)
+		(pin "2"
+			(uuid "4d7a789a-b184-42fb-bef6-181bfdec9ea8")
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "R59")
 					(unit 1)
 				)
 			)
@@ -105888,7 +107794,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 417.83 -121.92 0)
 			(effects
 				(font
@@ -107463,7 +109369,7 @@
 				)
 			)
 		)
-		(property "Footprint" "sm16206s:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
+		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
 			(at 163.83 -121.92 0)
 			(effects
 				(font
