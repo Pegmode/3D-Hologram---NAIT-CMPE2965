@@ -1,0 +1,8 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "sm16206s")(type "KiCad")(uri "${KIPRJMOD}/lib/sm16206/easyeda2kicad.pretty")(options "")(descr ""))
+  (lib (name "esp32-s3-wroom-1")(type "KiCad")(uri "${KIPRJMOD}/lib/esp32-s3-wroom-1-n16r8/easyeda2kicad.pretty")(options "")(descr ""))
+  (lib (name "led-kt0805g")(type "KiCad")(uri "${KIPRJMOD}/lib/kt0805g/easyeda.pretty")(options "")(descr ""))
+  (lib (name "LMS1585AIS-3.3/NOPB")(type "KiCad")(uri "${KIPRJMOD}/lib/LMS1585AIS_3_3_NOPB/KiCADv6/footprints.pretty")(options "")(descr ""))
+  (lib (name "easyeda")(type "KiCad")(uri "${KIPRJMOD}/libs/easyeda/easyeda.pretty")(options "")(descr ""))
+)
