@@ -11,7 +11,7 @@
 		(company "Kaden Sparrow")
 	)
 	(lib_symbols
-		(symbol "Connector:Conn_01x06_Socket"
+		(symbol "Connector:Screw_Terminal_01x06"
 			(pin_names
 				(offset 1.016)
 				(hide yes)
@@ -27,7 +27,7 @@
 					)
 				)
 			)
-			(property "Value" "Conn_01x06_Socket"
+			(property "Value" "Screw_Terminal_01x06"
 				(at 0 -10.16 0)
 				(effects
 					(font
@@ -53,7 +53,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Generic connector, single row, 01x06, script generated"
+			(property "Description" "Generic screw terminal, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
 				(at 0 0 0)
 				(effects
 					(font
@@ -62,15 +62,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_locked" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "connector"
+			(property "ki_keywords" "screw terminal"
 				(at 0 0 0)
 				(effects
 					(font
@@ -79,7 +71,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "Connector*:*_1x??_*"
+			(property "ki_fp_filters" "TerminalBlock*:*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -88,34 +80,21 @@
 					(hide yes)
 				)
 			)
-			(symbol "Conn_01x06_Socket_1_1"
-				(polyline
-					(pts
-						(xy -1.27 5.08) (xy -0.508 5.08)
-					)
+			(symbol "Screw_Terminal_01x06_1_1"
+				(rectangle
+					(start -1.27 6.35)
+					(end 1.27 -8.89)
 					(stroke
-						(width 0.1524)
+						(width 0.254)
 						(type default)
 					)
 					(fill
-						(type none)
+						(type background)
 					)
 				)
 				(polyline
 					(pts
-						(xy -1.27 2.54) (xy -0.508 2.54)
-					)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.27 0) (xy -0.508 0)
+						(xy -0.5334 5.4102) (xy 0.3302 4.572)
 					)
 					(stroke
 						(width 0.1524)
@@ -127,7 +106,7 @@
 				)
 				(polyline
 					(pts
-						(xy -1.27 -2.54) (xy -0.508 -2.54)
+						(xy -0.5334 2.8702) (xy 0.3302 2.032)
 					)
 					(stroke
 						(width 0.1524)
@@ -139,7 +118,7 @@
 				)
 				(polyline
 					(pts
-						(xy -1.27 -5.08) (xy -0.508 -5.08)
+						(xy -0.5334 0.3302) (xy 0.3302 -0.508)
 					)
 					(stroke
 						(width 0.1524)
@@ -151,7 +130,7 @@
 				)
 				(polyline
 					(pts
-						(xy -1.27 -7.62) (xy -0.508 -7.62)
+						(xy -0.5334 -2.2098) (xy 0.3302 -3.048)
 					)
 					(stroke
 						(width 0.1524)
@@ -161,10 +140,10 @@
 						(type none)
 					)
 				)
-				(arc
-					(start 0 4.572)
-					(mid -0.5058 5.08)
-					(end 0 5.588)
+				(polyline
+					(pts
+						(xy -0.5334 -4.7498) (xy 0.3302 -5.588)
+					)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -173,10 +152,10 @@
 						(type none)
 					)
 				)
-				(arc
-					(start 0 2.032)
-					(mid -0.5058 2.54)
-					(end 0 3.048)
+				(polyline
+					(pts
+						(xy -0.5334 -7.2898) (xy 0.3302 -8.128)
+					)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -185,10 +164,10 @@
 						(type none)
 					)
 				)
-				(arc
-					(start 0 -0.508)
-					(mid -0.5058 0)
-					(end 0 0.508)
+				(polyline
+					(pts
+						(xy -0.3556 5.588) (xy 0.508 4.7498)
+					)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -197,10 +176,10 @@
 						(type none)
 					)
 				)
-				(arc
-					(start 0 -3.048)
-					(mid -0.5058 -2.54)
-					(end 0 -2.032)
+				(polyline
+					(pts
+						(xy -0.3556 3.048) (xy 0.508 2.2098)
+					)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -209,10 +188,10 @@
 						(type none)
 					)
 				)
-				(arc
-					(start 0 -5.588)
-					(mid -0.5058 -5.08)
-					(end 0 -4.572)
+				(polyline
+					(pts
+						(xy -0.3556 0.508) (xy 0.508 -0.3302)
+					)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -221,10 +200,100 @@
 						(type none)
 					)
 				)
-				(arc
-					(start 0 -8.128)
-					(mid -0.5058 -7.62)
-					(end 0 -7.112)
+				(polyline
+					(pts
+						(xy -0.3556 -2.032) (xy 0.508 -2.8702)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 -4.572) (xy 0.508 -5.4102)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 -7.112) (xy 0.508 -7.9502)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 5.08)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 0)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 -2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 -5.08)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 -7.62)
+					(radius 0.635)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -2484,6 +2553,89 @@
 								(size 1.27 1.27)
 							)
 						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
 					)
 				)
 			)
@@ -34745,7 +34897,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:WIRELM-SMD_ESP32-S3-WROOM-1"
+		(property "Footprint" "easyeda:WIRELM-SMD_ESP32-S3-WROOM-1"
 			(at 99.06 125.73 0)
 			(effects
 				(font
@@ -36470,7 +36622,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 231.14 93.98 0)
 			(effects
 				(font
@@ -36872,7 +37024,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 289.56 -121.92 0)
 			(effects
 				(font
@@ -37273,7 +37425,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 223.52 129.54 0)
 			(effects
 				(font
@@ -38757,7 +38909,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 38.1 -81.28 0)
 			(effects
 				(font
@@ -39319,7 +39471,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 370.84 165.1 0)
 			(effects
 				(font
@@ -39921,7 +40073,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 546.1 -2.54 0)
 			(effects
 				(font
@@ -40540,7 +40692,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 287.02 -81.28 0)
 			(effects
 				(font
@@ -41663,7 +41815,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 157.48 142.24 0)
 			(effects
 				(font
@@ -41800,7 +41952,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 228.6 132.08 0)
 			(effects
 				(font
@@ -43193,7 +43345,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 515.62 157.48 0)
 			(effects
 				(font
@@ -45511,7 +45663,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 38.1 -121.92 0)
 			(effects
 				(font
@@ -47687,7 +47839,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 144.78 130.81 0)
 			(effects
 				(font
@@ -48142,7 +48294,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 30.48 167.64 0)
 			(effects
 				(font
@@ -51686,7 +51838,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 194.31 165.1 0)
 			(effects
 				(font
@@ -51925,7 +52077,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 53.34 173.99 0)
 			(effects
 				(font
@@ -52296,7 +52448,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 678.18 -43.18 0)
 			(effects
 				(font
@@ -55526,7 +55678,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 676.91 -1.27 0)
 			(effects
 				(font
@@ -55735,7 +55887,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 678.18 -123.19 0)
 			(effects
 				(font
@@ -56204,7 +56356,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 177.8 43.18 0)
 			(effects
 				(font
@@ -56747,7 +56899,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 373.38 220.98 0)
 			(effects
 				(font
@@ -58005,7 +58157,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 417.83 0 0)
 			(effects
 				(font
@@ -59329,7 +59481,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 419.1 -40.64 0)
 			(effects
 				(font
@@ -61404,6 +61556,70 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 25.4 13.97 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "6466fdbc-c529-42f6-acc0-767244bc4748")
+		(property "Reference" "H2"
+			(at 27.94 12.6999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "topRight"
+			(at 27.94 15.2399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_5mm_Pad"
+			(at 25.4 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 25.4 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 25.4 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "H2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sm6206s:SM16106SC")
 		(at 38.1 -62.23 0)
 		(unit 1)
@@ -61429,7 +61645,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 38.1 -40.64 0)
 			(effects
 				(font
@@ -62464,7 +62680,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 67.31 101.6 0)
 			(effects
 				(font
@@ -63119,7 +63335,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 382.27 115.57 0)
 			(effects
 				(font
@@ -66547,7 +66763,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 80.01 154.94 0)
 			(effects
 				(font
@@ -67637,6 +67853,70 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 13.97 13.97 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "777a2b4e-8d10-4970-bf82-ec2da3922352")
+		(property "Reference" "H1"
+			(at 16.51 12.6999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "topLeft"
+			(at 16.51 15.2399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_5mm_Pad"
+			(at 13.97 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 13.97 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 13.97 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project ""
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "H1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 576.58 -81.28 0)
 		(unit 1)
@@ -67970,7 +68250,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "easyeda:KEY-SMD_L4.0-W3.0-LS4.9-1"
 			(at 255.27 49.53 0)
 			(effects
 				(font
@@ -68885,7 +69165,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 151.13 88.9 0)
 			(effects
 				(font
@@ -69373,7 +69653,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 93.98 158.75 0)
 			(effects
 				(font
@@ -70936,7 +71216,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 146.05 91.44 0)
 			(effects
 				(font
@@ -72145,7 +72425,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 288.29 0 0)
 			(effects
 				(font
@@ -72546,7 +72826,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 163.83 -40.64 0)
 			(effects
 				(font
@@ -74408,7 +74688,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 548.64 -123.19 0)
 			(effects
 				(font
@@ -74550,7 +74830,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 120.65 129.54 0)
 			(effects
 				(font
@@ -74617,7 +74897,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 41.91 81.28 0)
 			(effects
 				(font
@@ -74924,7 +75204,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 142.24 80.01 0)
 			(effects
 				(font
@@ -75351,6 +75631,70 @@
 			(project ""
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "#PWR0162")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 13.97 19.05 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "902f8f3e-3ab0-4c03-99a0-5ebde8615d51")
+		(property "Reference" "H3"
+			(at 16.51 17.7799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "botLeft"
+			(at 16.51 20.3199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_5mm_Pad"
+			(at 13.97 19.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 13.97 19.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 13.97 19.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "H3")
 					(unit 1)
 				)
 			)
@@ -77004,7 +77348,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 678.18 -82.55 0)
 			(effects
 				(font
@@ -78358,7 +78702,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 93.98 149.86 0)
 			(effects
 				(font
@@ -79668,7 +80012,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 196.85 34.29 0)
 			(effects
 				(font
@@ -80405,7 +80749,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 240.03 69.85 0)
 			(effects
 				(font
@@ -82306,7 +82650,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 91.44 121.92 0)
 			(effects
 				(font
@@ -85137,7 +85481,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 46.99 78.74 0)
 			(effects
 				(font
@@ -85987,7 +86331,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 417.83 -81.28 0)
 			(effects
 				(font
@@ -86999,7 +87343,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 252.73 93.98 0)
 			(effects
 				(font
@@ -87668,7 +88012,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 52.07 104.14 0)
 			(effects
 				(font
@@ -87975,7 +88319,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 149.86 123.19 0)
 			(effects
 				(font
@@ -88196,7 +88540,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "easyeda:KEY-SMD_L4.0-W3.0-LS4.9-1"
 			(at 255.27 26.67 0)
 			(effects
 				(font
@@ -89107,7 +89451,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x06_Socket")
+		(lib_id "Connector:Screw_Terminal_01x06")
 		(at 261.62 77.47 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -89116,7 +89460,7 @@
 		(dnp no)
 		(uuid "bb05f108-ae8e-48ca-9182-250a26a672cd")
 		(property "Reference" "J2"
-			(at 264.668 77.724 0)
+			(at 265.176 77.724 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -89125,7 +89469,7 @@
 			)
 		)
 		(property "Value" "Conn_01x06_Socket"
-			(at 263.398 87.122 90)
+			(at 263.906 87.122 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -89133,7 +89477,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-06P_1x06_P5.00mm"
 			(at 261.62 77.47 0)
 			(effects
 				(font
@@ -89151,7 +89495,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x06, script generated"
+		(property "Description" "Generic screw terminal, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 261.62 77.47 0)
 			(effects
 				(font
@@ -91350,7 +91694,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 196.85 25.4 0)
 			(effects
 				(font
@@ -91720,7 +92064,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 288.29 -40.64 0)
 			(effects
 				(font
@@ -94242,7 +94586,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 132.08 80.01 0)
 			(effects
 				(font
@@ -94603,6 +94947,70 @@
 			(project "testhologram v2"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "#PWR013")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 25.4 19.05 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "cc27e27d-ce84-43e7-900d-0522fb23e19d")
+		(property "Reference" "H4"
+			(at 27.94 17.7799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "botRight"
+			(at 27.94 20.3199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_5mm_Pad"
+			(at 25.4 19.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 25.4 19.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 25.4 19.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "testhologram v2"
+				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
+					(reference "H4")
 					(unit 1)
 				)
 			)
@@ -95809,7 +96217,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 514.35 64.77 0)
 			(effects
 				(font
@@ -96391,7 +96799,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 38.1 0 0)
 			(effects
 				(font
@@ -98350,7 +98758,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 548.64 -82.55 0)
 			(effects
 				(font
@@ -99103,7 +99511,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 513.08 210.82 0)
 			(effects
 				(font
@@ -99958,7 +100366,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 58.42 167.64 0)
 			(effects
 				(font
@@ -100092,7 +100500,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 547.37 -43.18 0)
 			(effects
 				(font
@@ -100522,7 +100930,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 382.27 66.04 0)
 			(effects
 				(font
@@ -102625,7 +103033,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 125.73 123.19 0)
 			(effects
 				(font
@@ -103173,7 +103581,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 43.18 57.15 0)
 			(effects
 				(font
@@ -103241,7 +103649,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 511.81 109.22 0)
 			(effects
 				(font
@@ -104238,7 +104646,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 162.56 -81.28 0)
 			(effects
 				(font
@@ -104515,7 +104923,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 36.83 83.82 0)
 			(effects
 				(font
@@ -105849,7 +106257,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 142.24 142.24 0)
 			(effects
 				(font
@@ -106005,7 +106413,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 210.82 93.98 0)
 			(effects
 				(font
@@ -106549,7 +106957,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 163.83 0 0)
 			(effects
 				(font
@@ -107065,7 +107473,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 149.86 142.24 0)
 			(effects
 				(font
@@ -107784,7 +108192,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 417.83 -121.92 0)
 			(effects
 				(font
@@ -109359,7 +109767,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:QSOP-24_L8.7-W4.0-P0.65-LS6.0-BL"
+		(property "Footprint" "easyeda:QSOP-24_L8.7-W4.0-P0.64-LS6.0-BL"
 			(at 163.83 -121.92 0)
 			(effects
 				(font
