@@ -22,6 +22,21 @@ def carteseian2Cylindrical(cartesianCoordinate):
     theta = numpy.arctan2(y,x)#angle in radians
     return theta, r, z
     
+def Cylindrical2Cartesian(clyindricalCoordinate):
+    '''
+    Convert a clyindrical coordinate into a cartesian coordingate,
+    returns (x,y,z)
+    
+    :param clyindricalCoordinate: Clyindrical coordinate in the form (theta, r, h)
+    '''
+    theta, r, h = clyindricalCoordinate
+    x = r * numpy.cos(theta)
+    y = r * numpy.sin(theta)
+    z = h
+    return x, y, z
+    
+    
+    
 ##LUT functions
 
 ##visual debug
