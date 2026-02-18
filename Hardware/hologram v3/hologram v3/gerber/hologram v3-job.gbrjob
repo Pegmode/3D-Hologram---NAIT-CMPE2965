@@ -5,17 +5,17 @@
       "Application": "Pcbnew",
       "Version": "9.0.1"
     },
-    "CreationDate": "2026-01-21T11:16:41-07:00"
+    "CreationDate": "2026-02-18T14:45:31-07:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
-      "Name": "testhologram v2",
-      "GUID": "74657374-686f-46c6-9f67-72616d207632",
+      "Name": "hologram v3",
+      "GUID": "686f6c6f-6772-4616-9d20-76332e6b6963",
       "Revision": "rev?"
     },
     "Size": {
-      "X": 100.05,
-      "Y": 200.05
+      "X": 110.05,
+      "Y": 250.05
     },
     "LayerNumber": 6,
     "BoardThickness": 1.6,
@@ -27,82 +27,83 @@
       "PadToPad": 0.2,
       "PadToTrack": 0.2,
       "TrackToTrack": 0.2,
-      "MinLineWidth": 0.2,
-      "TrackToRegion": 0.5,
-      "RegionToRegion": 0.5
+      "MinLineWidth": 0.15,
+      "TrackToRegion": 0.3,
+      "RegionToRegion": 0.3
     },
     {
       "Layers": "Inner",
       "PadToPad": 0.2,
       "PadToTrack": 0.2,
       "TrackToTrack": 0.2,
+      "MinLineWidth": 0.2,
       "TrackToRegion": 0.5,
       "RegionToRegion": 0.5
     }
   ],
   "FilesAttributes": [
     {
-      "Path": "testhologram v2-F_Cu.gbr",
+      "Path": "hologram v3-F_Cu.gbr",
       "FileFunction": "Copper,L1,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-In1_Cu.gbr",
+      "Path": "hologram v3-In1_Cu.gbr",
       "FileFunction": "Copper,L5,Inr",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-In2_Cu.gbr",
+      "Path": "hologram v3-In2_Cu.gbr",
       "FileFunction": "Copper,L7,Inr",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-In3_Cu.gbr",
+      "Path": "hologram v3-In3_Cu.gbr",
       "FileFunction": "Copper,L9,Inr",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-In4_Cu.gbr",
+      "Path": "hologram v3-In4_Cu.gbr",
       "FileFunction": "Copper,L11,Inr",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-B_Cu.gbr",
+      "Path": "hologram v3-B_Cu.gbr",
       "FileFunction": "Copper,L6,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-F_Paste.gbr",
+      "Path": "hologram v3-F_Paste.gbr",
       "FileFunction": "SolderPaste,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-B_Paste.gbr",
+      "Path": "hologram v3-B_Paste.gbr",
       "FileFunction": "SolderPaste,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-F_Silkscreen.gbr",
+      "Path": "hologram v3-F_Silkscreen.gbr",
       "FileFunction": "Legend,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-B_Silkscreen.gbr",
+      "Path": "hologram v3-B_Silkscreen.gbr",
       "FileFunction": "Legend,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "testhologram v2-F_Mask.gbr",
+      "Path": "hologram v3-F_Mask.gbr",
       "FileFunction": "SolderMask,Top",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "testhologram v2-B_Mask.gbr",
+      "Path": "hologram v3-B_Mask.gbr",
       "FileFunction": "SolderMask,Bot",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "testhologram v2-Edge_Cuts.gbr",
+      "Path": "hologram v3-Edge_Cuts.gbr",
       "FileFunction": "Profile",
       "FilePolarity": "Positive"
     }

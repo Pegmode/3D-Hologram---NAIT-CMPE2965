@@ -5,7 +5,7 @@
 	(layer "F.Cu")
 	(property "Reference" "REF**"
 		(at 0 -2 0)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "09aa025a-a50e-4a3e-ae6c-fabf295c23a0")
 		(effects
 			(font

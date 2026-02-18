@@ -778,6 +778,170 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:C_Polarized_US"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.254)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "C"
+				(at 0.635 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "C_Polarized_US"
+				(at 0.635 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Polarized capacitor, US symbol"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "cap capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "CP_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "C_Polarized_US_0_1"
+				(polyline
+					(pts
+						(xy -2.032 0.762) (xy 2.032 0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.778 2.286) (xy -0.762 2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 1.778) (xy -1.27 2.794)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -2.032 -1.27)
+					(mid 0 -0.5572)
+					(end 2.032 -1.27)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "C_Polarized_US_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 3.302)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C_Small"
 			(pin_numbers
 				(hide yes)
@@ -2578,6 +2742,138 @@
 					(at 5.08 0 180)
 					(length 2.54)
 					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "easyeda:LESD5Z5.0CT1G"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LESD5Z5.0CT1G"
+				(at 0 -5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "easyeda:SOD-523_L1.2-W0.8-LS1.6-BI"
+				(at 0 -7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://lcsc.com/product-detail/Diodes-ESD_LESD5Z5-0CT1G_C136167.html"
+				(at 0 -10.16 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "LCSC Part" "C136167"
+				(at 0 -12.7 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LESD5Z5.0CT1G_0_1"
+				(polyline
+					(pts
+						(xy -2.54 1.27) (xy 0 0) (xy -2.54 -1.27) (xy -2.54 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.51 1.52) (xy -0.51 1.52) (xy 0 1.52) (xy 0 -1.52) (xy 0.51 -1.52) (xy 0.51 -1.52)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 1.27) (xy 0 0) (xy 2.54 -1.27) (xy 2.54 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin unspecified line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -6476,12 +6772,6 @@
 		(uuid "50d2c44c-f588-4f19-a69b-fc8409b6e641")
 	)
 	(junction
-		(at 201.93 77.47)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "50e57609-0c7d-491f-ad77-5b38f7395394")
-	)
-	(junction
 		(at 93.98 128.27)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6804,6 +7094,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6934df7e-c0d4-43a4-8a6c-146c71f1b70a")
+	)
+	(junction
+		(at 201.93 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6a35ea75-d590-4e0e-866e-c694fcdee423")
 	)
 	(junction
 		(at 229.87 -22.86)
@@ -7358,6 +7654,12 @@
 		(uuid "93817fc8-4baf-477d-8721-9dbd3d1b6399")
 	)
 	(junction
+		(at 252.73 72.39)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "96223f67-8f5a-45ba-bc55-53c8de2f88e5")
+	)
+	(junction
 		(at 312.42 144.78)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7632,12 +7934,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b079bb86-6fbd-492f-bc4a-20b7b8c9c2c3")
-	)
-	(junction
-		(at 252.73 72.39)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b1ac6d84-0b03-4aca-8769-937aee580fb9")
 	)
 	(junction
 		(at 43.18 52.07)
@@ -9498,6 +9794,16 @@
 			(type default)
 		)
 		(uuid "09da76e8-7069-461e-9ff0-3d2a63e5a88b")
+	)
+	(wire
+		(pts
+			(xy 252.73 72.39) (xy 256.54 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a0fa194-7ff0-418c-9623-3c8a4cfacdaf")
 	)
 	(wire
 		(pts
@@ -20941,7 +21247,7 @@
 	)
 	(wire
 		(pts
-			(xy 201.93 88.9) (xy 201.93 80.01)
+			(xy 201.93 87.63) (xy 201.93 80.01)
 		)
 		(stroke
 			(width 0)
@@ -22918,16 +23224,6 @@
 			(type default)
 		)
 		(uuid "a3a68208-7ca1-4fd3-8233-659b1b9b535a")
-	)
-	(wire
-		(pts
-			(xy 252.73 72.39) (xy 256.54 72.39)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a3ad9b44-0060-4e33-b5e0-9e29962e049e")
 	)
 	(wire
 		(pts
@@ -25708,16 +26004,6 @@
 			(type default)
 		)
 		(uuid "c06cb4ae-424c-4276-affb-a708c86796f4")
-	)
-	(wire
-		(pts
-			(xy 201.93 77.47) (xy 214.63 77.47)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c06e305c-2261-4b69-834e-d69ced527abc")
 	)
 	(wire
 		(pts
@@ -28768,6 +29054,16 @@
 			(type default)
 		)
 		(uuid "e306d081-429f-4a17-b6a9-27daf34faed7")
+	)
+	(wire
+		(pts
+			(xy 201.93 77.47) (xy 214.63 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e32c59ee-5b97-44d0-a306-7a011773a149")
 	)
 	(wire
 		(pts
@@ -35900,7 +36196,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 252.73 64.77 180)
+		(at 252.73 62.23 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -35909,7 +36205,7 @@
 		(fields_autoplaced yes)
 		(uuid "0178c5fa-2ef8-4ccf-8afe-94ae0a8cbcc5")
 		(property "Reference" "#PWR0182"
-			(at 252.73 58.42 0)
+			(at 252.73 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35918,7 +36214,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 252.73 59.69 0)
+			(at 252.73 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35926,7 +36222,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 252.73 64.77 0)
+			(at 252.73 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35935,7 +36231,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 252.73 64.77 0)
+			(at 252.73 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35944,7 +36240,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 252.73 64.77 0)
+			(at 252.73 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -36422,7 +36718,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.1uF/50v"
+		(property "Value" "0.1u"
 			(at 270.51 49.5362 0)
 			(effects
 				(font
@@ -37181,6 +37477,15 @@
 		)
 		(property "Description" "Resettable fuse, polymeric positive temperature coefficient, small symbol"
 			(at 224.79 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" "     C47002391"
+			(at 224.79 77.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -37994,7 +38299,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10uF/25v"
+		(property "Value" "10u"
 			(at 261.62 120.6562 0)
 			(effects
 				(font
@@ -39045,8 +39350,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C_Small")
-		(at 201.93 74.93 0)
+		(lib_id "Device:C_Polarized_US")
+		(at 201.93 73.66 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -39054,7 +39359,7 @@
 		(dnp no)
 		(uuid "0ab40749-3e47-4def-b4c7-abd566ee3950")
 		(property "Reference" "C48"
-			(at 202.692 73.406 0)
+			(at 201.168 75.184 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -39063,7 +39368,7 @@
 			)
 		)
 		(property "Value" "100u"
-			(at 203.2 76.2 0)
+			(at 200.66 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -39072,7 +39377,7 @@
 			)
 		)
 		(property "Footprint" "easyeda:CAP-SMD_BD6.3-L6.6-W6.6-LS7.3-FD"
-			(at 201.93 74.93 0)
+			(at 201.93 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -39081,7 +39386,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 201.93 74.93 0)
+			(at 201.93 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -39089,8 +39394,17 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
-			(at 201.93 74.93 0)
+		(property "Description" "Polarized capacitor, US symbol"
+			(at 201.93 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" "C46550465"
+			(at 201.93 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -39105,7 +39419,7 @@
 			(uuid "77379404-cf66-4512-834e-8cca2145c7d5")
 		)
 		(instances
-			(project ""
+			(project "hologram v3"
 				(path "/5b3c4033-6475-449b-b3de-c9edabc99b1a"
 					(reference "C48")
 					(unit 1)
@@ -40182,7 +40496,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47u x5r"
+		(property "Value" "47u"
 			(at 103.124 187.96 90)
 			(effects
 				(font
@@ -43507,7 +43821,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 201.93 72.39 180)
+		(at 201.93 69.85 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -43516,7 +43830,7 @@
 		(fields_autoplaced yes)
 		(uuid "1af2511b-9284-47d3-aa46-f55c1ebbfee7")
 		(property "Reference" "#PWR0209"
-			(at 201.93 66.04 0)
+			(at 201.93 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -43525,7 +43839,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 201.93 67.31 0)
+			(at 201.93 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -43533,7 +43847,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 201.93 72.39 0)
+			(at 201.93 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -43542,7 +43856,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 201.93 72.39 0)
+			(at 201.93 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -43551,7 +43865,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 201.93 72.39 0)
+			(at 201.93 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -43761,7 +44075,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47u x5r"
+		(property "Value" "47u"
 			(at 122.174 187.96 90)
 			(effects
 				(font
@@ -44191,7 +44505,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22u x5r"
+		(property "Value" "22u"
 			(at 212.344 29.21 90)
 			(effects
 				(font
@@ -45431,7 +45745,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 201.93 96.52 0)
+		(at 201.93 97.79 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -45440,7 +45754,7 @@
 		(fields_autoplaced yes)
 		(uuid "24b1832a-2bb9-4882-b08a-6b3c39b50180")
 		(property "Reference" "#PWR0180"
-			(at 201.93 102.87 0)
+			(at 201.93 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -45449,7 +45763,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 201.93 101.6 0)
+			(at 201.93 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -45457,7 +45771,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 201.93 96.52 0)
+			(at 201.93 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -45466,7 +45780,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 201.93 96.52 0)
+			(at 201.93 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -45475,7 +45789,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 201.93 96.52 0)
+			(at 201.93 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -45578,7 +45892,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22u x5r"
+		(property "Value" "22u"
 			(at 231.394 29.21 90)
 			(effects
 				(font
@@ -46306,7 +46620,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "C2765186"
+		(property "Description" ""
+			(at 193.04 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" "C2765186"
 			(at 193.04 111.76 0)
 			(effects
 				(font
@@ -46672,7 +46995,7 @@
 				)
 			)
 		)
-		(property "Value" "0.1n"
+		(property "Value" "0.1u"
 			(at 90.678 132.08 90)
 			(effects
 				(font
@@ -50150,7 +50473,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47u x5r"
+		(property "Value" "47u"
 			(at 122.174 153.67 90)
 			(effects
 				(font
@@ -50371,7 +50694,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.1uF/50v"
+		(property "Value" "0.1u"
 			(at 31.75 55.8862 0)
 			(effects
 				(font
@@ -53851,7 +54174,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22u x5r"
+		(property "Value" "22u"
 			(at 3.556 153.162 90)
 			(effects
 				(font
@@ -57912,8 +58235,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:D_TVS")
-		(at 252.73 68.58 270)
+		(lib_id "easyeda:LESD5Z5.0CT1G")
+		(at 252.73 67.31 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -57921,7 +58244,7 @@
 		(dnp no)
 		(uuid "57220f88-5c62-45aa-a33a-ad894e31733f")
 		(property "Reference" "D8"
-			(at 259.08 68.326 90)
+			(at 259.08 67.056 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -57930,7 +58253,7 @@
 			)
 		)
 		(property "Value" "LESD5Z5.0CT1G"
-			(at 255.524 71.374 0)
+			(at 255.524 70.104 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -57939,7 +58262,7 @@
 			)
 		)
 		(property "Footprint" "easyeda:SOD-523_L1.2-W0.8-LS1.6-BI"
-			(at 252.73 68.58 0)
+			(at 252.73 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -57947,8 +58270,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 252.73 68.58 0)
+		(property "Datasheet" "https://lcsc.com/product-detail/Diodes-ESD_LESD5Z5-0CT1G_C136167.html"
+			(at 252.73 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -57956,13 +58279,21 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Bidirectional transient-voltage-suppression diode"
-			(at 252.73 68.58 0)
+		(property "Description" ""
+			(at 252.73 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "LCSC Part" "C136167"
+			(at 248.92 66.802 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -58084,7 +58415,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47u x5r"
+		(property "Value" "47u"
 			(at 128.524 153.67 90)
 			(effects
 				(font
@@ -58889,7 +59220,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22u x5r"
+		(property "Value" "22u"
 			(at 218.694 29.21 90)
 			(effects
 				(font
@@ -61453,7 +61784,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:D_TVS")
+		(lib_id "easyeda:LESD5Z5.0CT1G")
 		(at 201.93 92.71 90)
 		(unit 1)
 		(exclude_from_sim no)
@@ -61488,7 +61819,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://lcsc.com/product-detail/Diodes-ESD_LESD5Z5-0CT1G_C136167.html"
 			(at 201.93 92.71 0)
 			(effects
 				(font
@@ -61497,13 +61828,21 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Bidirectional transient-voltage-suppression diode"
+		(property "Description" ""
 			(at 201.93 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "LCSC Part" "C136167"
+			(at 214.63 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -61711,7 +62050,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47u x5r"
+		(property "Value" "47u"
 			(at 109.474 153.67 90)
 			(effects
 				(font
@@ -68114,7 +68453,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47u x5r"
+		(property "Value" "47u"
 			(at 115.824 153.67 90)
 			(effects
 				(font
@@ -72519,7 +72858,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47u x5r"
+		(property "Value" "47u"
 			(at 115.824 187.96 90)
 			(effects
 				(font
@@ -76814,7 +77153,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "SW_opt2"
+		(property "Value" "SW_OPT2"
 			(at 160.274 119.888 0)
 			(effects
 				(font
@@ -78143,7 +78482,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22u x5r"
+		(property "Value" "22u"
 			(at 225.044 29.21 90)
 			(effects
 				(font
@@ -78281,7 +78620,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22u x5r"
+		(property "Value" "22u"
 			(at 12.954 154.686 90)
 			(effects
 				(font
@@ -78563,7 +78902,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 222.25 96.52 0)
+		(at 222.25 99.06 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -78572,7 +78911,7 @@
 		(fields_autoplaced yes)
 		(uuid "964a570e-fce5-4c9d-a5e9-c1ab0e1eb839")
 		(property "Reference" "#PWR0179"
-			(at 222.25 102.87 0)
+			(at 222.25 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -78581,7 +78920,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 222.25 101.6 0)
+			(at 222.25 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -78589,7 +78928,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 222.25 96.52 0)
+			(at 222.25 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -78598,7 +78937,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 222.25 96.52 0)
+			(at 222.25 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -78607,7 +78946,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 222.25 96.52 0)
+			(at 222.25 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -80658,7 +80997,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22u x5r"
+		(property "Value" "22u"
 			(at 126.746 28.702 90)
 			(effects
 				(font
@@ -80944,7 +81283,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22u x5r"
+		(property "Value" "22u"
 			(at 133.604 30.226 90)
 			(effects
 				(font
@@ -85934,7 +86273,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 243.84 96.52 0)
+		(at 243.84 99.06 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -85943,7 +86282,7 @@
 		(fields_autoplaced yes)
 		(uuid "aba58622-ef64-4b53-ba4d-a7eba28b982e")
 		(property "Reference" "#PWR0178"
-			(at 243.84 102.87 0)
+			(at 243.84 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -85952,7 +86291,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 243.84 101.6 0)
+			(at 243.84 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -85960,7 +86299,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 243.84 96.52 0)
+			(at 243.84 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -85969,7 +86308,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 243.84 96.52 0)
+			(at 243.84 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -85978,7 +86317,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 243.84 96.52 0)
+			(at 243.84 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -90169,7 +90508,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part" "C10209"
+		(property "LCSC Part" "C151252"
 			(at 222.758 73.66 0)
 			(effects
 				(font
@@ -90212,7 +90551,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.1uF/50v"
+		(property "Value" "0.1u"
 			(at 270.51 26.6762 0)
 			(effects
 				(font
@@ -90752,7 +91091,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-06P_1x06_P5.00mm"
+		(property "Footprint" "easyeda:CONN-TH_6P-P5.00_MX128-5.0-06P-GN01-CU-Y-A"
 			(at 261.62 77.47 0)
 			(effects
 				(font
@@ -94232,7 +94571,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47u x5r"
+		(property "Value" "47u"
 			(at 109.474 187.96 90)
 			(effects
 				(font
@@ -98278,7 +98617,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "SW_opt1"
+		(property "Value" "SW_OPT1"
 			(at 135.89 117.856 0)
 			(effects
 				(font
@@ -105263,8 +105602,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:D_TVS")
-		(at 222.25 92.71 90)
+		(lib_id "easyeda:LESD5Z5.0CT1G")
+		(at 222.25 93.98 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -105272,7 +105611,7 @@
 		(dnp no)
 		(uuid "e6dfbfba-1192-41fd-83e2-49cfcfbea1c6")
 		(property "Reference" "D6"
-			(at 226.568 92.71 90)
+			(at 226.568 93.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -105281,7 +105620,7 @@
 			)
 		)
 		(property "Value" "LESD5Z5.0CT1G"
-			(at 225.044 88.646 0)
+			(at 225.044 89.916 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -105290,7 +105629,7 @@
 			)
 		)
 		(property "Footprint" "easyeda:SOD-523_L1.2-W0.8-LS1.6-BI"
-			(at 222.25 92.71 0)
+			(at 222.25 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -105298,8 +105637,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 222.25 92.71 0)
+		(property "Datasheet" "https://lcsc.com/product-detail/Diodes-ESD_LESD5Z5-0CT1G_C136167.html"
+			(at 222.25 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -105307,13 +105646,21 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Bidirectional transient-voltage-suppression diode"
-			(at 222.25 92.71 0)
+		(property "Description" ""
+			(at 222.25 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "LCSC Part" "C136167"
+			(at 234.95 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -105436,7 +105783,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1uF/16v"
+		(property "Value" "1u"
 			(at 45.72 66.0462 0)
 			(effects
 				(font
@@ -107225,8 +107572,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:D_TVS")
-		(at 243.84 92.71 90)
+		(lib_id "easyeda:LESD5Z5.0CT1G")
+		(at 243.84 93.98 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -107234,7 +107581,7 @@
 		(dnp no)
 		(uuid "f28f749f-d3a0-42c3-a6b6-f2ed3c0d7b36")
 		(property "Reference" "D5"
-			(at 248.158 92.456 90)
+			(at 248.158 93.726 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -107243,7 +107590,7 @@
 			)
 		)
 		(property "Value" "LESD5Z5.0CT1G"
-			(at 246.888 88.9 0)
+			(at 246.888 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -107252,7 +107599,7 @@
 			)
 		)
 		(property "Footprint" "easyeda:SOD-523_L1.2-W0.8-LS1.6-BI"
-			(at 243.84 92.71 0)
+			(at 243.84 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -107260,8 +107607,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 243.84 92.71 0)
+		(property "Datasheet" "https://lcsc.com/product-detail/Diodes-ESD_LESD5Z5-0CT1G_C136167.html"
+			(at 243.84 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -107269,13 +107616,21 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Bidirectional transient-voltage-suppression diode"
-			(at 243.84 92.71 0)
+		(property "Description" ""
+			(at 243.84 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "LCSC Part" "C136167"
+			(at 256.54 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -107635,7 +107990,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22uF/25v"
+		(property "Value" "22u"
 			(at 22.86 60.9662 0)
 			(effects
 				(font
