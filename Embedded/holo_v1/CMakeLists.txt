@@ -3,6 +3,4 @@
 cmake_minimum_required(VERSION 3.16)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(pwmTest)
-
-idf_component_register(SRCS "main.c" "motor_pwm.c" INCLUDE_DIRS ".")
+project(holo_v1)
