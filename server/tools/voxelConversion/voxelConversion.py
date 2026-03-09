@@ -64,7 +64,7 @@ def argsInit():
     Initialize parser and args. Parse all given args.
     '''
     global args, parser
-    parser = argparse.ArgumentParser(description=HELPSTRING)
+    parser = argparse.ArgumentParser(description=HELPSTRING, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("objFilepath", nargs="?", help="Optional .obj file path")
     parser.add_argument("-d", "--debug", action="store_true")
     parser.add_argument("-dv", "--debugVisualize", action="store_true",  help="visualize .obj in matplotlib as 3d plot")
