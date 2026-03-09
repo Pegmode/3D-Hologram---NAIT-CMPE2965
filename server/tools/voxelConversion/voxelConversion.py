@@ -7,6 +7,10 @@ import matplotlib.pyplot as plt
 import os, subprocess
 import sys, time, pdb
 import requests
+import argparse
+#External custom modules
+#import voxelLookupGenerator as vlg
+
 DEFAULT_OBJ_FILEPATH = "tea.obj"
 DEFAULT_VL32_FILEPATH = "tea.vl32"
 DEFAULT_OBJ2VOX_FILEPATH = "obj2voxel-v1.3.4.exe"
@@ -98,10 +102,17 @@ stand alone use:
 voxelConversion.py [optional .obj filepath]
 '''
     objFilepath = DEFAULT_OBJ_FILEPATH
-    if len(sys.argv) > 1:#set custom filepath if given
+    #Handle Arg parse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("objFilepath", nargs="?", help="Option .obj file path")
+    parser.add_argument("-d", "--debug", action="store_true")
+    args = parser.parse_args()
+    if args.objFilepath:#set custom filepath if given
+        givenPath = args.objFilepath
         if not os.path.exists:#does the file exist
-            print(f"ERROR: file {sys.argv[1]} not found\n\n{HELPSTRING}")
+            print(f"ERROR: file {givenPath} not found\n\n{HELPSTRING}")
             sys.exit(0)
-        objFilepath = sys.argv[1]
+        objFilepath = givenPath
     voxels = getVoxelsFromObj(objFilepath)#get the voxels from file
+    print(f"debug {args.debug}")
     plotVoxels(voxels)#visualize the voxels for debug
