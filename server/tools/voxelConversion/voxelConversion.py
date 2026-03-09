@@ -108,8 +108,9 @@ example usage: py voxelConversion.py tea.obj -d
     args = parser.parse_args()
     if args.objFilepath:#set custom filepath if given
         givenPath = args.objFilepath
-        if not os.path.exists:#does the file exist
-            print(f"ERROR: file {givenPath} not found\n\n{HELPSTRING}")
+        pdb.set_trace()
+        if not os.path.exists(givenPath):#does the file exist
+            parser.error(f"file {givenPath} not found")
             sys.exit(0)
         objFilepath = givenPath
     voxels = getVoxelsFromObj(objFilepath)#get the voxels from file
