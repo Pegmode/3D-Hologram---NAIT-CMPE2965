@@ -98,12 +98,11 @@ if __name__ == "__main__":
     HELPSTRING = '''
 .obj 2 .hvox tool by daniel chu
 
-stand alone use:
-voxelConversion.py [optional .obj filepath]
+example usage: py voxelConversion.py tea.obj -d
 '''
     objFilepath = DEFAULT_OBJ_FILEPATH
     #Handle Arg parse
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=HELPSTRING)
     parser.add_argument("objFilepath", nargs="?", help="Option .obj file path")
     parser.add_argument("-d", "--debug", action="store_true")
     args = parser.parse_args()
