@@ -11,6 +11,7 @@ from coordinateConversionMath import * #
 from fileConversionFunctions import *
 
 #defines
+##########################################################
 DEFAULT_OBJ_FILEPATH = "tea.obj"
 HELPSTRING = '''
 .obj 2 .hvox tool by Daniel Chu
@@ -19,6 +20,7 @@ example usage: py voxelConversion.py tea.obj -dv
 '''
 
 #globals
+##########################################################
 args = None
 parser = None
 
@@ -36,7 +38,7 @@ def plotVoxels(voxels):
     plt.show()
 
 #arg actions
-
+##########################################################
 def actionDebugVisualize():
     '''
     visualize .obj in matplotlib as 3d plot
@@ -51,9 +53,12 @@ def actionConvertToHeader():
     convert .obj file to a C header in quantized cylindrical coords
     '''
     objFilepath = argsGetFilepath()
+    cartesianVoxels = getVoxelsFromObj(objFilepath)#get the voxels from file
+    cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)#convert to clyindrical
     
 
 # arg functions
+##########################################################
 def argsInit():
     '''
     Initialize parser and args. Parse all given args.
@@ -73,7 +78,8 @@ def argsParseAndRunFlags():
     global args, parser
     if args.debugVisualize:
         actionDebugVisualize()
-    
+    if args.convertHeader:
+        actionConvertToHeader()
 
 def argsGetFilepath():
     '''
@@ -89,7 +95,8 @@ def argsGetFilepath():
         objFilepath = givenPath
     return objFilepath
 
-
+#main
+##########################################################
 if __name__ == "__main__":
     #Handle Arg parse
     argsInit()

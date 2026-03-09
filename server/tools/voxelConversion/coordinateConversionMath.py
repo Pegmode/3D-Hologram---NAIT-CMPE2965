@@ -29,4 +29,11 @@ def cylindrical2Cartesian(clyindricalCoordinate):
     z = h
     return x, y, z
     
+def cartesianList2Cylindrical(cartesianList):
+    '''
+    Convert a list of cartesian coordinates [(x1,y1,z1),...(xn,yn,zn)] and convert 
+    to cylindrical coordinates [...(thetan, rn, hn)]
     
+    :param cartesianList: list of cartesian coordinates in the form [(x1,y1,z1),...(xn,yn,zn)]
+    '''
+    return [carteseian2Cylindrical(v) for v in cartesianList]
