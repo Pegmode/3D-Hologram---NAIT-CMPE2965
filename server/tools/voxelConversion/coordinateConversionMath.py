@@ -37,3 +37,6 @@ def cartesianList2Cylindrical(cartesianList):
     :param cartesianList: list of cartesian coordinates in the form [(x1,y1,z1),...(xn,yn,zn)]
     '''
     return [carteseian2Cylindrical(v) for v in cartesianList]
+
+def CylindricalList2Quantized(cylindricalList):
+    pass

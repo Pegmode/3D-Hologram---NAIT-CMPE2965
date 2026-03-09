@@ -55,7 +55,7 @@ def actionConvertToHeader():
     objFilepath = argsGetFilepath()
     cartesianVoxels = getVoxelsFromObj(objFilepath)#get the voxels from file
     cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)#convert to clyindrical
-    
+
 
 # arg functions
 ##########################################################
@@ -73,7 +73,7 @@ def argsInit():
 
 def argsParseAndRunFlags():
     '''
-    Look through all the given arguements and run what is needed based on what is given
+    Look through all the given flag arguements and run what is needed based on what is given
     '''
     global args, parser
     if args.debugVisualize:
@@ -101,3 +101,5 @@ if __name__ == "__main__":
     #Handle Arg parse
     argsInit()
     argsParseAndRunFlags()
+    if len(sys.argv) <= 1: #if no args are given, give some help...
+        parser.print_help()
