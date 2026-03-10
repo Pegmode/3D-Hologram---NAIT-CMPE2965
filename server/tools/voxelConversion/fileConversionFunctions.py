@@ -12,7 +12,7 @@ import requests
 DEFAULT_OBJ_FILEPATH = "tea.obj"
 DEFAULT_VL32_FILEPATH = "tea.vl32"
 DEFAULT_OBJ2VOX_FILEPATH = "obj2voxel-v1.3.4.exe"
-DEFAULT_VOXEL_RESOLUTION = 60 #
+DEFAULT_VOXEL_RESOLUTION = 16 #LED resolution 16x32
 ORIGIN_DISTANCE = DEFAULT_VOXEL_RESOLUTION // 2
 OBJ2VOXEL_EXE_URL = "https://github.com/eisenwave/obj2voxel/releases/download/v1.3.4/obj2voxel-v1.3.4.exe"
 

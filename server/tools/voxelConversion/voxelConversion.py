@@ -47,6 +47,7 @@ def actionDebugVisualize():
     voxels = getVoxelsFromObj(objFilepath)#get the voxels from file
     print(f"debug {args.debug}")
     plotVoxels(voxels)#visualize the voxels for debug
+    pdb.set_trace()
 
 def actionConvertToHeader():
     '''
@@ -55,6 +56,7 @@ def actionConvertToHeader():
     objFilepath = argsGetFilepath()
     cartesianVoxels = getVoxelsFromObj(objFilepath)#get the voxels from file
     cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)#convert to clyindrical
+    pdb.set_trace()
 
 
 # arg functions
