@@ -34,9 +34,23 @@ def cartesianList2Cylindrical(cartesianList):
     Convert a list of cartesian coordinates [(x1,y1,z1),...(xn,yn,zn)] and convert 
     to cylindrical coordinates [...(thetan, rn, hn)]
     
+    returns a list comprehension
+    
     :param cartesianList: list of cartesian coordinates in the form [(x1,y1,z1),...(xn,yn,zn)]
     '''
     return [carteseian2Cylindrical(v) for v in cartesianList]
 
-def CylindricalList2Quantized(cylindricalList):
+def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
     pass
+
+def getQuantized3dIndex(theta, r, h, rCount, hCount):
+    '''
+    Get the array index of a quantized 3d voxel
+    
+    :param theta: Quantized angle n
+    :param r: Quantized radius n
+    :param h: Quantized height n
+    :param rCount: size of r
+    :param hCount: size of h
+    '''
+    return theta * (rCount * hCount) + h * rCount + r

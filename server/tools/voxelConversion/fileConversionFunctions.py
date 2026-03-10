@@ -13,6 +13,7 @@ DEFAULT_OBJ_FILEPATH = "tea.obj"
 DEFAULT_VL32_FILEPATH = "tea.vl32"
 DEFAULT_OBJ2VOX_FILEPATH = "obj2voxel-v1.3.4.exe"
 DEFAULT_VOXEL_RESOLUTION = 60 #
+ORIGIN_DISTANCE = DEFAULT_VOXEL_RESOLUTION // 2
 OBJ2VOXEL_EXE_URL = "https://github.com/eisenwave/obj2voxel/releases/download/v1.3.4/obj2voxel-v1.3.4.exe"
 
 def readVL32(path):
@@ -29,7 +30,7 @@ def readVL32(path):
                 break
             x, y, z, a, _, _, _ = struct.unpack(">iiiBBBB", chunk)# unpack the struct given in the format spec, ignore color data, keep alpha for pixel is present
             if a != 0: #dont save the voxel if its see through / not present
-                voxels.append((x, y, z))
+                voxels.append((x - ORIGIN_DISTANCE, y - ORIGIN_DISTANCE, z))
     return voxels
 
 def externalConvertObj2Vl32(objFilepath, vl32Filepath):
