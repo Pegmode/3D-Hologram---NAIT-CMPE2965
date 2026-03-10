@@ -41,21 +41,7 @@ def cartesianList2Cylindrical(cartesianList):
     return [carteseian2Cylindrical(v) for v in cartesianList]
 
 def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
-    angleStepSize = 360 // sliceCount
-    angleStepValues = [i * angleStepSize for i in range(sliceCount)]
-    quantizedCoords = []
-    for normCoord in cylindricalList:
-        angle = normCoord[0]
-        r = normCoord[1]
-        h = normCoord[2]
-        newCoord = ()
-        closestAngle = min(angleStepValues, key=lambda x: abs(x - angle))
-        if angle >= 360:
-            newCoord = (closestAngle - 180, numpy.flor(r), h)
-            quantizedCoords.append(newCoord)
-        else:
-            newCoord = (closestAngle, numpy.flor(r), h)
-        quantizedCoords.append(newCoord)
+    pass # RE VISIT THE ALG. NEED TO MOVE THE ORIGIN AGAIN!
 
 
 def getQuantized3dIndex(theta, r, h, rCount, hCount):
