@@ -1,4 +1,4 @@
-import numpy
+import numpy, pdb
 #Coordinate conversion math functions
 
 def carteseian2Cylindrical(cartesianCoordinate):
@@ -41,7 +41,30 @@ def cartesianList2Cylindrical(cartesianList):
     return [carteseian2Cylindrical(v) for v in cartesianList]
 
 def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
+    '''
+    '''
+    #Case1 => R Theta1 -> [0,180] => rnq - rn + totalDiameter /2
+    #Case2 => R Theta2 -> (180,360) => rnq = -(rn - total/2) + total / 2
     pass # RE VISIT THE ALG. NEED TO MOVE THE ORIGIN AGAIN!
+
+    angleStepSize = 360 // sliceCount
+    angleStepValues = [i * angleStepSize for i in range(sliceCount)]
+    quantizedCoords = []
+    for normCoord in cylindricalList:
+        angle = normCoord[0]#the unquantized Angle
+        r = normCoord[1]
+        h = normCoord[2]
+        newCoord = ()
+        closestAngle = min(angleStepValues, key=lambda x: abs(x - angle))#quantized but unshifted angle
+        if angle > 180:#transform alg case 2
+            newCoord = (closestAngle - 180, int(numpy.floor(r)) + width // 2, h)
+        else:#transform alg case 1
+            newCoord = (closestAngle, int(numpy.floor(r)), h)
+        quantizedCoords.append(newCoord)
+        pdb.set_trace()
+    print(quantizedCoords)
+    pdb.set_trace()
+
 
 
 def getQuantized3dIndex(theta, r, h, rCount, hCount):

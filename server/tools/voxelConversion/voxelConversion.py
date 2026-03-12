@@ -56,7 +56,7 @@ def actionConvertToHeader():
     objFilepath = argsGetFilepath()
     cartesianVoxels = getVoxelsFromObj(objFilepath)#get the voxels from file
     cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)#convert to clyindrical
-    pdb.set_trace()
+    cylindricalList2Quantized(cylindricalVoxels, 16, 16, 32)#debug version
 
 
 # arg functions
