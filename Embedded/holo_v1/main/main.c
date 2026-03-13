@@ -8,6 +8,7 @@
 #include "esp_heap_caps.h"
 #include "esp_rom_sys.h"   // esp_rom_delay_us()
 
+
 // -----------------------
 // USER SETTINGS (edit these)
 // -----------------------
@@ -34,7 +35,7 @@
 #define SR_FRAME_BYTES  64
 
 // How often to send the frame in this test (later this will be encoder-triggered)
-#define SEND_PERIOD_MS  100
+#define SEND_PERIOD_MS  1000
 
 static const char *TAG = "sr_test";
 
@@ -180,6 +181,9 @@ static void shiftreg_send_frame(const uint8_t *frame64)
 
     // Enable outputs (active LOW)
     gpio_set_level_if_valid(PIN_SR_OE, 0);
+	
+	//ESP_LOGI(TAG, "send frame done");
+
 }
 
 // -----------------------
@@ -220,6 +224,18 @@ static void shiftreg_test_task(void *arg)
 
     uint8_t frame[SR_FRAME_BYTES];
 
+	// 512 bits = 64 bytes. Byte 0 is the FIRST byte shifted out on MOSI.
+	static const uint8_t test_frame[64] = {
+		0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+		0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+		0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+		0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
+		0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
+		0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
+		0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+		0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
+	};
+
     // Start with outputs enabled (if OE exists)
     gpio_set_level_if_valid(PIN_SR_OE, 0);
 
@@ -227,22 +243,30 @@ static void shiftreg_test_task(void *arg)
 
     while (1) {
         // Cycle through a few patterns so you can see changes in the waveforms
-        pattern_all_off(frame);
-        shiftreg_send_frame(frame);
-        ESP_LOGI(TAG, "Sent: ALL OFF");
-        vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
 
-        pattern_all_on(frame);
-        shiftreg_send_frame(frame);
-        ESP_LOGI(TAG, "Sent: ALL ON");
-        vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
+		
+		shiftreg_send_frame(test_frame);
+		ESP_LOGI(TAG, "Sent: test_rame");
+		vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
+		
 
-        pattern_walking_one(frame, walk);
-        shiftreg_send_frame(frame);
-        ESP_LOGI(TAG, "Sent: WALKING 1 (bit %d)", walk);
-        vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
 
-        walk = (walk + 1) % 512;
+        // pattern_all_off(frame);
+        // shiftreg_send_frame(frame);
+        // ESP_LOGI(TAG, "Sent: ALL OFF");
+        // vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
+
+        // pattern_all_on(frame);
+        // shiftreg_send_frame(frame);
+        // ESP_LOGI(TAG, "Sent: ALL ON");
+        // vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
+
+        // pattern_walking_one(frame, walk);
+        // shiftreg_send_frame(frame);
+        // ESP_LOGI(TAG, "Sent: WALKING 1 (bit %d)", walk);
+        // vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
+
+        // walk = (walk + 1) % 512;
     }
 }
 
@@ -251,6 +275,8 @@ static void shiftreg_test_task(void *arg)
 // -----------------------
 void app_main(void)
 {
+	vTaskDelay(pdMS_TO_TICKS(1000));
+
     ESP_LOGI(TAG, "Shift-register SPI test starting...");
 
     shiftreg_gpio_init();
