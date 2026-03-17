@@ -48,12 +48,12 @@ static uint8_t *g_tx_dma = NULL;
 // -----------------------
 // Small helper: safe GPIO set when pin may be disabled (-1)
 // -----------------------
-static inline void gpio_set_level_if_valid(int pin, int level)
-{
-    if (pin >= 0) {
-        gpio_set_level(pin, level);
-    }
-}
+// static inline void gpio_set_level_if_valid(int pin, int level)
+// {
+//     if (pin >= 0) {
+//         gpio_set_level(pin, level);
+//     }
+// }
 
 // -----------------------
 // Initialize GPIO pins for LE/OE/DBG

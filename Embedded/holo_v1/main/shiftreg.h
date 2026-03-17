@@ -19,14 +19,16 @@ typedef struct
 
     int pin_le;                   // Latch Enable pin
     int pin_oe;                   // Output Enable pin (active LOW), or -1 if not used
-    int pin_dbg;                  // Optional debug pin, or -1 if not used
 
     int spi_clock_hz;             // SPI clock frequency
     size_t max_transfer_bytes;    // Maximum frame size supported by this module
 } shiftreg_config_t;
 
+// Public config variable
+extern shiftreg_config_t shiftreg_config;
+
 // Initialize the shift register module
-esp_err_t shiftreg_init(const shiftreg_config_t *config);
+esp_err_t shiftreg_init();
 
 // Send one frame of data to the shift register chain
 //
