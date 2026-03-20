@@ -10,7 +10,7 @@
 static const char *TAG = "encoder";
 
 // Saved configuration
-static encoder_config_t g_cfg = {0};
+encoder_config_t encoder_config = {-1};
 
 // PCNT handles
 static pcnt_unit_handle_t g_pcnt_unit = NULL;
@@ -23,7 +23,7 @@ static TaskHandle_t g_z_notify_task = NULL;
 static volatile uint32_t g_rev_count = 0;
 
 // Tracks whether the module has been initialized
-static bool g_initialized = false;
+static bool encoder_initialized = false;
 
 // --------------------------------------------------
 // Small helper: configure an input pin
@@ -92,9 +92,9 @@ static esp_err_t encoder_init_pcnt(void)
     ESP_RETURN_ON_ERROR(pcnt_new_unit(&unit_cfg, &g_pcnt_unit), TAG, "pcnt_new_unit failed");
 
     // Optional glitch filter to reject short noise spikes
-    if (g_cfg.glitch_filter_ns > 0) {
+    if (encoder_config.glitch_filter_ns > 0) {
         pcnt_glitch_filter_config_t filter_cfg = {
-            .max_glitch_ns = g_cfg.glitch_filter_ns,
+            .max_glitch_ns = encoder_config.glitch_filter_ns,
         };
 
         ESP_RETURN_ON_ERROR(
@@ -106,8 +106,8 @@ static esp_err_t encoder_init_pcnt(void)
 
     // A = edge input, B = level input
     pcnt_chan_config_t chan_cfg = {
-        .edge_gpio_num  = g_cfg.pin_a,
-        .level_gpio_num = g_cfg.pin_b,
+        .edge_gpio_num  = encoder_config.pin_a,
+        .level_gpio_num = encoder_config.pin_b,
     };
 
     ESP_RETURN_ON_ERROR(
@@ -158,13 +158,13 @@ static esp_err_t encoder_init_z(void)
     esp_err_t err;
 
     // No Z pin configured -> nothing to do
-    if (g_cfg.pin_z < 0) {
+    if (encoder_config.pin_z < 0) {
         return ESP_OK;
     }
 
     // Configure Z input with rising-edge interrupt
     ESP_RETURN_ON_ERROR(
-        encoder_config_input_pin(g_cfg.pin_z, g_cfg.z_pull, GPIO_INTR_POSEDGE),
+        encoder_config_input_pin(encoder_config.pin_z, encoder_config.z_pull, GPIO_INTR_POSEDGE),
         TAG,
         "Z pin config failed"
     );
@@ -178,7 +178,7 @@ static esp_err_t encoder_init_z(void)
 
     // Attach the Z interrupt handler
     ESP_RETURN_ON_ERROR(
-        gpio_isr_handler_add(g_cfg.pin_z, encoder_z_isr, NULL),
+        gpio_isr_handler_add(encoder_config.pin_z, encoder_z_isr, NULL),
         TAG,
         "gpio_isr_handler_add failed"
     );
@@ -190,33 +190,27 @@ static esp_err_t encoder_init_z(void)
 // Public API
 // --------------------------------------------------
 
-esp_err_t encoder_init(const encoder_config_t *config)
+esp_err_t encoder_init()
 {
-    if (config == NULL) {
+
+    if (encoder_config.pin_a < 0 || encoder_config.pin_b < 0) {
         return ESP_ERR_INVALID_ARG;
     }
 
-    if (config->pin_a < 0 || config->pin_b < 0) {
-        return ESP_ERR_INVALID_ARG;
-    }
-
-    if (g_initialized) {
+    if (encoder_initialized) {
         ESP_LOGW(TAG, "encoder_init called more than once");
         return ESP_OK;
     }
 
-    // Save a copy of the user config
-    g_cfg = *config;
-
     // Configure A/B pins as inputs
     ESP_RETURN_ON_ERROR(
-        encoder_config_input_pin(g_cfg.pin_a, g_cfg.ab_pull, GPIO_INTR_DISABLE),
+        encoder_config_input_pin(encoder_config.pin_a, encoder_config.ab_pull, GPIO_INTR_DISABLE),
         TAG,
         "A pin config failed"
     );
 
     ESP_RETURN_ON_ERROR(
-        encoder_config_input_pin(g_cfg.pin_b, g_cfg.ab_pull, GPIO_INTR_DISABLE),
+        encoder_config_input_pin(encoder_config.pin_b, encoder_config.ab_pull, GPIO_INTR_DISABLE),
         TAG,
         "B pin config failed"
     );
@@ -227,10 +221,10 @@ esp_err_t encoder_init(const encoder_config_t *config)
     // Set up optional Z interrupt
     ESP_RETURN_ON_ERROR(encoder_init_z(), TAG, "encoder_init_z failed");
 
-    g_initialized = true;
+    encoder_initialized = true;
 
     ESP_LOGI(TAG, "Encoder initialized");
-    ESP_LOGI(TAG, "A=%d  B=%d  Z=%d", g_cfg.pin_a, g_cfg.pin_b, g_cfg.pin_z);
+    ESP_LOGI(TAG, "A=%d  B=%d  Z=%d", encoder_config.pin_a, encoder_config.pin_b, encoder_config.pin_z);
 
     return ESP_OK;
 }
@@ -242,7 +236,7 @@ void encoder_set_z_notify_task(TaskHandle_t task_handle)
 
 esp_err_t encoder_get_count(int *count)
 {
-    if (!g_initialized || count == NULL) {
+    if (!encoder_initialized || count == NULL) {
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -251,7 +245,7 @@ esp_err_t encoder_get_count(int *count)
 
 esp_err_t encoder_clear_count(void)
 {
-    if (!g_initialized) {
+    if (!encoder_initialized) {
         return ESP_ERR_INVALID_STATE;
     }
 
@@ -261,9 +255,4 @@ esp_err_t encoder_clear_count(void)
 uint32_t encoder_get_revolution_count(void)
 {
     return g_rev_count;
-}
-
-bool encoder_has_z(void)
-{
-    return (g_cfg.pin_z >= 0);
 }

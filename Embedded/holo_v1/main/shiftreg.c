@@ -27,7 +27,7 @@ static spi_device_handle_t g_spi = NULL;
 static uint8_t *g_tx_dma = NULL;
 
 // Tracks whether init has already been done
-static bool g_initialized = false;
+static bool shiftreg_initialized = false;
 
 // --------------------------------------------------
 // Small helpers
@@ -76,7 +76,7 @@ esp_err_t shiftreg_init()
         return ESP_ERR_INVALID_ARG;
     }
 
-    if (g_initialized) {
+    if (shiftreg_initialized) {
         ESP_LOGW(TAG, "shiftreg_init called more than once");
         return ESP_OK;
     }
@@ -146,7 +146,7 @@ esp_err_t shiftreg_init()
 
     memset(g_tx_dma, 0, shiftreg_config.max_transfer_bytes);
 
-    g_initialized = true;
+    shiftreg_initialized = true;
 
     ESP_LOGI(TAG, "Shift register initialized");
     ESP_LOGI(TAG, "SPI host=%d, MOSI=%d, SCLK=%d, LE=%d, OE=%d, DBG=%d",
@@ -161,7 +161,7 @@ esp_err_t shiftreg_init()
 
 esp_err_t shiftreg_set_output_enabled(bool enable)
 {
-    if (!g_initialized) {
+    if (!shiftreg_initialized) {
         return ESP_ERR_INVALID_STATE;
     }
 
@@ -180,7 +180,7 @@ esp_err_t shiftreg_set_output_enabled(bool enable)
 
 esp_err_t shiftreg_latch(void)
 {
-    if (!g_initialized) {
+    if (!shiftreg_initialized) {
         return ESP_ERR_INVALID_STATE;
     }
 
@@ -194,7 +194,7 @@ esp_err_t shiftreg_latch(void)
 
 esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes)
 {
-    if (!g_initialized) {
+    if (!shiftreg_initialized) {
         return ESP_ERR_INVALID_STATE;
     }
 
@@ -245,5 +245,5 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes)
 
 bool shiftreg_is_initialized(void)
 {
-    return g_initialized;
+    return shiftreg_initialized;
 }

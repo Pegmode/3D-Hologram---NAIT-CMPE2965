@@ -23,8 +23,10 @@ typedef struct
     uint32_t glitch_filter_ns;  // PCNT glitch filter length in ns
 } encoder_config_t;
 
+extern encoder_config_t encoder_config;
+
 // Initialize the encoder module
-esp_err_t encoder_init(const encoder_config_t *config);
+esp_err_t encoder_init();
 
 // Register a task to be notified when the Z pulse occurs
 // Pass NULL to disable task notification.
@@ -38,8 +40,5 @@ esp_err_t encoder_clear_count(void);
 
 // Get the number of Z pulses seen so far
 uint32_t encoder_get_revolution_count(void);
-
-// Returns true if a Z pin is configured
-bool encoder_has_z(void);
 
 #endif // ENCODER_H
