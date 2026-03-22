@@ -8,7 +8,6 @@
 #include "esp_heap_caps.h"
 #include "esp_rom_sys.h"   // esp_rom_delay_us()
 
-
 // -----------------------
 // USER SETTINGS (edit these)
 // -----------------------
