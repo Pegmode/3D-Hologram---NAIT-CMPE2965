@@ -2,12 +2,13 @@
 
 #include "driver/pulse_cnt.h"
 #include "esp_log.h"
+#include "esp_check.h"
 
 // --------------------------------------------------
 // Private module state
 // --------------------------------------------------
 
-static const char *TAG = "encoder";
+static const char *TAG_encoder = "encoder";
 
 // Saved configuration
 encoder_config_t encoder_config = {-1};
@@ -89,7 +90,7 @@ static esp_err_t encoder_init_pcnt(void)
         .low_limit  = -32768,
     };
 
-    ESP_RETURN_ON_ERROR(pcnt_new_unit(&unit_cfg, &g_pcnt_unit), TAG, "pcnt_new_unit failed");
+    ESP_RETURN_ON_ERROR(pcnt_new_unit(&unit_cfg, &g_pcnt_unit), TAG_encoder, "pcnt_new_unit failed");
 
     // Optional glitch filter to reject short noise spikes
     if (encoder_config.glitch_filter_ns > 0) {
@@ -99,7 +100,7 @@ static esp_err_t encoder_init_pcnt(void)
 
         ESP_RETURN_ON_ERROR(
             pcnt_unit_set_glitch_filter(g_pcnt_unit, &filter_cfg),
-            TAG,
+            TAG_encoder,
             "pcnt_unit_set_glitch_filter failed"
         );
     }
@@ -112,7 +113,7 @@ static esp_err_t encoder_init_pcnt(void)
 
     ESP_RETURN_ON_ERROR(
         pcnt_new_channel(g_pcnt_unit, &chan_cfg, &g_pcnt_chan),
-        TAG,
+        TAG_encoder,
         "pcnt_new_channel failed"
     );
 
@@ -124,7 +125,7 @@ static esp_err_t encoder_init_pcnt(void)
             PCNT_CHANNEL_EDGE_ACTION_INCREASE,   // rising edge of A
             PCNT_CHANNEL_EDGE_ACTION_INCREASE    // falling edge of A
         ),
-        TAG,
+        TAG_encoder,
         "pcnt_channel_set_edge_action failed"
     );
 
@@ -138,13 +139,13 @@ static esp_err_t encoder_init_pcnt(void)
             PCNT_CHANNEL_LEVEL_ACTION_KEEP,      // B high
             PCNT_CHANNEL_LEVEL_ACTION_INVERSE    // B low
         ),
-        TAG,
+        TAG_encoder,
         "pcnt_channel_set_level_action failed"
     );
 
-    ESP_RETURN_ON_ERROR(pcnt_unit_enable(g_pcnt_unit), TAG, "pcnt_unit_enable failed");
-    ESP_RETURN_ON_ERROR(pcnt_unit_clear_count(g_pcnt_unit), TAG, "pcnt_unit_clear_count failed");
-    ESP_RETURN_ON_ERROR(pcnt_unit_start(g_pcnt_unit), TAG, "pcnt_unit_start failed");
+    ESP_RETURN_ON_ERROR(pcnt_unit_enable(g_pcnt_unit), TAG_encoder, "pcnt_unit_enable failed");
+    ESP_RETURN_ON_ERROR(pcnt_unit_clear_count(g_pcnt_unit), TAG_encoder, "pcnt_unit_clear_count failed");
+    ESP_RETURN_ON_ERROR(pcnt_unit_start(g_pcnt_unit), TAG_encoder, "pcnt_unit_start failed");
 
     return ESP_OK;
 }
@@ -165,21 +166,21 @@ static esp_err_t encoder_init_z(void)
     // Configure Z input with rising-edge interrupt
     ESP_RETURN_ON_ERROR(
         encoder_config_input_pin(encoder_config.pin_z, encoder_config.z_pull, GPIO_INTR_POSEDGE),
-        TAG,
+        TAG_encoder,
         "Z pin config failed"
     );
 
     // Install the shared GPIO ISR service if not already installed
     err = gpio_install_isr_service(0);
     if (err != ESP_OK && err != ESP_ERR_INVALID_STATE) {
-        ESP_LOGE(TAG, "gpio_install_isr_service failed: %s", esp_err_to_name(err));
+        ESP_LOGE(TAG_encoder, "gpio_install_isr_service failed: %s", esp_err_to_name(err));
         return err;
     }
 
     // Attach the Z interrupt handler
     ESP_RETURN_ON_ERROR(
         gpio_isr_handler_add(encoder_config.pin_z, encoder_z_isr, NULL),
-        TAG,
+        TAG_encoder,
         "gpio_isr_handler_add failed"
     );
 
@@ -198,33 +199,33 @@ esp_err_t encoder_init()
     }
 
     if (encoder_initialized) {
-        ESP_LOGW(TAG, "encoder_init called more than once");
+        ESP_LOGW(TAG_encoder, "encoder_init called more than once");
         return ESP_OK;
     }
 
     // Configure A/B pins as inputs
     ESP_RETURN_ON_ERROR(
         encoder_config_input_pin(encoder_config.pin_a, encoder_config.ab_pull, GPIO_INTR_DISABLE),
-        TAG,
+        TAG_encoder,
         "A pin config failed"
     );
 
     ESP_RETURN_ON_ERROR(
         encoder_config_input_pin(encoder_config.pin_b, encoder_config.ab_pull, GPIO_INTR_DISABLE),
-        TAG,
+        TAG_encoder,
         "B pin config failed"
     );
 
     // Set up pulse counter
-    ESP_RETURN_ON_ERROR(encoder_init_pcnt(), TAG, "encoder_init_pcnt failed");
+    ESP_RETURN_ON_ERROR(encoder_init_pcnt(), TAG_encoder, "encoder_init_pcnt failed");
 
     // Set up optional Z interrupt
-    ESP_RETURN_ON_ERROR(encoder_init_z(), TAG, "encoder_init_z failed");
+    ESP_RETURN_ON_ERROR(encoder_init_z(), TAG_encoder, "encoder_init_z failed");
 
     encoder_initialized = true;
 
-    ESP_LOGI(TAG, "Encoder initialized");
-    ESP_LOGI(TAG, "A=%d  B=%d  Z=%d", encoder_config.pin_a, encoder_config.pin_b, encoder_config.pin_z);
+    ESP_LOGI(TAG_encoder, "Encoder initialized");
+    ESP_LOGI(TAG_encoder, "A=%d  B=%d  Z=%d", encoder_config.pin_a, encoder_config.pin_b, encoder_config.pin_z);
 
     return ESP_OK;
 }

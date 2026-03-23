@@ -56,4 +56,8 @@ esp_err_t shiftreg_latch(void);
 // Returns true if the module has been initialized
 bool shiftreg_is_initialized(void);
 
+//test funcs
+void test_pattern_walking_one(uint8_t *out64, int bit_index_0_to_511);
+void test_shiftreg_dummy_task(void *);
+
 #endif // SHIFTREG_H

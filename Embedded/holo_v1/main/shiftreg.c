@@ -1,7 +1,7 @@
 // shiftreg.c
 
 #include "shiftreg.h"
-
+#include "main.c"
 #include <string.h>
 
 #include "esp_check.h"
@@ -12,13 +12,22 @@
 
 
 // public config
-shiftreg_config_t shiftreg_config = {-1};
+shiftreg_config_t shiftreg_config = {
+    .spi_host = -1,
+    .pin_mosi = -1,
+    .pin_sclk = -1,
+    .pin_miso = -1,
+    .pin_le = -1,
+    .pin_oe = -1,
+    .spi_clock_hz = 0,
+    .max_transfer_bytes = 0
+};
 
 // --------------------------------------------------
 // Private module state
 // --------------------------------------------------
 
-static const char *TAG = "shiftreg";
+static const char *TAG_shiftreg = "shiftreg";
 
 // SPI device handle
 static spi_device_handle_t g_spi = NULL;
@@ -77,15 +86,15 @@ esp_err_t shiftreg_init()
     }
 
     if (shiftreg_initialized) {
-        ESP_LOGW(TAG, "shiftreg_init called more than once");
+        ESP_LOGW(TAG_shiftreg, "shiftreg_init called more than once");
         return ESP_OK;
     }
 
     // ------------------------------
     // Configure LE / OE / DBG pins
     // ------------------------------
-    ESP_RETURN_ON_ERROR(shiftreg_config_output_pin(shiftreg_config.pin_le), TAG, "LE pin config failed");
-    ESP_RETURN_ON_ERROR(shiftreg_config_output_pin(shiftreg_config.pin_oe), TAG, "OE pin config failed");
+    ESP_RETURN_ON_ERROR(shiftreg_config_output_pin(shiftreg_config.pin_le), TAG_shiftreg, "LE pin config failed");
+    ESP_RETURN_ON_ERROR(shiftreg_config_output_pin(shiftreg_config.pin_oe), TAG_shiftreg, "OE pin config failed");
 
     // Safe startup states:
     // LE low = do not latch
@@ -108,7 +117,7 @@ esp_err_t shiftreg_init()
 
     ESP_RETURN_ON_ERROR(
         spi_bus_initialize(shiftreg_config.spi_host, &bus_cfg, SPI_DMA_CH_AUTO),
-        TAG,
+        TAG_shiftreg,
         "spi_bus_initialize failed"
     );
 
@@ -127,7 +136,7 @@ esp_err_t shiftreg_init()
 
     ESP_RETURN_ON_ERROR(
         spi_bus_add_device(shiftreg_config.spi_host, &dev_cfg, &g_spi),
-        TAG,
+        TAG_shiftreg,
         "spi_bus_add_device failed"
     );
 
@@ -140,7 +149,7 @@ esp_err_t shiftreg_init()
     // ------------------------------
     g_tx_dma = (uint8_t *)heap_caps_malloc(shiftreg_config.max_transfer_bytes, MALLOC_CAP_DMA);
     if (g_tx_dma == NULL) {
-        ESP_LOGE(TAG, "Failed to allocate DMA buffer");
+        ESP_LOGE(TAG_shiftreg, "Failed to allocate DMA buffer");
         return ESP_ERR_NO_MEM;
     }
 
@@ -148,8 +157,8 @@ esp_err_t shiftreg_init()
 
     shiftreg_initialized = true;
 
-    ESP_LOGI(TAG, "Shift register initialized");
-    ESP_LOGI(TAG, "SPI host=%d, MOSI=%d, SCLK=%d, LE=%d, OE=%d, DBG=%d",
+    ESP_LOGI(TAG_shiftreg, "Shift register initialized");
+    ESP_LOGI(TAG_shiftreg, "SPI host=%d, MOSI=%d, SCLK=%d, LE=%d, OE=%d, DBG=%d",
              shiftreg_config.spi_host,
              shiftreg_config.pin_mosi,
              shiftreg_config.pin_sclk,
@@ -221,7 +230,7 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes)
     // 1) Shift out the bits
     ESP_RETURN_ON_ERROR(
         spi_device_polling_transmit(g_spi, &trans),
-        TAG,
+        TAG_shiftreg,
         "spi_device_polling_transmit failed"
     );
 
@@ -231,7 +240,7 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes)
     }
 
     // 3) Latch the new output data
-    ESP_RETURN_ON_ERROR(shiftreg_latch(), TAG, "shiftreg_latch failed");
+    ESP_RETURN_ON_ERROR(shiftreg_latch(), TAG_shiftreg, "shiftreg_latch failed");
 
     // 4) Re-enable outputs
     if (shiftreg_config.pin_oe >= 0) {
@@ -246,4 +255,86 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes)
 bool shiftreg_is_initialized(void)
 {
     return shiftreg_initialized;
+}
+
+// One "walking 1" bit across the 512-bit stream.
+// This is extremely useful later to confirm bit order / chain direction.
+void test_pattern_walking_one()
+{
+    uint8_t test_frame[SR_FRAME_BYTES] = {0};
+	test_frame[0] = 1;
+	int bit_index_0_to_511 = 0;
+    int byte_index;
+	int bit_in_byte;
+
+	while(1){
+		// bit_index 0 means "first bit clocked out"
+    	// byte_index 0 holds the first 8 bits clocked out.
+    	byte_index = bit_index_0_to_511 / 8;
+    	bit_in_byte = bit_index_0_to_511 % 8;
+
+    	// Choose MSB-first within each byte so the first bit is bit 7.
+    	// If your observed behavior is reversed later, you’ll flip this.
+    	test_frame[byte_index] = (uint8_t)(1U << (7 - bit_in_byte));
+
+		shiftreg_send_frame(test_frame, SR_FRAME_BYTES);
+		ESP_LOGI(TAG_shiftreg, "Sent: test_rame");
+		vTaskDelay(pdMS_TO_TICKS(TEST_SEND_PERIOD_MS));
+	}
+}
+
+// -----------------------
+// Task: repeatedly send a known frame at a slow rate
+// -----------------------
+void test_shiftreg_dummy_task(void *)
+{
+    
+
+    //uint8_t frame[SR_FRAME_BYTES];
+
+	// 512 bits = 64 bytes. Byte 0 is the FIRST byte shifted out on MOSI.
+	static const uint8_t test_frame[64] = {
+		0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+		0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+		0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+		0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
+		0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
+		0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
+		0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+		0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
+	};
+
+    // Start with outputs enabled (if OE exists)
+    gpio_set_level(PIN_SR_NOT_OE, 0);
+	
+
+    int walk = 0;
+
+    while (1) {
+        // Cycle through a few patterns so you can see changes in the waveforms
+
+		
+		shiftreg_send_frame(test_frame, SR_FRAME_BYTES);
+		ESP_LOGI(TAG_shiftreg, "Sent: test_rame");
+		vTaskDelay(pdMS_TO_TICKS(TEST_SEND_PERIOD_MS));
+		
+
+
+        // pattern_all_off(frame);
+        // shiftreg_send_frame(frame);
+        // ESP_LOGI(TAG_shiftreg, "Sent: ALL OFF");
+        // vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
+
+        // pattern_all_on(frame);
+        // shiftreg_send_frame(frame);
+        // ESP_LOGI(TAG_shiftreg, "Sent: ALL ON");
+        // vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
+
+        // pattern_walking_one(frame, walk);
+        // shiftreg_send_frame(frame);
+        // ESP_LOGI(TAG_shiftreg, "Sent: WALKING 1 (bit %d)", walk);
+        // vTaskDelay(pdMS_TO_TICKS(SEND_PERIOD_MS));
+
+        // walk = (walk + 1) % 512;
+    }
 }
