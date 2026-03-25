@@ -9,6 +9,8 @@
 #include "esp_rom_sys.h"   // esp_rom_delay_us()
 #include "encoder.h"
 #include "shiftreg.h"
+#include "pwm.h"
+#include "console_io.h"
 
 // -----------------------
 // USER SETTINGS (edit these)
@@ -65,19 +67,31 @@ void app_main(void)
     ESP_LOGI(TAG_main, "Shift-register SPI test starting...");
 
 	//config shiftreg
-	shiftreg_config.spi_host = SR_SPI_HOST;
-	shiftreg_config.pin_mosi = PIN_SPI_MOSI;
-	shiftreg_config.pin_sclk = PIN_SPI_SCLK;
-	shiftreg_config.pin_miso = PIN_SPI_MISO;
-	shiftreg_config.pin_le = PIN_SR_LE;
-	shiftreg_config.pin_oe = PIN_SR_NOT_OE;
-	shiftreg_config.spi_clock_hz = SR_SPI_HZ;
-	shiftreg_config.max_transfer_bytes = SR_FRAME_BYTES;
+	shiftreg_config.spi_host 			= SR_SPI_HOST;
+	shiftreg_config.pin_mosi 			= PIN_SPI_MOSI;
+	shiftreg_config.pin_sclk 			= PIN_SPI_SCLK;
+	shiftreg_config.pin_miso 			= PIN_SPI_MISO;
+	shiftreg_config.pin_le 				= PIN_SR_LE;
+	shiftreg_config.pin_oe 				= PIN_SR_NOT_OE;
+	shiftreg_config.spi_clock_hz 		= SR_SPI_HZ;
+	shiftreg_config.max_transfer_bytes 	= SR_FRAME_BYTES;
 	esp_err_t err = shiftreg_init();
 	if (err != ESP_OK) {
 		ESP_LOGE(TAG_main, "shiftreg_init failed: %s", esp_err_to_name(err));
 		return;
 	}
+
+	console_io_init();
+
+	
+        pwm_config.gpio_num        = ESC_SIGNAL_GPIO,
+        pwm_config.channel         = LEDC_CHANNEL_0,
+        pwm_config.timer           = LEDC_TIMER_0,
+        pwm_config.arm_pulse_us    = PWM_ESC_ARM_US,
+        pwm_config.arm_time_ms     = PWM_ESC_ARM_TIME_MS,
+        pwm_config.command_min_us  = PWM_ESC_MIN_US,
+        pwm_config.command_max_us  = PWM_ESC_MAX_US,
+    };
 
 
     // Create a simple task; later you can pin it to a specific core and raise priority.
