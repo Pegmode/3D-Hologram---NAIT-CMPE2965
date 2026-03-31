@@ -16,7 +16,7 @@
 
 // Static module variables
 // These only exist inside pwm.c
-static pwm_config_t s_cfg = {0};         // Stores user config after init
+pwm_config = {0};         // Stores user config after init
 static bool s_initialized = false;       // Tracks whether module is initialized
 static uint32_t s_current_pulse_us = 0;  // Last pulse width sent
 
@@ -41,13 +41,13 @@ static esp_err_t pwm_apply_pulse_us(uint32_t pulse_us)
     uint32_t duty = pulse_us_to_duty(pulse_us);
 
     // Set the new duty value for the channel
-    err = ledc_set_duty(PWM_LEDC_MODE, s_cfg.channel, duty);
+    err = ledc_set_duty(PWM_LEDC_MODE, pwm_config.channel, duty);
     if (err != ESP_OK) {
         return err;
     }
 
     // Push the updated duty value to hardware
-    err = ledc_update_duty(PWM_LEDC_MODE, s_cfg.channel);
+    err = ledc_update_duty(PWM_LEDC_MODE, pwm_config.channel);
     if (err != ESP_OK) {
         return err;
     }
@@ -58,12 +58,12 @@ static esp_err_t pwm_apply_pulse_us(uint32_t pulse_us)
 }
 
 // Initialize LEDC timer + channel, then send startup pulse
-esp_err_t pwm_init(const pwm_config_t *config)
+esp_err_t pwm_init()
 {
     esp_err_t err;
 
-    // Check input pointer
-    if (config == NULL) {
+    // Check config
+    if (pwm_config.init == 0) {
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -73,20 +73,20 @@ esp_err_t pwm_init(const pwm_config_t *config)
     }
 
     // Make sure min <= max
-    if (config->command_min_us > config->command_max_us) {
+    if (pwm_config.command_min_us > pwm_config.command_max_us) {
         return ESP_ERR_INVALID_ARG;
     }
 
     // Save config into local module storage
-    memset(&s_cfg, 0, sizeof(s_cfg));
-    s_cfg = *config;
+    // memset(&s_cfg, 0, sizeof(s_cfg));
+    // s_cfg = *config;
 
     // Configure LEDC timer
     // This sets PWM frequency and resolution
     ledc_timer_config_t timer_cfg = {
         .speed_mode       = PWM_LEDC_MODE,
         .duty_resolution  = PWM_DUTY_RES,
-        .timer_num        = s_cfg.timer,
+        .timer_num        = pwm_config.timer,
         .freq_hz          = PWM_ESC_FREQ_HZ,
         .clk_cfg          = LEDC_AUTO_CLK,
     };
@@ -99,12 +99,12 @@ esp_err_t pwm_init(const pwm_config_t *config)
     // Configure LEDC channel
     // This connects the timer to a specific GPIO pin
     ledc_channel_config_t channel_cfg = {
-        .gpio_num   = s_cfg.gpio_num,
+        .gpio_num   = pwm_config.gpio_num,
         .speed_mode = PWM_LEDC_MODE,
-        .channel    = s_cfg.channel,
+        .channel    = pwm_config.channel,
         .intr_type  = LEDC_INTR_DISABLE,
-        .timer_sel  = s_cfg.timer,
-        .duty       = pulse_us_to_duty(s_cfg.arm_pulse_us), // initial pulse
+        .timer_sel  = pwm_config.timer,
+        .duty       = pulse_us_to_duty(pwm_config.arm_pulse_us), // initial pulse
         .hpoint     = 0,
     };
 
@@ -114,10 +114,10 @@ esp_err_t pwm_init(const pwm_config_t *config)
     }
 
     s_initialized = true;
-    s_current_pulse_us = s_cfg.arm_pulse_us;
+    s_current_pulse_us = pwm_config.arm_pulse_us;
 
     // Hold the ESC startup pulse for the requested time
-    vTaskDelay(pdMS_TO_TICKS(s_cfg.arm_time_ms));
+    vTaskDelay(pdMS_TO_TICKS(pwm_config.arm_time_ms));
 
     return ESP_OK;
 }
@@ -132,8 +132,8 @@ esp_err_t pwm_set_pulse_us(uint32_t pulse_us)
     // Allow either:
     // - the special arm pulse
     // - a normal pulse inside the command range
-    if ((pulse_us != s_cfg.arm_pulse_us) &&
-        (pulse_us < s_cfg.command_min_us || pulse_us > s_cfg.command_max_us)) {
+    if ((pulse_us != pwm_config.arm_pulse_us) &&
+        (pulse_us < pwm_config.command_min_us || pulse_us > pwm_config.command_max_us)) {
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -154,19 +154,19 @@ esp_err_t pwm_deinit(void)
     }
 
     // Stop channel output
-    ledc_stop(PWM_LEDC_MODE, s_cfg.channel, 0);
+    ledc_stop(PWM_LEDC_MODE, pwm_config.channel, 0);
 
     // Deconfigure timer
     ledc_timer_config_t timer_cfg = {
         .speed_mode  = PWM_LEDC_MODE,
-        .timer_num   = s_cfg.timer,
+        .timer_num   = pwm_config.timer,
         .deconfigure = true,
     };
 
     (void)ledc_timer_config(&timer_cfg);
 
     // Clear saved data
-    memset(&s_cfg, 0, sizeof(s_cfg));
+    pwm_config.init = 0;
     s_initialized = false;
     s_current_pulse_us = 0;
 

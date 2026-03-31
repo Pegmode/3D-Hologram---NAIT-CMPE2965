@@ -280,6 +280,7 @@ void test_pattern_walking_one()
 		shiftreg_send_frame(test_frame, SR_FRAME_BYTES);
 		ESP_LOGI(TAG_shiftreg, "Sent: test_rame");
 		vTaskDelay(pdMS_TO_TICKS(TEST_SEND_PERIOD_MS));
+		bit_index_0_to_511++;
 	}
 }
 

@@ -27,6 +27,7 @@ extern "C" {
 // Configuration structure for the PWM output
 typedef struct
 {
+	int init;					   // bool, marks if config has be initialized.
     gpio_num_t gpio_num;           // GPIO pin connected to ESC signal wire
     ledc_channel_t channel;        // LEDC channel used for output
     ledc_timer_t timer;            // LEDC timer used for PWM timing
@@ -40,7 +41,7 @@ typedef struct
 extern pwm_config_t pwm_config;
 
 // Initialize PWM hardware and send the startup pulse
-esp_err_t pwm_init(const pwm_config_t *config);
+esp_err_t pwm_init();
 
 // Set the PWM pulse width in microseconds
 esp_err_t pwm_set_pulse_us(uint32_t pulse_us);

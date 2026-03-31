@@ -1,18 +1,10 @@
 {
-  "C_Cpp.intelliSenseEngine": "default",
-  "idf.openOcdConfigs": [
-    "board/esp32s3-builtin.cfg"
-  ],
-  "idf.portWin": "COM5",
-  "idf.currentSetup": "C:\\Users\\koobdoobn\\esp\\v5.5.2\\esp-idf",
-  "idf.customExtraVars": {
-    "IDF_TARGET": "esp32s3"
-  },
-  "clangd.path": "C:\\Users\\koobdoobn\\.espressif\\tools\\esp-clang\\esp-19.1.2_20250312\\esp-clang\\bin\\clangd.exe",
-  "clangd.arguments": [
-    "--background-index",
-    "--query-driver=**",
-    "--compile-commands-dir=c:\\Users\\koobdoobn\\Documents\\GitHub\\A02-Group-6---Daniel-Kaden\\Embedded\\holo_v1\\build"
-  ],
-  "idf.flashType": "UART"
+	"idf.openOcdConfigs": [
+		"board/esp32s3-builtin.cfg"
+	],
+	"idf.flashType": "UART",
+	"idf.customExtraVars": {
+		"IDF_TARGET": "esp32s3"
+	},
+	"idf.currentSetup": "C:\\esp\\v5.5.2\\esp-idf"
 }

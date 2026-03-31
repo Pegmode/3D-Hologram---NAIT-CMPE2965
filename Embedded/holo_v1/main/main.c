@@ -34,6 +34,9 @@
 #define PIN_ENC_B			5
 #define PIN_ENC_Z			6
 
+//pwm
+#define PIN_ESC_PWM			16
+
 // Optional debug pins 
 #define PIN_SW_OPT1         21    // set -1 if not used
 #define PIN_SW_OPT2			14
@@ -82,16 +85,15 @@ void app_main(void)
 	}
 
 	console_io_init();
-
 	
-        pwm_config.gpio_num        = ESC_SIGNAL_GPIO,
-        pwm_config.channel         = LEDC_CHANNEL_0,
-        pwm_config.timer           = LEDC_TIMER_0,
-        pwm_config.arm_pulse_us    = PWM_ESC_ARM_US,
-        pwm_config.arm_time_ms     = PWM_ESC_ARM_TIME_MS,
-        pwm_config.command_min_us  = PWM_ESC_MIN_US,
-        pwm_config.command_max_us  = PWM_ESC_MAX_US,
-    };
+	pwm_config.gpio_num        = PIN_ESC_PWM;
+	pwm_config.channel         = LEDC_CHANNEL_0;
+	pwm_config.timer           = LEDC_TIMER_0;
+	pwm_config.arm_pulse_us    = PWM_ESC_ARM_US;
+	pwm_config.arm_time_ms     = PWM_ESC_ARM_TIME_MS;
+	pwm_config.command_min_us  = PWM_ESC_MIN_US;
+	pwm_config.command_max_us  = PWM_ESC_MAX_US;
+    
 
 
     // Create a simple task; later you can pin it to a specific core and raise priority.
