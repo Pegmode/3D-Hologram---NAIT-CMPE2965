@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import os
 import sys, time, pdb
 import argparse
+import threading
 #External custom modules
 from coordinateConversionMath import * #
 from fileConversionFunctions import *
@@ -47,7 +48,6 @@ def actionDebugVisualize():
     voxels = getVoxelsFromObj(objFilepath)#get the voxels from file
     print(f"debug {args.debug}")
     plotVoxels(voxels)#visualize the voxels for debug
-    pdb.set_trace()
 
 def actionConvertToHeader():
     '''
@@ -91,7 +91,6 @@ def argsGetFilepath():
     objFilepath = DEFAULT_OBJ_FILEPATH
     if args.objFilepath:#set custom filepath if given
         givenPath = args.objFilepath
-        pdb.set_trace()
         if not os.path.exists(givenPath):#does the file exist
             parser.error(f"file {givenPath} not found")
         objFilepath = givenPath
