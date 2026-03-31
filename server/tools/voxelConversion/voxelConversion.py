@@ -83,6 +83,7 @@ def argsParseAndRunFlags():
     if args.convertHeader:
         actionConvertToHeader()
 
+
 def argsGetFilepath():
     '''
     get the filepath arg from args
