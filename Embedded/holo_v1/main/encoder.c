@@ -11,7 +11,16 @@
 static const char *TAG_encoder = "encoder";
 
 // Saved configuration
-encoder_config_t encoder_config = {-1};
+encoder_config_t encoder_config = {
+    .pin_a = -1,                  // Encoder A channel
+    .pin_b = -1,                 // Encoder B channel
+    .pin_z = -1,                  // Encoder Z / index channel, or -1 if not used
+
+    .ab_pull = -1,   // Pull mode for A/B pins
+    .z_pull = -1,    // Pull mode for Z pin
+
+    .glitch_filter_ns = -1  // PCNT glitch filter length in ns
+};
 
 // PCNT handles
 static pcnt_unit_handle_t g_pcnt_unit = NULL;

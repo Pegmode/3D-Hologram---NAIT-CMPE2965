@@ -16,7 +16,18 @@
 
 // Static module variables
 // These only exist inside pwm.c
-pwm_config = {0};         // Stores user config after init
+
+pwm_config_t pwmconfig = {
+	.init = -1,					   // bool, marks if config has be initialized.
+    .gpio_num = -1,           // GPIO pin connected to ESC signal wire
+    .channel = -1,        // LEDC channel used for output
+    .timer = -1,            // LEDC timer used for PWM timing
+    .arm_pulse_us = -1,         // Startup pulse width, e.g. 870 us
+    .arm_time_ms = -1,          // How long to hold startup pulse
+    .command_min_us = -1,       // Minimum normal pulse width
+    .command_max_us = -1       // Maximum normal pulse width
+};
+
 static bool s_initialized = false;       // Tracks whether module is initialized
 static uint32_t s_current_pulse_us = 0;  // Last pulse width sent
 
