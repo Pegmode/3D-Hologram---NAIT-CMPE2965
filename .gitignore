@@ -19,3 +19,5 @@ c_cpp_properties.json
 *.exe
 Embedded/holo_v1/.vscode/c_cpp_properties.json
 /Embedded/holo_v1/.vscode
+
+*/.vscode/
