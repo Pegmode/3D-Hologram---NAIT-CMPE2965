@@ -18,3 +18,4 @@ c_cpp_properties.json
 #Don't include any executables outside of github releases
 *.exe
 Embedded/holo_v1/.vscode/c_cpp_properties.json
+/Embedded/holo_v1/.vscode
