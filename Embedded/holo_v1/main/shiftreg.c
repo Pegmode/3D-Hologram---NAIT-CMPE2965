@@ -1,7 +1,7 @@
 // shiftreg.c
 
 #include "shiftreg.h"
-#include "main.c"
+#include "main.h"
 #include <string.h>
 
 #include "esp_check.h"
@@ -13,14 +13,15 @@
 
 // public config
 shiftreg_config_t shiftreg_config = {
+	.init = -1,
     .spi_host = -1,
     .pin_mosi = -1,
     .pin_sclk = -1,
     .pin_miso = -1,
     .pin_le = -1,
     .pin_oe = -1,
-    .spi_clock_hz = 0,
-    .max_transfer_bytes = 0
+    .spi_clock_hz = -1,
+    .max_transfer_bytes = -1
 };
 
 // --------------------------------------------------
@@ -76,6 +77,9 @@ static esp_err_t shiftreg_config_output_pin(int pin)
 
 esp_err_t shiftreg_init()
 {
+	if (shiftreg_config.init <= 0) {
+        return ESP_ERR_INVALID_ARG;
+    }
 
     if (shiftreg_config.pin_mosi < 0 || shiftreg_config.pin_sclk < 0 || shiftreg_config.pin_le < 0) {
         return ESP_ERR_INVALID_ARG;
@@ -281,6 +285,9 @@ void test_pattern_walking_one()
 		ESP_LOGI(TAG_shiftreg, "Sent: test_rame");
 		vTaskDelay(pdMS_TO_TICKS(TEST_SEND_PERIOD_MS));
 		bit_index_0_to_511++;
+		if (bit_index_0_to_511 >=512){
+			bit_index_0_to_511 = 0;
+		}
 	}
 }
 
@@ -309,7 +316,7 @@ void test_shiftreg_dummy_task(void *)
     gpio_set_level(PIN_SR_NOT_OE, 0);
 	
 
-    int walk = 0;
+    //int walk = 0;
 
     while (1) {
         // Cycle through a few patterns so you can see changes in the waveforms

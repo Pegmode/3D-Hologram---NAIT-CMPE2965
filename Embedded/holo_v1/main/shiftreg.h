@@ -11,6 +11,7 @@
 // Configuration for the shift register driver
 typedef struct
 {
+	int init; 					  // determin if the config has been initialized in main
     spi_host_device_t spi_host;   // SPI2_HOST or SPI3_HOST on ESP32-S3
 
     int pin_mosi;                 // SPI MOSI pin

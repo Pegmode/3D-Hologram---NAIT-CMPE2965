@@ -5,21 +5,26 @@
 
 #include "freertos/FreeRTOS.h"
 #include "driver/usb_serial_jtag.h"
+#include "esp_check.h"
 #include "esp_err.h"
+#include "esp_log.h"
 
 // Internal buffer sizes for the USB Serial/JTAG driver.
 // These do not need to be huge for simple console input/output.
 #define CONSOLE_RX_BUF_SIZE 256
 #define CONSOLE_TX_BUF_SIZE 256
 
+static const char *TAG_console_io = "console_io";
+
 // Tracks whether the console driver has already been installed.
 static bool s_console_initialized = false;
 
-void console_io_init(void)
+esp_err_t console_io_init(void)
 {
     // Prevent installing the driver more than once.
     if (s_console_initialized) {
-        return;
+        ESP_LOGW(TAG_console_io, "console_io_init called more than once");
+        return ESP_OK;
     }
 
     // Configure the USB Serial/JTAG driver.
@@ -28,92 +33,107 @@ void console_io_init(void)
         .rx_buffer_size = CONSOLE_RX_BUF_SIZE,
     };
 
-    // Install the driver.
-    // If this fails, ESP_ERROR_CHECK will stop the program.
-    ESP_ERROR_CHECK(usb_serial_jtag_driver_install(&cfg));
+    ESP_RETURN_ON_ERROR(
+        usb_serial_jtag_driver_install(&cfg),
+        TAG_console_io,
+        "usb_serial_jtag_driver_install failed"
+    );
 
     s_console_initialized = true;
+    return ESP_OK;
 }
 
-void console_io_write(const char *text)
+esp_err_t console_io_write(const char *text)
 {
-    // Ignore null pointers and empty strings.
-    if (text == NULL || text[0] == '\0') {
-        return;
+    if (!s_console_initialized) {
+        return ESP_ERR_INVALID_STATE;
     }
 
-    // Write the text to the USB Serial/JTAG console.
-    // portMAX_DELAY means block until the write can complete.
-    usb_serial_jtag_write_bytes(text, strlen(text), portMAX_DELAY);
+    if (text == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    if (text[0] == '\0') {
+        return ESP_OK;
+    }
+
+    int written = usb_serial_jtag_write_bytes(text, strlen(text), portMAX_DELAY);
+    if (written < 0) {
+        ESP_LOGE(TAG_console_io, "usb_serial_jtag_write_bytes failed");
+        return ESP_FAIL;
+    }
+
+    return ESP_OK;
 }
 
-void console_io_write_line(const char *text)
+esp_err_t console_io_write_line(const char *text)
 {
-    // Write the main text only if it is non-empty.
-    // This avoids passing a zero-length buffer to the driver.
+    if (!s_console_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
     if (text != NULL && text[0] != '\0') {
-        usb_serial_jtag_write_bytes(text, strlen(text), portMAX_DELAY);
+        ESP_RETURN_ON_ERROR(console_io_write(text), TAG_console_io, "console_io_write failed");
+    } else if (text == NULL) {
+        return ESP_ERR_INVALID_ARG;
     }
 
-    // Always finish the line with carriage return + newline.
-    // This displays properly in most serial terminals.
-    usb_serial_jtag_write_bytes("\r\n", 2, portMAX_DELAY);
+    int written = usb_serial_jtag_write_bytes("\r\n", 2, portMAX_DELAY);
+    if (written < 0) {
+        ESP_LOGE(TAG_console_io, "usb_serial_jtag_write_bytes failed");
+        return ESP_FAIL;
+    }
+
+    return ESP_OK;
 }
 
-int console_io_read_line(char *buf, size_t buf_len)
+esp_err_t console_io_read_line(char *buf, size_t buf_len, size_t *chars_read)
 {
-    // Validate the destination buffer.
-    // Need at least room for one character plus null terminator.
+    if (!s_console_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
     if (buf == NULL || buf_len < 2) {
-        return -1;
+        return ESP_ERR_INVALID_ARG;
     }
 
     size_t idx = 0;
 
-    // Read characters one at a time until Enter is pressed
-    // or the buffer becomes full.
     while (idx < (buf_len - 1)) {
         uint8_t ch = 0;
-
-        // Block until one byte is received from the console.
         int len = usb_serial_jtag_read_bytes(&ch, 1, portMAX_DELAY);
         if (len <= 0) {
             continue;
         }
 
-        // End the line when CR or LF is received.
         if (ch == '\r' || ch == '\n') {
-            // Ignore an immediate blank CR/LF.
-            // This helps with terminals that send CRLF pairs.
             if (idx == 0) {
                 continue;
             }
 
-            // Echo a newline so the terminal cursor moves to the next line.
-            console_io_write("\r\n");
+            ESP_RETURN_ON_ERROR(console_io_write("\r\n"), TAG_console_io, "console_io_write failed");
             break;
         }
 
-        // Handle backspace/delete so the user can edit their input.
         if ((ch == '\b' || ch == 127) && idx > 0) {
             idx--;
-
-            // Erase one character visually in the terminal:
-            // backspace, overwrite with space, backspace again.
-            console_io_write("\b \b");
+            ESP_RETURN_ON_ERROR(console_io_write("\b \b"), TAG_console_io, "console_io_write failed");
             continue;
         }
 
-        // Store the typed character in the buffer.
         buf[idx++] = (char)ch;
-
-        // Echo the typed character back to the terminal.
-        usb_serial_jtag_write_bytes((const char *)&ch, 1, portMAX_DELAY);
+        int written = usb_serial_jtag_write_bytes((const char *)&ch, 1, portMAX_DELAY);
+        if (written < 0) {
+            ESP_LOGE(TAG_console_io, "usb_serial_jtag_write_bytes failed");
+            return ESP_FAIL;
+        }
     }
 
-    // Null-terminate the completed string.
     buf[idx] = '\0';
 
-    // Return the number of characters entered, not counting the terminator.
-    return (int)idx;
+    if (chars_read != NULL) {
+        *chars_read = idx;
+    }
+
+    return ESP_OK;
 }

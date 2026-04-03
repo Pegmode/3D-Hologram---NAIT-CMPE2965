@@ -4,14 +4,11 @@
 #include "esp_log.h"
 #include "esp_check.h"
 
-// --------------------------------------------------
-// Private module state
-// --------------------------------------------------
-
 static const char *TAG_encoder = "encoder";
 
 // Saved configuration
 encoder_config_t encoder_config = {
+	.init = -1,
     .pin_a = -1,                  // Encoder A channel
     .pin_b = -1,                 // Encoder B channel
     .pin_z = -1,                  // Encoder Z / index channel, or -1 if not used
@@ -27,10 +24,14 @@ static pcnt_unit_handle_t g_pcnt_unit = NULL;
 static pcnt_channel_handle_t g_pcnt_chan = NULL;
 
 // Optional task to notify when Z occurs
-static TaskHandle_t g_z_notify_task = NULL;
+static TaskHandle_t z_notify_task = NULL;
+static TaskHandle_t count_notify_task = NULL;
 
 // Counts how many Z pulses have occurred
-static volatile uint32_t g_rev_count = 0;
+static volatile uint32_t z_rev_count = 0;
+static volatile int last_watch_point = 0;
+static bool count_watch_point_active = false;
+static int current_watch_point = 0;
 
 // Tracks whether the module has been initialized
 static bool encoder_initialized = false;
@@ -39,7 +40,7 @@ static bool encoder_initialized = false;
 // Small helper: configure an input pin
 // --------------------------------------------------
 
-static esp_err_t encoder_config_input_pin(int pin, gpio_pull_mode_t pull_mode, gpio_int_type_t intr_type)
+esp_err_t encoder_config_input_pin(int pin, gpio_pull_mode_t pull_mode, gpio_int_type_t intr_type)
 {
     if (pin < 0) {
         return ESP_OK;
@@ -65,21 +66,47 @@ static esp_err_t encoder_config_input_pin(int pin, gpio_pull_mode_t pull_mode, g
 // 2) optionally notify a task
 // --------------------------------------------------
 
-static void encoder_z_isr(void *arg)
+void encoder_z_isr(void *arg)
 {
     (void)arg;
 
-    g_rev_count++;
+    z_rev_count++;
 
     BaseType_t higher_prio_woken = pdFALSE;
 
-    if (g_z_notify_task != NULL) {
-        vTaskNotifyGiveFromISR(g_z_notify_task, &higher_prio_woken);
+    if (z_notify_task != NULL) {
+        xTaskNotifyFromISR(
+            z_notify_task,
+            ENCODER_NOTIFY_EVENT_Z,
+            eSetBits,
+            &higher_prio_woken
+        );
     }
 
     if (higher_prio_woken) {
         portYIELD_FROM_ISR();
     }
+}
+
+static bool encoder_pcnt_on_reach(pcnt_unit_handle_t unit, const pcnt_watch_event_data_t *edata, void *user_ctx)
+{
+    BaseType_t higher_prio_woken = pdFALSE;
+
+    (void)unit;
+    (void)user_ctx;
+
+    last_watch_point = edata->watch_point_value;
+
+    if (count_notify_task != NULL) {
+        xTaskNotifyFromISR(
+            count_notify_task,
+            ENCODER_NOTIFY_EVENT_COUNT,
+            eSetBits,
+            &higher_prio_woken
+        );
+    }
+
+    return (higher_prio_woken == pdTRUE);
 }
 
 // --------------------------------------------------
@@ -91,8 +118,12 @@ static void encoder_z_isr(void *arg)
 // - count both rising and falling edges of A => x2 counting
 // --------------------------------------------------
 
-static esp_err_t encoder_init_pcnt(void)
+esp_err_t encoder_init_pcnt(void)
 {
+    const pcnt_event_callbacks_t cbs = {
+        .on_reach = encoder_pcnt_on_reach,
+    };
+
     // Create PCNT unit
     pcnt_unit_config_t unit_cfg = {
         .high_limit = 32767,
@@ -152,6 +183,12 @@ static esp_err_t encoder_init_pcnt(void)
         "pcnt_channel_set_level_action failed"
     );
 
+    ESP_RETURN_ON_ERROR(
+        pcnt_unit_register_event_callbacks(g_pcnt_unit, &cbs, NULL),
+        TAG_encoder,
+        "pcnt_unit_register_event_callbacks failed"
+    );
+
     ESP_RETURN_ON_ERROR(pcnt_unit_enable(g_pcnt_unit), TAG_encoder, "pcnt_unit_enable failed");
     ESP_RETURN_ON_ERROR(pcnt_unit_clear_count(g_pcnt_unit), TAG_encoder, "pcnt_unit_clear_count failed");
     ESP_RETURN_ON_ERROR(pcnt_unit_start(g_pcnt_unit), TAG_encoder, "pcnt_unit_start failed");
@@ -163,7 +200,7 @@ static esp_err_t encoder_init_pcnt(void)
 // Initialize optional Z index interrupt
 // --------------------------------------------------
 
-static esp_err_t encoder_init_z(void)
+esp_err_t encoder_init_z(void)
 {
     esp_err_t err;
 
@@ -196,12 +233,14 @@ static esp_err_t encoder_init_z(void)
     return ESP_OK;
 }
 
-// --------------------------------------------------
-// Public API
-// --------------------------------------------------
+
 
 esp_err_t encoder_init()
 {
+
+	if (encoder_config.init <= 0) {
+        return ESP_ERR_INVALID_ARG;
+    }
 
     if (encoder_config.pin_a < 0 || encoder_config.pin_b < 0) {
         return ESP_ERR_INVALID_ARG;
@@ -241,7 +280,53 @@ esp_err_t encoder_init()
 
 void encoder_set_z_notify_task(TaskHandle_t task_handle)
 {
-    g_z_notify_task = task_handle;
+    z_notify_task = task_handle;
+}
+
+void encoder_set_count_notify_task(TaskHandle_t task_handle)
+{
+    count_notify_task = task_handle;
+}
+
+esp_err_t encoder_set_count_watch_point(int watch_point)
+{
+    if (!encoder_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    if (count_watch_point_active) {
+        ESP_RETURN_ON_ERROR(
+            pcnt_unit_remove_watch_point(g_pcnt_unit, current_watch_point),
+            TAG_encoder,
+            "pcnt_unit_remove_watch_point failed"
+        );
+        count_watch_point_active = false;
+    }
+
+    ESP_RETURN_ON_ERROR(
+        pcnt_unit_add_watch_point(g_pcnt_unit, watch_point),
+        TAG_encoder,
+        "pcnt_unit_add_watch_point failed"
+    );
+
+    current_watch_point = watch_point;
+    count_watch_point_active = true;
+
+    return ESP_OK;
+}
+
+esp_err_t encoder_get_last_watch_point(int *watch_point)
+{
+    if (watch_point == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    if (!encoder_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    *watch_point = last_watch_point;
+    return ESP_OK;
 }
 
 esp_err_t encoder_get_count(int *count)
@@ -264,5 +349,5 @@ esp_err_t encoder_clear_count(void)
 
 uint32_t encoder_get_revolution_count(void)
 {
-    return g_rev_count;
+    return z_rev_count;
 }

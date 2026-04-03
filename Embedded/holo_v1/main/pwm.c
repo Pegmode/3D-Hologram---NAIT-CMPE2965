@@ -5,6 +5,7 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "esp_check.h"
 
 // ESP32-S3 uses LEDC low speed mode
 #define PWM_LEDC_MODE       LEDC_LOW_SPEED_MODE
@@ -14,10 +15,12 @@
 #define PWM_DUTY_BITS       14U
 #define PWM_DUTY_RES        LEDC_TIMER_14_BIT
 
+static const char *TAG_pwm = "pwm";
+
 // Static module variables
 // These only exist inside pwm.c
 
-pwm_config_t pwmconfig = {
+pwm_config_t pwm_config = {
 	.init = -1,					   // bool, marks if config has be initialized.
     .gpio_num = -1,           // GPIO pin connected to ESC signal wire
     .channel = -1,        // LEDC channel used for output
@@ -48,20 +51,19 @@ static uint32_t pulse_us_to_duty(uint32_t pulse_us)
 // Apply a pulse width directly to the LEDC hardware
 static esp_err_t pwm_apply_pulse_us(uint32_t pulse_us)
 {
-    esp_err_t err;
     uint32_t duty = pulse_us_to_duty(pulse_us);
 
-    // Set the new duty value for the channel
-    err = ledc_set_duty(PWM_LEDC_MODE, pwm_config.channel, duty);
-    if (err != ESP_OK) {
-        return err;
-    }
+    ESP_RETURN_ON_ERROR(
+        ledc_set_duty(PWM_LEDC_MODE, pwm_config.channel, duty),
+        TAG_pwm,
+        "ledc_set_duty failed"
+    );
 
-    // Push the updated duty value to hardware
-    err = ledc_update_duty(PWM_LEDC_MODE, pwm_config.channel);
-    if (err != ESP_OK) {
-        return err;
-    }
+    ESP_RETURN_ON_ERROR(
+        ledc_update_duty(PWM_LEDC_MODE, pwm_config.channel),
+        TAG_pwm,
+        "ledc_update_duty failed"
+    );
 
     // Save current pulse for later reading
     s_current_pulse_us = pulse_us;
@@ -71,10 +73,8 @@ static esp_err_t pwm_apply_pulse_us(uint32_t pulse_us)
 // Initialize LEDC timer + channel, then send startup pulse
 esp_err_t pwm_init()
 {
-    esp_err_t err;
-
     // Check config
-    if (pwm_config.init == 0) {
+    if (pwm_config.init <= 0) {
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -102,10 +102,12 @@ esp_err_t pwm_init()
         .clk_cfg          = LEDC_AUTO_CLK,
     };
 
-    err = ledc_timer_config(&timer_cfg);
-    if (err != ESP_OK) {
-        return err;
-    }
+    ESP_RETURN_ON_ERROR(
+        ledc_timer_config(&timer_cfg),
+        TAG_pwm,
+        "ledc_timer_config failed"
+    );
+
 
     // Configure LEDC channel
     // This connects the timer to a specific GPIO pin
@@ -119,10 +121,11 @@ esp_err_t pwm_init()
         .hpoint     = 0,
     };
 
-    err = ledc_channel_config(&channel_cfg);
-    if (err != ESP_OK) {
-        return err;
-    }
+    ESP_RETURN_ON_ERROR(
+        ledc_channel_config(&channel_cfg),
+        TAG_pwm,
+        "ledc_channel_config failed"
+    );
 
     s_initialized = true;
     s_current_pulse_us = pwm_config.arm_pulse_us;
