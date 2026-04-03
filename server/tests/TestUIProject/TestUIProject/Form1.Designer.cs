@@ -35,6 +35,8 @@
             UI_Button_LoadObj = new Button();
             UI_Button_Connect = new Button();
             d = new Label();
+            UI_Button_Send_Test = new Button();
+            UI_Button_Disconnect = new Button();
             SuspendLayout();
             // 
             // UI_Textbox_OUtput
@@ -85,6 +87,7 @@
             UI_Button_Connect.TabIndex = 4;
             UI_Button_Connect.Text = "Connect";
             UI_Button_Connect.UseVisualStyleBackColor = true;
+            UI_Button_Connect.Click += UI_Button_Connect_Click;
             // 
             // d
             // 
@@ -95,11 +98,33 @@
             d.TabIndex = 5;
             d.Text = "Log:";
             // 
+            // UI_Button_Send_Test
+            // 
+            UI_Button_Send_Test.Location = new Point(30, 131);
+            UI_Button_Send_Test.Name = "UI_Button_Send_Test";
+            UI_Button_Send_Test.Size = new Size(113, 23);
+            UI_Button_Send_Test.TabIndex = 6;
+            UI_Button_Send_Test.Text = "Send Test";
+            UI_Button_Send_Test.UseVisualStyleBackColor = true;
+            UI_Button_Send_Test.Click += UI_Button_Send_Test_Click;
+            // 
+            // UI_Button_Disconnect
+            // 
+            UI_Button_Disconnect.Location = new Point(30, 160);
+            UI_Button_Disconnect.Name = "UI_Button_Disconnect";
+            UI_Button_Disconnect.Size = new Size(113, 23);
+            UI_Button_Disconnect.TabIndex = 7;
+            UI_Button_Disconnect.Text = "Disconnect";
+            UI_Button_Disconnect.UseVisualStyleBackColor = true;
+            UI_Button_Disconnect.Click += UI_Button_Disconnect_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(511, 450);
+            Controls.Add(UI_Button_Disconnect);
+            Controls.Add(UI_Button_Send_Test);
             Controls.Add(d);
             Controls.Add(UI_Button_Connect);
             Controls.Add(UI_Button_LoadObj);
@@ -121,5 +146,7 @@
         private Button UI_Button_LoadObj;
         private Button UI_Button_Connect;
         private Label d;
+        private Button UI_Button_Send_Test;
+        private Button UI_Button_Disconnect;
     }
 }

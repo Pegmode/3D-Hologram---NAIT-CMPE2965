@@ -14,6 +14,7 @@
 #include "console_io.h"
 #include "display_task.h"
 #include "main.h"
+#include "wifi_rx.h"
 
 
 static const char *TAG_main = "main_test";
@@ -26,7 +27,7 @@ void app_main(void)
 
 	vTaskDelay(pdMS_TO_TICKS(1000));
 
-    ESP_LOGI(TAG_main, "Shift-register SPI test starting...");
+    //ESP_LOGI(TAG_main, "Shift-register SPI test starting...");
 
 	//config shiftreg
 	shiftreg_config.init				= 1;
@@ -56,6 +57,24 @@ void app_main(void)
 	encoder_config.pin_z		= PIN_ENC_Z;
 	encoder_config.ab_pull 		= GPIO_FLOATING;
 	encoder_config.z_pull		= GPIO_FLOATING;
+	encoder_config.glitch_filter_ns = 0;
+
+	// Configure Wi-Fi receiver in SoftAP mode for packet-header bring-up.
+	//
+	// Test model:
+	// - ESP32 creates its own Wi-Fi network
+	// - PC joins that network
+	// - PC opens a TCP connection to the ESP32
+	// - ESP32 prints each received packet header to the console
+	wifi_rx_config.init					= 1;
+	strcpy(wifi_rx_config.wifi_ssid, "holo_v1_test");
+	strcpy(wifi_rx_config.wifi_password, "holo1234");
+	wifi_rx_config.tcp_port			= 3333;
+	wifi_rx_config.listen_backlog	= 1;
+	wifi_rx_config.max_connections	= 1;
+	wifi_rx_config.task_stack_size	= 4096;
+	wifi_rx_config.task_priority	= 6;
+	wifi_rx_config.print_headers_to_console = true;
 
 
     err = shiftreg_init();
@@ -81,6 +100,25 @@ void app_main(void)
         ESP_LOGE(TAG_main, "encoder_init failed: %s", esp_err_to_name(err));
         return;
     }
+
+    // Start the Wi-Fi receive path after console I/O is ready so received
+    // headers can be printed immediately during bring-up testing.
+    err = wifi_rx_init();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG_main, "wifi_rx_init failed: %s", esp_err_to_name(err));
+        return;
+    }
+
+    err = wifi_rx_start();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG_main, "wifi_rx_start failed: %s", esp_err_to_name(err));
+        return;
+    }
+
+    ESP_LOGI(TAG_main, "Wi-Fi test AP ready");
+    ESP_LOGI(TAG_main, "SSID: %s", wifi_rx_config.wifi_ssid);
+    ESP_LOGI(TAG_main, "Password: %s", wifi_rx_config.wifi_password);
+    ESP_LOGI(TAG_main, "TCP port: %u", (unsigned)wifi_rx_config.tcp_port);
 
     // Start the example display task after all hardware drivers are ready.
     err = display_task_start();

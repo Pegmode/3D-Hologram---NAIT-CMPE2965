@@ -13,4 +13,10 @@
     <Content Include="miku_desktop_icon.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="dlg_kadens">
+      <HintPath>dlg_kadens.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
