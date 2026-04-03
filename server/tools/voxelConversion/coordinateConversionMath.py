@@ -60,9 +60,17 @@ def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
         raise ValueError("width must be an even number so that the board can be split in 2 halves")
     if sliceCount <= 0:
         raise ValueError("sliceCount must be > 0")
+    if not cylindricalList:
+        return []
+    #perform the quantization...
     quantizedCoordinates = []
     halfWidth = width // 2
     anglePerSlice = 180.0 / sliceCount
+    #Do some math to make sure our model fits in the circle...
+    maxRadius = max(r for _, r, _ in cylindricalList)
+    if maxRadius == 0:
+        maxRadius = 1.0
+    #Perform converison for every voxel
     for thetaRad, r, h in cylindricalList:
         thetaDegree = (numpy.degrees(thetaRad) + 360.0) % 360.0
         thetaFold = thetaDegree % 180.0 #I need to fold the angles into the range [0,180) degrees
@@ -70,7 +78,8 @@ def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
         sliceN = int(thetaFold // anglePerSlice)
         if sliceN >= sliceCount:
             sliceN = sliceCount - 1 #clamp upper range
-        rQuantized = int(numpy.floor(r))
+        #rQuantized = int(numpy.floor(r))
+        rQuantized = int(numpy.floor((r / maxRadius) * (halfWidth - 1)))#try to scale the radius into one half of the board....
         if thetaDegree >= 180.0:#If the voxel is in the "other right half" of the board normalize it to our board
             rNormalized = rQuantized + halfWidth
         else:
