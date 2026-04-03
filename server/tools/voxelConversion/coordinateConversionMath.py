@@ -45,25 +45,31 @@ def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
     '''
     #Case1 => R Theta1 -> [0,180] => rnq - rn + totalDiameter /2
     #Case2 => R Theta2 -> (180,360) => rnq = -(rn - total/2) + total / 2
-    pass # RE VISIT THE ALG. NEED TO MOVE THE ORIGIN AGAIN!
+    quantizedCoordinates = []
+    halfWidth = width // 2
+    anglePerSlice = 180.0 / sliceCount
 
-    angleStepSize = 360 // sliceCount
-    angleStepValues = [i * angleStepSize for i in range(sliceCount)]
-    quantizedCoords = []
-    for normCoord in cylindricalList:
-        angle = normCoord[0]#the unquantized Angle
-        r = normCoord[1]
-        h = normCoord[2]
-        newCoord = ()
-        closestAngle = min(angleStepValues, key=lambda x: abs(x - angle))#quantized but unshifted angle
-        if angle > 180:#transform alg case 2
-            newCoord = (closestAngle - 180, int(numpy.floor(r)) + width // 2, h)
-        else:#transform alg case 1
-            newCoord = (closestAngle, int(numpy.floor(r)), h)
-        quantizedCoords.append(newCoord)
-        pdb.set_trace()
-    print(quantizedCoords)
-    pdb.set_trace()
+    for thetaRad, r, h in clindricalList:
+        
+        thetaDegree = (numpy.degrees(thetaRad) + 360.0) % 360.0
+        thetaFold = thetaDegree % 180.0 #I need to fold the angles into the range [0,180) degrees
+        #deal with board indices...
+        sliceN = int(thetaFold // anglePerSlice)
+        if sliceN >= sliceCount:
+            sliceN = sliceCount - 1 #clamp upper range
+        rQuantized = int(numpy.floor(r))
+        if thetaDegree >= 180.0:#If the voxel is in the "other right half" of the board normalize it to our board
+            rNormalized = rQuantized + halfWidth
+        else:
+            rNormalized = rQuantized
+        hNormalized = int(numpy.floor(h))
+        #cleanup values for C array so that the microcontroller doesn't explode
+        if rNormalized < 0 or rNormalized >= width:
+            continue
+        if hNormalized < 0 or hNormalized >= height:
+            continue
+        quantizedCoords.append((sliceN, hNormalized, rNormalized))#Our board array will be of the form [slice][height][horizontal position]
+    return quantizedCoords
 
 
 
