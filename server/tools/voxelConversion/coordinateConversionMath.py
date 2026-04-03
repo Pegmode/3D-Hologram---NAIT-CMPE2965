@@ -42,15 +42,28 @@ def cartesianList2Cylindrical(cartesianList):
 
 def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
     '''
+    Convert a list of  cylindrical coordinates [...(theta, r, h)] to normalized and quantized values
+    that fit on the hologram display board [(nth slice, h, horizontal position on board)]
+    
+    returns the quantized list
+    
+    :param cylindricalList: List of cylindrical coordinates [...(theta, r, h)] 
+    :param sliceCount: the number of slices we want to make from angles [0, 180)
+    :param width: The width of the display in LEDs
+    :param height: The height of the display in LEDs
     '''
-    #Case1 => R Theta1 -> [0,180] => rnq - rn + totalDiameter /2
-    #Case2 => R Theta2 -> (180,360) => rnq = -(rn - total/2) + total / 2
+    ##Split
+    #Case1 => R Theta1 -> [0,180] => map normally
+    #Case2 => R Theta2 -> (180,360) => map from center of board, r = RTheta2 + (1/2) boardWidth
+    #Check for bad inputs....
+    if width % 2 != 0:
+        raise ValueError("width must be an even number so that the board can be split in 2 halves")
+    if sliceCount <= 0:
+        raise ValueError("sliceCount must be > 0")
     quantizedCoordinates = []
     halfWidth = width // 2
     anglePerSlice = 180.0 / sliceCount
-
-    for thetaRad, r, h in clindricalList:
-        
+    for thetaRad, r, h in cylindricalList:
         thetaDegree = (numpy.degrees(thetaRad) + 360.0) % 360.0
         thetaFold = thetaDegree % 180.0 #I need to fold the angles into the range [0,180) degrees
         #deal with board indices...
@@ -68,8 +81,8 @@ def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
             continue
         if hNormalized < 0 or hNormalized >= height:
             continue
-        quantizedCoords.append((sliceN, hNormalized, rNormalized))#Our board array will be of the form [slice][height][horizontal position]
-    return quantizedCoords
+        quantizedCoordinates.append((sliceN, hNormalized, rNormalized))#Our board array will be of the form [slice][height][horizontal position]
+    return quantizedCoordinates 
 
 
 
