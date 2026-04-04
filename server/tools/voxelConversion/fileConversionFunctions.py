@@ -6,7 +6,7 @@
 import struct
 import matplotlib.pyplot as plt
 import os, subprocess
-import requests
+import requests,sys
 
 
 DEFAULT_OBJ_FILEPATH = "tea.obj"
@@ -48,12 +48,15 @@ def downloadConversionProgram():
     '''
     if os.path.exists(DEFAULT_OBJ2VOX_FILEPATH):#if the file is already there do nothing\
         print(f"{DEFAULT_OBJ2VOX_FILEPATH} found!")
+        sys.stdout.flush()
         return
     print(f"{DEFAULT_OBJ2VOX_FILEPATH} not found downloading from github....")
+    sys.stdout.flush()
     try:
         response = requests.get(OBJ2VOXEL_EXE_URL, stream=True, timeout=30)
     except:
         print(f"ERROR: failed attempting to download {DEFAULT_OBJ2VOX_FILEPATH} from {OBJ2VOXEL_EXE_URL}!")
+        sys.stdout.flush()
     try:
         with open(DEFAULT_OBJ2VOX_FILEPATH, "wb") as f:
             for chunk in response.iter_content(chunk_size=8192):
@@ -62,6 +65,7 @@ def downloadConversionProgram():
     except:
         print(f"ERROR: could not write {DEFAULT_OBJ2VOX_FILEPATH} file!")
     print(f"downloaded {DEFAULT_OBJ2VOX_FILEPATH}!")
+    sys.stdout.flush()
 
 def getVoxelsFromObj(objFilepath):
     '''
@@ -78,4 +82,5 @@ def getVoxelsFromObj(objFilepath):
     downloadConversionProgram()
     externalConvertObj2Vl32(objFilepath, vl32Filepath)
     voxels = readVL32(vl32Filepath)
+    sys.stdout.flush()
     return voxels

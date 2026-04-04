@@ -62,7 +62,6 @@ def actionConvertToHeader():
     '''
     convert .obj file to a C header in quantized cylindrical coords
     '''
-    
     global SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT
     objFilepath = argsGetFilepath()
     #load the obj and convert the coords to quantized cylindrical
@@ -146,3 +145,4 @@ if __name__ == "__main__":
     argsParseAndRunFlags()
     if len(sys.argv) <= 1: #if no args are given, give some help...
         parser.print_help()
+        sys.stdout.flush()
