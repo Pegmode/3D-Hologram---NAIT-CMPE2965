@@ -10,6 +10,7 @@ import threading
 #External custom modules
 from coordinateConversionMath import * #
 from fileConversionFunctions import *
+from cConversionFunctions import *
 
 
 
@@ -64,28 +65,20 @@ def actionConvertToHeader():
     
     global SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT
     objFilepath = argsGetFilepath()
-    #load the obj
+    #load the obj and convert the coords to quantized cylindrical
     cartesianVoxels = getVoxelsFromObj(objFilepath)
     cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)
-
     quantizedVoxels = cylindricalList2Quantized(cylindricalVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
-    voxels = [[[0 for _ in range(BOARD_WIDTH)] for _ in range(BOARD_HEIGHT)]for _ in range(SLICE_COUNT)]
-    
-    for sliceN, h, r in quantizedVoxels:#build the bit array
-        voxels[sliceN][h][r] = 1
-    #turn our 3d LIST into a 2d list
-    flat = []
-    for sliceN in range(SLICE_COUNT):
-        for h in range(BOARD_HEIGHT):
-            for r in range(BOARD_WIDTH):
-                flat.append(voxels[sliceN][h][r])
+    #prep change the voxel format to match what is needed in C
+    flatBits = convertVoxelsToFlatList(quantizedVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
+    packedBytes = packFlattenedVoxelsToBytes(flatBits)
     #build the output string
     dataStringLines = []
     valuesPerLine = 16#change the to change how long each data segment is in the data formatting
-    for i in range(0, len(flat), valuesPerLine):
-        chunk = flat[i:i + valuesPerLine]
-        line = "    " + ", ".join(str(v) for v in chunk)
-        if i + valuesPerLine < len(flat):
+    for i in range(0, len(packedBytes), valuesPerLine):
+        chunk = packedBytes[i:i + valuesPerLine]
+        line = "    " + ", ".join(f"0x{b:02X}" for b in chunk)
+        if i + valuesPerLine < len(packedBytes):
             line += ","
         dataStringLines.append(line)
     dataString = "\n".join(dataStringLines)
@@ -95,9 +88,11 @@ def actionConvertToHeader():
 #define MVOX_VOXEL_SLICES {SLICE_COUNT}
 #define MVOX_VOXEL_HEIGHT {BOARD_HEIGHT}
 #define MVOX_VOXEL_WIDTH {BOARD_WIDTH}
-#define MVOX_VOXEL_COUNT {len(flat)}
+#define MVOX_VOXEL_COUNT {len(quantizedVoxels)}//The number of bits = 1
+#define MVOX_VOXEL_BIT_COUNT {len(flatBits)}
+#define MVOX_VOXEL_BYTE_COUNT {len(packedBytes)}
 
-const uint8_t voxelData[MVOX_VOXEL_COUNT] = {{
+const uint8_t debugMvox_voxelData[MVOX_VOXEL_BYTE_COUNT] = {{
 {dataString}
 }};
 '''
