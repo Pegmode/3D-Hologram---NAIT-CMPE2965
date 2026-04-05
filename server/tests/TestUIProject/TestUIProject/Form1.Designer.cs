@@ -100,6 +100,7 @@
             // 
             // UI_Button_Send_Test
             // 
+            UI_Button_Send_Test.Enabled = false;
             UI_Button_Send_Test.Location = new Point(30, 131);
             UI_Button_Send_Test.Name = "UI_Button_Send_Test";
             UI_Button_Send_Test.Size = new Size(113, 23);
@@ -110,6 +111,7 @@
             // 
             // UI_Button_Disconnect
             // 
+            UI_Button_Disconnect.Enabled = false;
             UI_Button_Disconnect.Location = new Point(30, 160);
             UI_Button_Disconnect.Name = "UI_Button_Disconnect";
             UI_Button_Disconnect.Size = new Size(113, 23);

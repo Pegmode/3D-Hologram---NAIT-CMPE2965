@@ -19,6 +19,7 @@
 #include "esp_event.h"
 #include "esp_log.h"
 #include "esp_netif.h"
+#include "esp_rom_crc.h"
 #include "esp_wifi.h"
 #include "esp_heap_caps.h"
 #include "nvs_flash.h"
@@ -42,28 +43,9 @@
 // Fixed size of the on-wire packet header.
 //
 // This matches wifi_rx_wire_header_t exactly.
-#define WIFI_RX_WIRE_HEADER_SIZE 36U
+#define WIFI_RX_WIRE_HEADER_SIZE ((uint8_t)sizeof(wifi_rx_wire_header_t))
 
 static const char *TAG_wifi_rx = "wifi_rx";
-
-// On-wire packet header. All multibyte fields are sent in network byte order.
-//
-// This struct is only used at the network boundary. After reception it is
-// converted into wifi_rx_header_t so the rest of the code can work in native
-// host byte order.
-typedef struct __attribute__((packed))
-{
-    uint32_t magic;
-    uint16_t version;
-    uint16_t header_size_bytes;
-    uint32_t data_type;
-    uint32_t frame_count;
-    uint32_t slice_count;
-    uint32_t payload_bytes;
-    uint32_t motor_speed_rpm;
-    uint32_t flags;
-    uint32_t payload_crc32;
-} wifi_rx_wire_header_t;
 
 wifi_rx_config_t wifi_rx_config = {
     .init = -1,
@@ -85,6 +67,73 @@ static esp_event_handler_instance_t s_wifi_event_instance = NULL;
 static esp_netif_t *s_wifi_ap_netif = NULL;
 
 static void wifi_rx_task(void *arg);
+
+// Return how many frames should be used when interpreting the payload.
+//
+// A still image only carries one frame of slice data, so frame_count may be
+// omitted on the wire by sending -1.
+static esp_err_t wifi_rx_get_effective_frame_count(const wifi_rx_header_t *header, size_t *frame_count)
+{
+    if (header == NULL || frame_count == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    switch (header->data_type) {
+        case WIFI_RX_DATA_TYPE_NONE:
+            *frame_count = 0;
+            return ESP_OK;
+
+        case WIFI_RX_DATA_TYPE_STILL_3D:
+            if (header->frame_count == -1 || header->frame_count == 1) {
+                *frame_count = 1;
+                return ESP_OK;
+            }
+            return ESP_ERR_INVALID_ARG;
+
+        case WIFI_RX_DATA_TYPE_ANIMATION_3D:
+            if (header->frame_count <= 0) {
+                return ESP_ERR_INVALID_ARG;
+            }
+            *frame_count = (size_t)header->frame_count;
+            return ESP_OK;
+
+        default:
+            return ESP_ERR_NOT_SUPPORTED;
+    }
+}
+
+// Return the expected payload size implied by the parsed header.
+//
+// If payload_bytes is -1, the packet intentionally carries no payload.
+static esp_err_t wifi_rx_get_expected_payload_bytes(const wifi_rx_header_t *header, size_t *payload_bytes)
+{
+    size_t frame_count = 0;
+
+    if (header == NULL || payload_bytes == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    if (header->payload_bytes == -1) {
+        *payload_bytes = 0;
+        return ESP_OK;
+    }
+
+    if (header->slice_count <= 0 || header->payload_bytes < 0) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    ESP_RETURN_ON_ERROR(
+        wifi_rx_get_effective_frame_count(header, &frame_count),
+        TAG_wifi_rx,
+        "wifi_rx_get_effective_frame_count failed"
+    );
+
+    *payload_bytes = frame_count *
+                     (size_t)header->slice_count *
+                     (size_t)DISPLAY_SLICE_BYTES;
+
+    return ESP_OK;
+}
 
 // Handle Wi-Fi and IP events needed by the receive task.
 //
@@ -224,30 +273,37 @@ static esp_err_t wifi_rx_recv_exact(int sock, void *buf, size_t len)
 static esp_err_t wifi_rx_receive_payload(int sock, const wifi_rx_header_t *header, uint8_t **payload_buf)
 {
     uint8_t *buf = NULL;
-    size_t expected_payload_bytes;
+    size_t expected_payload_bytes = 0;
 
     if (header == NULL || payload_buf == NULL) {
         return ESP_ERR_INVALID_ARG;
     }
 
-    expected_payload_bytes = (size_t)header->frame_count *
-                             (size_t)header->slice_count *
-                             (size_t)DISPLAY_SLICE_BYTES;
+    ESP_RETURN_ON_ERROR(
+        wifi_rx_get_expected_payload_bytes(header, &expected_payload_bytes),
+        TAG_wifi_rx,
+        "wifi_rx_get_expected_payload_bytes failed"
+    );
+
+    if (header->payload_bytes == -1) {
+        *payload_buf = NULL;
+        return ESP_OK;
+    }
 
     if ((size_t)header->payload_bytes != expected_payload_bytes) {
         ESP_LOGE(TAG_wifi_rx,
-                 "Payload size mismatch: header=%" PRIu32 " expected=%u",
+                 "Payload size mismatch: header=%" PRId32 " expected=%u",
                  header->payload_bytes,
                  (unsigned)expected_payload_bytes);
         return ESP_ERR_INVALID_ARG;
     }
 
-    buf = heap_caps_malloc((size_t)header->payload_bytes, MALLOC_CAP_8BIT);
+    buf = heap_caps_malloc(expected_payload_bytes, MALLOC_CAP_8BIT);
     if (buf == NULL) {
         return ESP_ERR_NO_MEM;
     }
 
-    if (wifi_rx_recv_exact(sock, buf, (size_t)header->payload_bytes) != ESP_OK) {
+    if (wifi_rx_recv_exact(sock, buf, expected_payload_bytes) != ESP_OK) {
         heap_caps_free(buf);
         return ESP_FAIL;
     }
@@ -256,10 +312,53 @@ static esp_err_t wifi_rx_receive_payload(int sock, const wifi_rx_header_t *heade
     return ESP_OK;
 }
 
-static esp_err_t wifi_rx_discard_payload(int sock, uint32_t payload_bytes)
+static esp_err_t wifi_rx_validate_payload_crc32(const wifi_rx_header_t *header,
+                                                const uint8_t *payload,
+                                                size_t payload_len)
+{
+    uint32_t calculated_crc32;
+
+    if (header == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    if (header->payload_bytes == -1) {
+        if (header->payload_crc32 != 0U) {
+            ESP_LOGE(TAG_wifi_rx, "Packets without payload must use payload_crc32 = 0");
+            return ESP_ERR_INVALID_ARG;
+        }
+        return ESP_OK;
+    }
+
+    if (payload == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+    
+    // For standard reflected CRC-32 (poly 0x04C11DB7, init 0xFFFFFFFF,
+    // xorout 0xFFFFFFFF), ESP-IDF's ROM helper should be called with 0 here.
+    // That matches the common CRC-32 value most PC libraries produce.
+    calculated_crc32 = esp_rom_crc32_le(0, payload, payload_len);
+    if (calculated_crc32 != header->payload_crc32) {
+        ESP_LOGE(TAG_wifi_rx,
+                 "Payload CRC mismatch: header=0x%08" PRIX32 " calculated=0x%08" PRIX32,
+                 header->payload_crc32,
+                 calculated_crc32);
+        return ESP_ERR_INVALID_CRC;
+    }
+
+    return ESP_OK;
+}
+
+static esp_err_t wifi_rx_discard_payload(int sock, int32_t payload_bytes)
 {
     uint8_t discard_buf[256];
-    uint32_t bytes_remaining = payload_bytes;
+    uint32_t bytes_remaining;
+
+    if (payload_bytes <= 0) {
+        return ESP_OK;
+    }
+
+    bytes_remaining = (uint32_t)payload_bytes;
 
     // For now the receiver only validates and reports the header.
     // Drain the payload so the next packet starts on the correct boundary.
@@ -290,14 +389,13 @@ static esp_err_t wifi_rx_parse_header(const wifi_rx_wire_header_t *wire_header,
 
     // Convert every multibyte field from network byte order into host order.
     parsed_header->magic = ntohl(wire_header->magic);
-    parsed_header->version = ntohs(wire_header->version);
-    parsed_header->header_size_bytes = ntohs(wire_header->header_size_bytes);
-    parsed_header->data_type = (wifi_rx_data_type_t)ntohl(wire_header->data_type);
-    parsed_header->frame_count = ntohl(wire_header->frame_count);
-    parsed_header->slice_count = ntohl(wire_header->slice_count);
-    parsed_header->payload_bytes = ntohl(wire_header->payload_bytes);
-    parsed_header->motor_speed_rpm = ntohl(wire_header->motor_speed_rpm);
-    parsed_header->flags = ntohl(wire_header->flags);
+    parsed_header->version = wire_header->version;
+    parsed_header->header_size_bytes = wire_header->header_size_bytes;
+    parsed_header->data_type = (wifi_rx_data_type_t)wire_header->data_type;
+    parsed_header->frame_count = (int32_t)ntohl((uint32_t)wire_header->frame_count);
+    parsed_header->slice_count = (int32_t)ntohl((uint32_t)wire_header->slice_count);
+    parsed_header->payload_bytes = (int32_t)ntohl((uint32_t)wire_header->payload_bytes);
+    parsed_header->motor_speed_rpm = (int16_t)ntohs((uint16_t)wire_header->motor_speed_rpm);
     parsed_header->payload_crc32 = ntohl(wire_header->payload_crc32);
 
     // Validate the header before any payload processing starts.
@@ -307,24 +405,63 @@ static esp_err_t wifi_rx_parse_header(const wifi_rx_wire_header_t *wire_header,
     }
 
     if (parsed_header->version != WIFI_RX_HEADER_VERSION) {
-        ESP_LOGE(TAG_wifi_rx, "Unsupported header version: %" PRIu16, parsed_header->version);
+        ESP_LOGE(TAG_wifi_rx, "Unsupported header version: %u", parsed_header->version);
         return ESP_ERR_NOT_SUPPORTED;
     }
 
     if (parsed_header->header_size_bytes != WIFI_RX_WIRE_HEADER_SIZE) {
-        ESP_LOGE(TAG_wifi_rx, "Unexpected header size: %" PRIu16, parsed_header->header_size_bytes);
+        ESP_LOGE(TAG_wifi_rx, "Unexpected header size: %u", parsed_header->header_size_bytes);
         return ESP_ERR_INVALID_ARG;
     }
 
-    if (parsed_header->data_type != WIFI_RX_DATA_TYPE_STILL_3D &&
+    if (parsed_header->data_type != WIFI_RX_DATA_TYPE_NONE &&
+        parsed_header->data_type != WIFI_RX_DATA_TYPE_STILL_3D &&
         parsed_header->data_type != WIFI_RX_DATA_TYPE_ANIMATION_3D) {
-        ESP_LOGE(TAG_wifi_rx, "Unsupported data type: %" PRIu32, (uint32_t)parsed_header->data_type);
+        ESP_LOGE(TAG_wifi_rx, "Unsupported data type: %d", (int)parsed_header->data_type);
         return ESP_ERR_NOT_SUPPORTED;
     }
 
-    if (parsed_header->frame_count == 0U || parsed_header->slice_count == 0U || parsed_header->payload_bytes == 0U) {
-        ESP_LOGE(TAG_wifi_rx, "Header contains zero-length frame, slice, or payload fields");
+    if (parsed_header->motor_speed_rpm < -1) {
+        ESP_LOGE(TAG_wifi_rx, "Invalid motor speed command: %" PRId16, parsed_header->motor_speed_rpm);
         return ESP_ERR_INVALID_ARG;
+    }
+
+    switch (parsed_header->data_type) {
+        case WIFI_RX_DATA_TYPE_NONE:
+            if (parsed_header->frame_count != -1 ||
+                parsed_header->slice_count != -1 ||
+                parsed_header->payload_bytes != -1) {
+                ESP_LOGE(TAG_wifi_rx, "None packets must use -1 for frame_count, slice_count, and payload_bytes");
+                return ESP_ERR_INVALID_ARG;
+            }
+            if (parsed_header->payload_crc32 != 0U) {
+                ESP_LOGE(TAG_wifi_rx, "None packets must use payload_crc32 = 0");
+                return ESP_ERR_INVALID_ARG;
+            }
+            break;
+
+        case WIFI_RX_DATA_TYPE_STILL_3D:
+            if (parsed_header->slice_count <= 0 || parsed_header->payload_bytes <= 0) {
+                ESP_LOGE(TAG_wifi_rx, "Still packets require positive slice_count and payload_bytes");
+                return ESP_ERR_INVALID_ARG;
+            }
+            if (parsed_header->frame_count != -1 && parsed_header->frame_count != 1) {
+                ESP_LOGE(TAG_wifi_rx, "Still packets must use frame_count = -1 or 1");
+                return ESP_ERR_INVALID_ARG;
+            }
+            break;
+
+        case WIFI_RX_DATA_TYPE_ANIMATION_3D:
+            if (parsed_header->frame_count <= 0 ||
+                parsed_header->slice_count <= 0 ||
+                parsed_header->payload_bytes <= 0) {
+                ESP_LOGE(TAG_wifi_rx, "Animation packets require positive frame_count, slice_count, and payload_bytes");
+                return ESP_ERR_INVALID_ARG;
+            }
+            break;
+
+        default:
+            return ESP_ERR_NOT_SUPPORTED;
     }
 
     return ESP_OK;
@@ -359,7 +496,7 @@ static esp_err_t wifi_rx_process_client(int client_sock)
         s_last_header = header;
 
         ESP_LOGI(TAG_wifi_rx,
-                 "Packet header received: type=%s frames=%" PRIu32 " slices=%" PRIu32 " bytes=%" PRIu32,
+                 "Packet header received: type=%s frames=%" PRId32 " slices=%" PRId32 " bytes=%" PRId32,
                  wifi_rx_data_type_to_string(header.data_type),
                  header.frame_count,
                  header.slice_count,
@@ -386,6 +523,17 @@ static esp_err_t wifi_rx_process_client(int client_sock)
                 TAG_wifi_rx,
                 "wifi_rx_discard_payload failed"
             );
+            continue;
+        }
+
+        if (payload_buf == NULL) {
+            continue;
+        }
+
+        err = wifi_rx_validate_payload_crc32(&header, payload_buf, (size_t)header.payload_bytes);
+        if (err != ESP_OK) {
+            ESP_LOGW(TAG_wifi_rx, "wifi_rx_validate_payload_crc32 failed: %s", esp_err_to_name(err));
+            heap_caps_free(payload_buf);
             continue;
         }
 
@@ -609,6 +757,8 @@ esp_err_t wifi_rx_get_last_header(wifi_rx_header_t *header)
 const char *wifi_rx_data_type_to_string(wifi_rx_data_type_t data_type)
 {
     switch (data_type) {
+        case WIFI_RX_DATA_TYPE_NONE:
+            return "none";
         case WIFI_RX_DATA_TYPE_STILL_3D:
             return "still_3d";
         case WIFI_RX_DATA_TYPE_ANIMATION_3D:
@@ -630,7 +780,7 @@ esp_err_t wifi_rx_print_header_console(const wifi_rx_header_t *header)
     // Print the core payload-shape fields first.
     err = snprintf(line,
                    sizeof(line),
-                   "wifi header: type=%s frames=%" PRIu32 " slices=%" PRIu32 " bytes=%" PRIu32,
+                   "wifi header: type=%s frames=%" PRId32 " slices=%" PRId32 " bytes=%" PRId32,
                    wifi_rx_data_type_to_string(header->data_type),
                    header->frame_count,
                    header->slice_count,
@@ -640,26 +790,23 @@ esp_err_t wifi_rx_print_header_console(const wifi_rx_header_t *header)
     }
     ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
 
-    // Print optional motor-control metadata next.
+    // Print motor-command semantics using the new compact encoding.
     err = snprintf(line,
                    sizeof(line),
-                   "wifi header: motor_rpm=%" PRIu32 " rpm_present=%s motor_present=%s motor_enabled=%s",
-                   header->motor_speed_rpm,
-                   ((header->flags & WIFI_RX_FLAG_MOTOR_RPM_PRESENT) != 0U) ? "true" : "false",
-                   ((header->flags & WIFI_RX_FLAG_MOTOR_ENABLE_PRESENT) != 0U) ? "true" : "false",
-                   ((header->flags & WIFI_RX_FLAG_MOTOR_ENABLED) != 0U) ? "true" : "false");
+                   "wifi header: motor_cmd=%" PRId16 " (-1=off 0=same >0=set_rpm)",
+                   header->motor_speed_rpm);
     if (err < 0 || (size_t)err >= sizeof(line)) {
         return ESP_ERR_INVALID_ARG;
     }
     ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
 
-    // Print protocol / integrity information last.
+    // Print protocol information last.
     err = snprintf(line,
                    sizeof(line),
-                   "wifi header: magic=0x%08" PRIX32 " version=%" PRIu16 " crc_present=%s crc32=0x%08" PRIX32,
+                   "wifi header: magic=0x%08" PRIX32 " version=%u header_size=%u crc32=0x%08" PRIX32,
                    header->magic,
                    header->version,
-                   ((header->flags & WIFI_RX_FLAG_PAYLOAD_CRC_PRESENT) != 0U) ? "true" : "false",
+                   header->header_size_bytes,
                    header->payload_crc32);
     if (err < 0 || (size_t)err >= sizeof(line)) {
         return ESP_ERR_INVALID_ARG;
@@ -674,30 +821,39 @@ esp_err_t wifi_rx_print_payload_slices_console(const wifi_rx_header_t *header,
                                                size_t payload_len)
 {
     char line[160];
-    size_t expected_payload_bytes;
-    uint32_t frame_index;
-    uint32_t slice_index;
+    size_t expected_payload_bytes = 0;
+    size_t effective_frame_count = 0;
+    size_t frame_index;
+    size_t slice_index;
     size_t payload_offset = 0;
 
     if (header == NULL || payload == NULL) {
         return ESP_ERR_INVALID_ARG;
     }
 
-    expected_payload_bytes = (size_t)header->frame_count *
-                             (size_t)header->slice_count *
-                             (size_t)DISPLAY_SLICE_BYTES;
+    ESP_RETURN_ON_ERROR(
+        wifi_rx_get_expected_payload_bytes(header, &expected_payload_bytes),
+        TAG_wifi_rx,
+        "wifi_rx_get_expected_payload_bytes failed"
+    );
+
+    ESP_RETURN_ON_ERROR(
+        wifi_rx_get_effective_frame_count(header, &effective_frame_count),
+        TAG_wifi_rx,
+        "wifi_rx_get_effective_frame_count failed"
+    );
 
     if (payload_len != expected_payload_bytes) {
         return ESP_ERR_INVALID_ARG;
     }
 
-    for (frame_index = 0; frame_index < header->frame_count; frame_index++) {
-        for (slice_index = 0; slice_index < header->slice_count; slice_index++) {
+    for (frame_index = 0; frame_index < effective_frame_count; frame_index++) {
+        for (slice_index = 0; slice_index < (size_t)header->slice_count; slice_index++) {
             int err = snprintf(line,
                                sizeof(line),
-                               "wifi payload: frame=%" PRIu32 " slice=%" PRIu32,
-                               frame_index,
-                               slice_index);
+                               "wifi payload: frame=%u slice=%u",
+                               (unsigned)frame_index,
+                               (unsigned)slice_index);
             if (err < 0 || (size_t)err >= sizeof(line)) {
                 return ESP_ERR_INVALID_ARG;
             }

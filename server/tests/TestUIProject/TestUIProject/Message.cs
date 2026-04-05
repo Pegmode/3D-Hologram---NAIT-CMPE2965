@@ -9,17 +9,31 @@ using System.Threading.Tasks;
 
 namespace TestUIProject
 {
+
+    public enum WifiTxDataType
+    {
+        None = -1,
+        Invalid = 0,
+        Still3D = 1,
+        Animation3D = 2
+    }
+
+    public enum WifiTxMotor
+    {
+        Off = -1,
+        Same = 0
+    }
+
     public class MessageHeader
     {
         public const UInt32 Magic = 0x484F4C4FU; //HOLO
-        public UInt16 Version { get; set; }
-        public UInt16 HeaderSizeBytes { get { return 36; } }
-        public UInt32 DataType { get; set; }
-        public UInt32 FrameCount { get; set; }
-        public UInt32 SliceCount { get; set; }
-        public UInt32 PayloadBytes { get; set; }
-        public UInt32 MotorSpeedRpm { get; set; }
-        public UInt32 Flags { get; set; }
+        public byte Version { get; set; }
+        public byte HeaderSizeBytes { get { return 25; } }
+        public sbyte DataType { get; set; }
+        public Int32 FrameCount { get; set; }
+        public Int32 SliceCount { get; set; }
+        public Int32 PayloadBytes { get; set; }
+        public Int16 MotorSpeedRpm { get; set; }
         public UInt32 PayloadCrc32 { get; set; }
 
         public byte[] GetBytes()
@@ -28,26 +42,43 @@ namespace TestUIProject
             int offset = 0;
 
             WriteUInt32BE(bytes, ref offset, Magic);
-            WriteUInt16BE(bytes, ref offset, Version);
-            WriteUInt16BE(bytes, ref offset, HeaderSizeBytes);
-            WriteUInt32BE(bytes, ref offset, DataType);
-            WriteUInt32BE(bytes, ref offset, FrameCount);
-            WriteUInt32BE(bytes, ref offset, SliceCount);
-            WriteUInt32BE(bytes, ref offset, PayloadBytes);
-            WriteUInt32BE(bytes, ref offset, MotorSpeedRpm);
-            WriteUInt32BE(bytes, ref offset, Flags);
+            WriteByte(bytes, ref offset, Version);
+            WriteByte(bytes, ref offset, HeaderSizeBytes);
+            WriteSByte(bytes, ref offset, DataType);
+            WriteInt32BE(bytes, ref offset, FrameCount);
+            WriteInt32BE(bytes, ref offset, SliceCount);
+            WriteInt32BE(bytes, ref offset, PayloadBytes);
+            WriteInt16BE(bytes, ref offset, MotorSpeedRpm);
             WriteUInt32BE(bytes, ref offset, PayloadCrc32);
 
             return bytes;
         }
 
-        private static void WriteUInt16BE(byte[] buffer, ref int offset, UInt16 value)
+        private static void WriteByte(byte[] buffer, ref int offset, byte value)
         {
-            BinaryPrimitives.WriteUInt16BigEndian(buffer.AsSpan(offset, 2), value);
+            buffer[offset] = value;
+            offset += 1;
+        }
+
+        private static void WriteSByte(byte[] buffer, ref int offset, sbyte value)
+        {
+            buffer[offset] = unchecked((byte)value);
+            offset += 1;
+        }
+
+        private static void WriteInt16BE(byte[] buffer, ref int offset, short value)
+        {
+            BinaryPrimitives.WriteInt16BigEndian(buffer.AsSpan(offset, 2), value);
             offset += 2;
         }
 
-        private static void WriteUInt32BE(byte[] buffer, ref int offset, UInt32 value)
+        private static void WriteInt32BE(byte[] buffer, ref int offset, int value)
+        {
+            BinaryPrimitives.WriteInt32BigEndian(buffer.AsSpan(offset, 4), value);
+            offset += 4;
+        }
+
+        private static void WriteUInt32BE(byte[] buffer, ref int offset, uint value)
         {
             BinaryPrimitives.WriteUInt32BigEndian(buffer.AsSpan(offset, 4), value);
             offset += 4;
@@ -64,7 +95,6 @@ namespace TestUIProject
                 $"SliceCount: {SliceCount}, " +
                 $"PayloadBytes: {PayloadBytes}, " +
                 $"MotorSpeedRpm: {MotorSpeedRpm}, " +
-                $"Flags: {Flags}, " +
                 $"PayloadCrc32: 0x{PayloadCrc32:X8}";
         }
 

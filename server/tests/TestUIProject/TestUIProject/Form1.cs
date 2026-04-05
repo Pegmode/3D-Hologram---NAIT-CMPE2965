@@ -6,6 +6,8 @@ using System.Threading;
 using System.Xml.Linq;
 using dlg_kadens;
 using System.Security.Cryptography;
+using System.IO.Hashing;
+
 
 
 namespace TestUIProject
@@ -44,7 +46,6 @@ namespace TestUIProject
             {
                 UI_Textbox_OUtput.AppendText(e.Data);
             }
-
         }
 
         private void UI_Button_Visualize_Click(object sender, EventArgs e)
@@ -85,8 +86,10 @@ namespace TestUIProject
                 socket = dlg.ConnClient;
                 espAddr = dlg.Address;
                 espPort = dlg.Port;
-                UI_Textbox_OUtput.Text += "Connected";
+                UI_Textbox_OUtput.Text += "\nConnected";
                 UI_Button_Connect.Enabled = false;
+                UI_Button_Send_Test.Enabled = true;
+                UI_Button_Disconnect.Enabled = true;
                 //clientRx();
             }
         }
@@ -94,6 +97,26 @@ namespace TestUIProject
         private void UI_Button_Send_Test_Click(object sender, EventArgs e)
         {
             clientTx();
+        }
+
+        private static async Task SendAllAsync(Socket socket, byte[] data, CancellationToken cancellationToken = default)
+        {
+            int totalSent = 0;
+
+            while (totalSent < data.Length)
+            {
+                int sent = await socket.SendAsync(
+                    data.AsMemory(totalSent, data.Length - totalSent),
+                    SocketFlags.None,
+                    cancellationToken);
+
+                if (sent <= 0)
+                {
+                    throw new SocketException((int)SocketError.ConnectionReset);
+                }
+
+                totalSent += sent;
+            }
         }
 
         private async void clientTx()
@@ -109,23 +132,26 @@ namespace TestUIProject
             try
             {
                 MessageHeader msgHead = new MessageHeader();
-                msgHead.Version = 1;
-                msgHead.DataType = 1;
+                msgHead.Version = 2;
+                msgHead.DataType = (sbyte)WifiTxDataType.Still3D;
                 msgHead.FrameCount = 1;
-                msgHead.SliceCount = 1;
-                msgHead.PayloadBytes = 64;
-                msgHead.MotorSpeedRpm = 456;
-                msgHead.Flags = 123;
-                msgHead.PayloadCrc32 = 789;
+                msgHead.SliceCount = 4;
+                msgHead.PayloadBytes = msgHead.FrameCount * msgHead.SliceCount * 64;
+                msgHead.MotorSpeedRpm = (short)WifiTxMotor.Off;
+
+                byte[] payload = RandomNumberGenerator.GetBytes(msgHead.PayloadBytes);
                 
+                msgHead.PayloadCrc32 = Crc32.HashToUInt32(payload);
 
-                List<byte> bytes = new List<byte>();
-                bytes.AddRange(msgHead.GetBytes());
-                bytes.AddRange(RandomNumberGenerator.GetBytes(64));
+                byte[] header = msgHead.GetBytes();
+                byte[] txBytes = new byte[header.Length + payload.Length];
 
-                byte[] txBytes = bytes.ToArray();
-                int sent = await socket.SendAsync(txBytes, SocketFlags.None);
-                Trace.WriteLine($"sent {sent} bytes:\n{msgHead.ToString()}");
+                Buffer.BlockCopy(header, 0, txBytes, 0, header.Length);
+                Buffer.BlockCopy(payload, 0, txBytes, header.Length, payload.Length);
+
+                await SendAllAsync(socket, txBytes);
+
+                Trace.WriteLine($"sent {txBytes.Length} bytes:\n{msgHead}");
             }
             catch (SocketException exc)
             {
@@ -161,7 +187,9 @@ namespace TestUIProject
 
             socket = null;
             UI_Button_Connect.Enabled = true;
-            UI_Textbox_OUtput.Text += "Not Connected";
+            UI_Button_Send_Test.Enabled = false;
+            UI_Button_Disconnect.Enabled = false;
+            UI_Textbox_OUtput.Text += "\nNot Connected";
         }
     }
 }

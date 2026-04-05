@@ -18,17 +18,7 @@ extern "C" {
 // Current packet-header version.
 //
 // Bump this if the wire format changes in an incompatible way.
-#define WIFI_RX_HEADER_VERSION 1U
-
-// Header flags describing which optional fields are valid.
-//
-// The header always has fixed size, but some fields are only meaningful when
-// their corresponding flag bit is set.
-#define WIFI_RX_FLAG_MOTOR_RPM_PRESENT     (1UL << 0)
-#define WIFI_RX_FLAG_MOTOR_ENABLE_PRESENT  (1UL << 1)
-#define WIFI_RX_FLAG_MOTOR_ENABLED         (1UL << 2)
-#define WIFI_RX_FLAG_TRIGGER_TABLE_PRESENT (1UL << 3)
-#define WIFI_RX_FLAG_PAYLOAD_CRC_PRESENT   (1UL << 4)
+#define WIFI_RX_HEADER_VERSION 2U
 
 // Types of display payloads that may arrive over TCP.
 //
@@ -36,10 +26,35 @@ extern "C" {
 // header: still image vs multi-frame animation.
 typedef enum
 {
+    WIFI_RX_DATA_TYPE_NONE = -1,
     WIFI_RX_DATA_TYPE_INVALID = 0,
     WIFI_RX_DATA_TYPE_STILL_3D = 1,
     WIFI_RX_DATA_TYPE_ANIMATION_3D = 2,
 } wifi_rx_data_type_t;
+
+typedef enum
+{
+    WIFI_RX_MOTOR_OFF = -1,
+    WIFI_RX_MOTOR_SAME = 0,
+} wifi_rx_motor_t;
+
+// On-wire packet header. All multibyte fields are sent in network byte order.
+//
+// This struct is only used at the network boundary. After reception it is
+// converted into wifi_rx_header_t so the rest of the code can work in native
+// host byte order.
+typedef struct __attribute__((packed))
+{
+    uint32_t magic;
+    uint8_t version;
+    uint8_t header_size_bytes;
+    int8_t data_type;
+    int32_t frame_count;
+    int32_t slice_count;
+    int32_t payload_bytes;
+    int16_t motor_speed_rpm;
+    uint32_t payload_crc32;
+} wifi_rx_wire_header_t;
 
 // Parsed packet header stored in host byte order.
 //
@@ -48,18 +63,17 @@ typedef enum
 typedef struct
 {
     uint32_t magic;               // Should always match WIFI_RX_HEADER_MAGIC.
-    uint16_t version;             // Protocol version of the sender.
-    uint16_t header_size_bytes;   // Size of the fixed wire header.
+    uint8_t version;             // Protocol version of the sender.
+    uint8_t header_size_bytes;   // Size of the fixed wire header.
 
     wifi_rx_data_type_t data_type; // Kind of display payload that follows.
 
-    uint32_t frame_count;         // Number of full frames in the payload.
-    uint32_t slice_count;         // Number of angular slices per frame.
-    uint32_t payload_bytes;       // Total payload size immediately after header.
+    int32_t frame_count;          // Number of full frames in the payload, or -1 if unused.
+    int32_t slice_count;          // Number of angular slices per frame, or -1 if unused.
+    int32_t payload_bytes;        // Total payload size immediately after header, or -1 for no payload.
 
-    uint32_t motor_speed_rpm;     // Optional requested motor speed in RPM.
-    uint32_t flags;               // Bitfield describing optional header content.
-    uint32_t payload_crc32;       // Optional CRC of the payload bytes.
+    int16_t motor_speed_rpm;      // -1 = off, 0 = keep same, >0 = set RPM.
+    uint32_t payload_crc32;       // CRC32 of the payload bytes, or 0 when no payload is sent.
 } wifi_rx_header_t;
 
 // Configuration for the Wi-Fi/TCP receive module.
@@ -122,8 +136,10 @@ esp_err_t wifi_rx_print_header_console(const wifi_rx_header_t *header);
 
 // Test helper: print one received payload as frame/slice data to the console.
 //
-// The payload is interpreted as:
-//     frame_count * slice_count * DISPLAY_SLICE_BYTES
+// The payload size depends on data_type:
+// - none: no payload
+// - still_3d: 1 * slice_count * DISPLAY_SLICE_BYTES
+// - animation_3d: frame_count * slice_count * DISPLAY_SLICE_BYTES
 //
 // Slice data is printed in hexadecimal with frame and slice labels.
 esp_err_t wifi_rx_print_payload_slices_console(const wifi_rx_header_t *header,
