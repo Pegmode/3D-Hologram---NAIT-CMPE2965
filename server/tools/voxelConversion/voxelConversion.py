@@ -11,7 +11,7 @@ import threading
 from coordinateConversionMath import * #
 from fileConversionFunctions import *
 from cConversionFunctions import *
-
+import win32pipe, win32file
 
 
 #defines
@@ -105,7 +105,22 @@ def actionConvertToPipe():
     convert an .obj file to custom byte array and return in a windows pipe
     '''
     global args, parser, SLICE_COUNT
-    pdb.set_trace()
+    pipeName = r'\\.\pipe\VoxelPipe'
+    #run a test
+    try:
+        handle = win32file.CreateFile(
+            pipeName,
+            win32file.GENERIC_WRITE,
+            0, None,
+            win32file.OPEN_EXISTING,
+            0, None
+        )    
+    except:
+        print(f"[ERROR] named pipe {pipeName} not found!! (has the UI process created the pipe yet? )")
+        sys.stdout.flush()
+        return
+    data = bytearray([1,2,3,4,5])
+    win32file.WriteFile(handle, data)
     
 
 
@@ -152,6 +167,7 @@ def argsGetFilepath():
         givenPath = args.objFilepath
         if not os.path.exists(givenPath):#does the file exist
             parser.error(f"file {givenPath} not found")
+            sys.stdout.flush()
         objFilepath = givenPath
     return objFilepath
 
