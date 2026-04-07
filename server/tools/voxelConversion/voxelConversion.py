@@ -23,7 +23,7 @@ HELPSTRING = '''
 example usage: py voxelConversion.py tea.obj -dv
 '''
 
-SLICE_COUNT = 16
+SLICE_COUNT = 16#default is 16, this can be overridden in args when called
 BOARD_WIDTH = 16
 BOARD_HEIGHT = 32
 
@@ -71,6 +71,7 @@ def actionConvertToHeader():
     #prep change the voxel format to match what is needed in C
     flatBits = convertVoxelsToFlatList(quantizedVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
     packedBytes = packFlattenedVoxelsToBytes(flatBits)
+    pdb.set_trace()
     #build the output string
     dataStringLines = []
     valuesPerLine = 16#change the to change how long each data segment is in the data formatting
@@ -99,29 +100,46 @@ const uint8_t debugMvox_voxelData[MVOX_VOXEL_BYTE_COUNT] = {{
     f.write(outputString)
 
 
+def actionConvertToPipe():
+    '''
+    convert an .obj file to custom byte array and return in a windows pipe
+    '''
+    global args, parser, SLICE_COUNT
+    pdb.set_trace()
+    
+
+
 # arg functions
 ##########################################################
 def argsInit():
     '''
     Initialize parser and args. Parse all given args.
     '''
-    global args, parser
+    global args, parser, SLICE_COUNT
     parser = argparse.ArgumentParser(description=HELPSTRING, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("objFilepath", nargs="?", help="Optional .obj file path")
     parser.add_argument("-d", "--debug", action="store_true")
     parser.add_argument("-dv", "--debugVisualize", action="store_true",  help="visualize .obj in matplotlib as 3d plot")
     parser.add_argument("-ch", "--convertHeader", action="store_true", help="convert .obj file to a C header in quantized cylindrical coords")
+    parser.add_argument("-cp", "--convertPipe", action="store_true", help="convert .obj file to a byte array returned in a windows pipe")
+    parser.add_argument("-sc", "--sliceCount", type=int, help=f"override the default slicecount, default:{SLICE_COUNT}")
     args = parser.parse_args()
 
 def argsParseAndRunFlags():
     '''
     Look through all the given flag arguements and run what is needed based on what is given
     '''
-    global args, parser
+    global args, parser, SLICE_COUNT
+    #value args
+    if args.sliceCount:#override the default slice count if arg is given.
+        SLICE_COUNT = args.sliceCount
+    #actions
     if args.debugVisualize:
         actionDebugVisualize()
     if args.convertHeader:
         actionConvertToHeader()
+    if args.convertPipe:
+        actionConvertToPipe()
 
 
 def argsGetFilepath():
