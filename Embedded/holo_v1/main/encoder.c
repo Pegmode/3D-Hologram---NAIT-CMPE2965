@@ -1,8 +1,11 @@
 #include "encoder.h"
 
+#include <stddef.h>
+
 #include "driver/pulse_cnt.h"
 #include "esp_log.h"
 #include "esp_check.h"
+#include "esp_heap_caps.h"
 
 static const char *TAG_encoder = "encoder";
 
@@ -29,12 +32,56 @@ static TaskHandle_t count_notify_task = NULL;
 
 // Counts how many Z pulses have occurred
 static volatile uint32_t z_rev_count = 0;
+// Most recent watch point seen by the PCNT ISR.
+//
+// This simpler implementation keeps only the latest fired threshold. If
+// several watch points fire before the task handles the notification, newer
+// values overwrite older ones.
 static volatile int last_watch_point = 0;
-static bool count_watch_point_active = false;
-static int current_watch_point = 0;
+// Values currently loaded into the PCNT watch-point hardware.
+//
+// The PCNT peripheral owns the actual thresholds. This array only tracks which
+// ones the firmware added so they can be removed and replaced later.
+static int *loaded_watch_points = NULL;
+static size_t loaded_watch_point_count = 0;
+static size_t loaded_watch_point_capacity = 0;
 
 // Tracks whether the module has been initialized
 static bool encoder_initialized = false;
+
+// Ensure there is enough RAM to remember all active watch points.
+static esp_err_t encoder_reserve_watch_point_capacity(size_t required_capacity)
+{
+    int *resized_watch_points;
+    size_t new_capacity;
+
+    if (required_capacity <= loaded_watch_point_capacity) {
+        return ESP_OK;
+    }
+
+    new_capacity = loaded_watch_point_capacity;
+    if (new_capacity == 0U) {
+        new_capacity = 8U;
+    }
+
+    while (new_capacity < required_capacity) {
+        new_capacity *= 2U;
+    }
+
+    resized_watch_points = (int *)heap_caps_realloc(
+        loaded_watch_points,
+        new_capacity * sizeof(*loaded_watch_points),
+        MALLOC_CAP_8BIT
+    );
+    if (resized_watch_points == NULL) {
+        return ESP_ERR_NO_MEM;
+    }
+
+    loaded_watch_points = resized_watch_points;
+    loaded_watch_point_capacity = new_capacity;
+
+    return ESP_OK;
+}
 
 // --------------------------------------------------
 // Small helper: configure an input pin
@@ -115,7 +162,7 @@ static bool encoder_pcnt_on_reach(pcnt_unit_handle_t unit, const pcnt_watch_even
 // Simple method:
 // - A is the pulse input
 // - B is the direction control input
-// - count both rising and falling edges of A => x2 counting
+// - count the rising edge of A
 // --------------------------------------------------
 
 esp_err_t encoder_init_pcnt(void)
@@ -157,13 +204,15 @@ esp_err_t encoder_init_pcnt(void)
         "pcnt_new_channel failed"
     );
 
-    // Count on BOTH edges of A
-    // This gives x2 counting.
+    // Count only the rising edge of A.
+    //
+    // If x2 counting is needed later, change the falling-edge action from
+    // HOLD to INCREASE and update ENC_COUNT_MULTIPLIER to match.
     ESP_RETURN_ON_ERROR(
         pcnt_channel_set_edge_action(
             g_pcnt_chan,
             PCNT_CHANNEL_EDGE_ACTION_INCREASE,   // rising edge of A
-            PCNT_CHANNEL_EDGE_ACTION_INCREASE    // falling edge of A
+            PCNT_CHANNEL_EDGE_ACTION_HOLD        // falling edge of A
         ),
         TAG_encoder,
         "pcnt_channel_set_edge_action failed"
@@ -176,8 +225,8 @@ esp_err_t encoder_init_pcnt(void)
     ESP_RETURN_ON_ERROR(
         pcnt_channel_set_level_action(
             g_pcnt_chan,
-            PCNT_CHANNEL_LEVEL_ACTION_KEEP,      // B high
-            PCNT_CHANNEL_LEVEL_ACTION_INVERSE    // B low
+            PCNT_CHANNEL_LEVEL_ACTION_INVERSE,      // B high
+            PCNT_CHANNEL_LEVEL_ACTION_KEEP    // B low
         ),
         TAG_encoder,
         "pcnt_channel_set_level_action failed"
@@ -290,18 +339,35 @@ void encoder_set_count_notify_task(TaskHandle_t task_handle)
 
 esp_err_t encoder_set_count_watch_point(int watch_point)
 {
+    ESP_RETURN_ON_ERROR(
+        encoder_clear_all_count_watch_points(),
+        TAG_encoder,
+        "encoder_clear_all_count_watch_points failed"
+    );
+
+    return encoder_add_count_watch_point(watch_point);
+}
+
+esp_err_t encoder_add_count_watch_point(int watch_point)
+{
+    size_t watch_point_index;
+
     if (!encoder_initialized) {
         return ESP_ERR_INVALID_STATE;
     }
 
-    if (count_watch_point_active) {
-        ESP_RETURN_ON_ERROR(
-            pcnt_unit_remove_watch_point(g_pcnt_unit, current_watch_point),
-            TAG_encoder,
-            "pcnt_unit_remove_watch_point failed"
-        );
-        count_watch_point_active = false;
+    for (watch_point_index = 0; watch_point_index < loaded_watch_point_count; watch_point_index++) {
+        if (loaded_watch_points[watch_point_index] == watch_point) {
+            ESP_LOGW(TAG_encoder, "Watch point %d is already loaded", watch_point);
+            return ESP_OK;
+        }
     }
+
+    ESP_RETURN_ON_ERROR(
+        encoder_reserve_watch_point_capacity(loaded_watch_point_count + 1U),
+        TAG_encoder,
+        "encoder_reserve_watch_point_capacity failed"
+    );
 
     ESP_RETURN_ON_ERROR(
         pcnt_unit_add_watch_point(g_pcnt_unit, watch_point),
@@ -309,10 +375,76 @@ esp_err_t encoder_set_count_watch_point(int watch_point)
         "pcnt_unit_add_watch_point failed"
     );
 
-    current_watch_point = watch_point;
-    count_watch_point_active = true;
+    loaded_watch_points[loaded_watch_point_count] = watch_point;
+    loaded_watch_point_count++;
 
     return ESP_OK;
+}
+
+esp_err_t encoder_load_count_watch_points(const int32_t *watch_points, size_t watch_point_count)
+{
+    size_t watch_point_index;
+    esp_err_t err;
+
+    if (!encoder_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    if (watch_point_count > 0U && watch_points == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    ESP_RETURN_ON_ERROR(
+        encoder_clear_all_count_watch_points(),
+        TAG_encoder,
+        "encoder_clear_all_count_watch_points failed"
+    );
+
+    for (watch_point_index = 0; watch_point_index < watch_point_count; watch_point_index++) {
+        err = encoder_add_count_watch_point((int)watch_points[watch_point_index]);
+        if (err != ESP_OK) {
+            ESP_LOGE(TAG_encoder,
+                     "Failed to load watch point %ld at index %u",
+                     (long)watch_points[watch_point_index],
+                     (unsigned)watch_point_index);
+
+            // Clear any partial load so the hardware state stays predictable.
+            encoder_clear_all_count_watch_points();
+            return err;
+        }
+    }
+
+    return ESP_OK;
+}
+
+esp_err_t encoder_clear_all_count_watch_points(void)
+{
+    size_t watch_point_index;
+    esp_err_t err;
+
+    if (!encoder_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    for (watch_point_index = 0; watch_point_index < loaded_watch_point_count; watch_point_index++) {
+        err = pcnt_unit_remove_watch_point(g_pcnt_unit, loaded_watch_points[watch_point_index]);
+        if (err != ESP_OK) {
+            ESP_LOGE(TAG_encoder,
+                     "pcnt_unit_remove_watch_point failed for %d: %s",
+                     loaded_watch_points[watch_point_index],
+                     esp_err_to_name(err));
+            return err;
+        }
+    }
+
+    loaded_watch_point_count = 0U;
+
+    return ESP_OK;
+}
+
+esp_err_t encoder_clear_count_watch_point(void)
+{
+    return encoder_clear_all_count_watch_points();
 }
 
 esp_err_t encoder_get_last_watch_point(int *watch_point)

@@ -25,6 +25,7 @@
 #include "nvs_flash.h"
 
 #include "console_io.h"
+#include "display_store.h"
 #include "main.h"
 
 // Default runtime values used when the caller does not override them.
@@ -511,8 +512,7 @@ static esp_err_t wifi_rx_process_client(int client_sock)
             }
         }
 
-        // For payload bring-up, receive the full byte array and print each
-        // frame/slice block in a readable console format.
+        // Receive the payload and prepare it for the staging display store.
         err = wifi_rx_receive_payload(client_sock, &header, &payload_buf);
         if (err != ESP_OK) {
             // If the payload shape is not one we can parse yet, discard it so
@@ -537,10 +537,26 @@ static esp_err_t wifi_rx_process_client(int client_sock)
             continue;
         }
 
-        err = wifi_rx_print_payload_slices_console(&header, payload_buf, (size_t)header.payload_bytes);
+        err = display_store_stage_from_payload(&header, payload_buf, (size_t)header.payload_bytes);
         if (err != ESP_OK) {
-            ESP_LOGW(TAG_wifi_rx, "wifi_rx_print_payload_slices_console failed: %s", esp_err_to_name(err));
+            ESP_LOGW(TAG_wifi_rx, "display_store_stage_from_payload failed: %s", esp_err_to_name(err));
+            heap_caps_free(payload_buf);
+            continue;
         }
+
+        err = display_store_request_swap();
+        if (err != ESP_OK) {
+            ESP_LOGW(TAG_wifi_rx, "display_store_request_swap failed: %s", esp_err_to_name(err));
+            heap_caps_free(payload_buf);
+            continue;
+        }
+
+        err = display_store_print_staging_triggers_console();
+        if (err != ESP_OK) {
+            ESP_LOGW(TAG_wifi_rx, "display_store_print_staging_triggers_console failed: %s", esp_err_to_name(err));
+        }
+
+        ESP_LOGI(TAG_wifi_rx, "New display payload staged; swap pending at next Z");
 
         heap_caps_free(payload_buf);
     }

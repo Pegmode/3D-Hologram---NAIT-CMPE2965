@@ -10,10 +10,8 @@ extern "C" {
 // Create and start the display task on core 0.
 //
 // The task waits for encoder notifications, swaps in newly staged frame data at
-// each Z pulse, and advances through the active trigger table one slice at a
-// time using a single active PCNT watch point.
-// Slice 0 is shown immediately after Z in software. Later slices are re-armed
-// one-by-one as each count event is handled.
+// the Z index pulse, and advances through the active slice set using PCNT watch
+// points computed from ENC_COUNTS_PER_REV.
 esp_err_t display_task_start(void);
 
 #ifdef __cplusplus

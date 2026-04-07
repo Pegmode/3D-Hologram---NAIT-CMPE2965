@@ -86,7 +86,7 @@ namespace TestUIProject
                 socket = dlg.ConnClient;
                 espAddr = dlg.Address;
                 espPort = dlg.Port;
-                UI_Textbox_OUtput.Text += "\nConnected";
+                UI_Textbox_OUtput.Text += "\r\nConnected";
                 UI_Button_Connect.Enabled = false;
                 UI_Button_Send_Test.Enabled = true;
                 UI_Button_Disconnect.Enabled = true;
@@ -189,7 +189,7 @@ namespace TestUIProject
             UI_Button_Connect.Enabled = true;
             UI_Button_Send_Test.Enabled = false;
             UI_Button_Disconnect.Enabled = false;
-            UI_Textbox_OUtput.Text += "\nNot Connected";
+            UI_Textbox_OUtput.Text += "\r\nNot Connected";
         }
     }
 }

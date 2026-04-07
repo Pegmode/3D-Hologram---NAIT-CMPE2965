@@ -1,6 +1,7 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
+#include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -48,15 +49,43 @@ esp_err_t encoder_init();
 // Pass NULL to disable task notification.
 void encoder_set_z_notify_task(TaskHandle_t task_handle);
 
-// Register a task to be notified when the A/B counter reaches the next watch point.
+// Register a task to be notified when the A/B counter reaches a watch point.
 // Pass NULL to disable task notification.
 void encoder_set_count_notify_task(TaskHandle_t task_handle);
 
-// Configure the next PCNT watch point that should wake the display task.
-// Only one active watch point is tracked at a time.
+// Replace the current watch-point set with one watch point.
+//
+// This wrapper is kept for compatibility with older code paths that only use
+// one threshold at a time.
 esp_err_t encoder_set_count_watch_point(int watch_point);
 
+// Add one watch point to the active PCNT watch-point set.
+//
+// Unlike encoder_set_count_watch_point(), this does not remove watch points
+// that were already loaded.
+esp_err_t encoder_add_count_watch_point(int watch_point);
+
+// Replace the current watch-point set with the provided list.
+//
+// The values are loaded exactly as given. The caller is responsible for
+// skipping slice-0's trigger at count 0 when that slice is handled directly at
+// the Z pulse instead of by hardware.
+esp_err_t encoder_load_count_watch_points(const int32_t *watch_points, size_t watch_point_count);
+
+// Remove all currently loaded PCNT watch points.
+esp_err_t encoder_clear_all_count_watch_points(void);
+
+// Remove the currently active PCNT watch point set.
+//
+// This older name is kept as a compatibility wrapper around
+// encoder_clear_all_count_watch_points().
+esp_err_t encoder_clear_count_watch_point(void);
+
 // Read the most recent watch point value that triggered the PCNT callback.
+//
+// Without a queue, a newer watch-point hit can overwrite an older one before
+// the task consumes it. This is acceptable for the current simpler design and
+// can be revisited later if needed.
 esp_err_t encoder_get_last_watch_point(int *watch_point);
 
 // Read the current encoder count

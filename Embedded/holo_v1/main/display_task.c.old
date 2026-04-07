@@ -1,0 +1,333 @@
+#include "display_task.h"
+
+#include <stddef.h>
+#include <stdint.h>
+
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_err.h"
+#include "esp_log.h"
+
+#include "console_io.h"
+#include "display_store.h"
+#include "encoder.h"
+#include "shiftreg.h"
+
+static const char *TAG_display_task = "display_task";
+
+static TaskHandle_t s_display_task_handle = NULL;
+
+// Require the encoder to move a meaningful distance away from the index before
+// the next Z pulse is accepted. This filters duplicate/noisy Z edges that
+// would otherwise keep resetting the count near zero.
+#define DISPLAY_TASK_Z_REARM_COUNT (ENC_COUNTS_PER_REV / 2)
+
+// Print one display-task event to the USB console during encoder/display bring-up.
+//
+// These prints are intentionally simple and human-readable so the encoder count
+// progression can be checked while rotating the shaft by hand.
+static void display_task_print_event_console(const char *event_name,
+                                             size_t frame_index,
+                                             size_t slice_index,
+                                             int encoder_count, int trigger_count)
+{
+    char line[128];
+    int err;
+
+    err = snprintf(line,
+                   sizeof(line),
+                   "display event: %s frame=%u slice=%u enc_count=%d trigger_count=%d",
+                   event_name,
+                   (unsigned)frame_index,
+                   (unsigned)slice_index,
+                   encoder_count, trigger_count);
+    if (err < 0 || (size_t)err >= sizeof(line)) {
+        ESP_LOGW(TAG_display_task, "display_task_print_event_console snprintf failed");
+        return;
+    }
+
+    if (console_io_write_line(line) != ESP_OK) {
+        ESP_LOGW(TAG_display_task, "display_task_print_event_console console_io_write_line failed");
+    }
+}
+
+// Advance next_slice_index to the next trigger that is still ahead of the
+// current encoder count, then arm that watch point.
+//
+// If the count has already moved past one or more slice triggers by the time
+// the task gets here, those missed slices are skipped for this revolution
+// instead of being emitted immediately in a burst.
+static esp_err_t schedule_next_slice_update(const display_store_t *store, size_t *next_slice_index)
+{
+    int current_count = 0;
+    esp_err_t err;
+
+    if (store == NULL || next_slice_index == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    if (!display_store_is_allocated(store)) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    err = encoder_get_count(&current_count);
+    if (err != ESP_OK) {
+        return err;
+    }
+
+    while (*next_slice_index < store->slice_count) {
+        const int32_t *trigger_count = display_store_trigger_at_const(store, (uint32_t)(*next_slice_index));
+        if (trigger_count == NULL) {
+            return ESP_ERR_INVALID_STATE;
+        }
+
+        // Only arm triggers that are still in the future. If a trigger is
+        // already behind the current count, trying to arm it now would cause
+        // an immediate catch-up event instead of a cleanly timed slice update.
+        if (*trigger_count > current_count) {
+            return encoder_set_count_watch_point(*trigger_count);
+        }
+
+        ESP_LOGW(TAG_display_task,
+                 "Skipping late slice %u at count %d (trigger %ld already passed)",
+                 (unsigned)*next_slice_index,
+                 current_count,
+                 (long)*trigger_count);
+
+        (*next_slice_index)++;
+    }
+
+    // No more slice triggers remain in this revolution, so remove any active
+    // watch point and wait for the next Z pulse to restart the sequence.
+    return encoder_clear_count_watch_point();
+}
+
+// Push one slice from the active display store to the shift-register chain.
+//
+// The display store owns the active frame data. This helper only looks up the
+// requested slice and forwards the 64-byte payload to the shift-register
+// driver.
+static esp_err_t display_active_slice(const display_store_t *store, size_t frame_index, size_t slice_index)
+{
+    const display_slice_t *slice_data;
+
+    if (store == NULL || !display_store_is_allocated(store)) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    slice_data = display_store_slice_at_const(store, (uint32_t)frame_index, (uint32_t)slice_index);
+    if (slice_data == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    return shiftreg_send_frame(*slice_data, DISPLAY_SLICE_BYTES);
+}
+
+// Display task driven by encoder notifications.
+//
+// The task always reads from the active display store. New Wi-Fi data is staged
+// in the background on core 1, then promoted to active on the next index pulse.
+static void display_task(void *arg)
+{
+    uint32_t notify_bits = 0;
+    size_t current_frame_index = 0;
+    size_t next_slice_index = 0;
+    esp_err_t err;
+    int watch_point = 0;
+    int current_encoder_count = 0;
+    bool z_ready_for_next_pulse = true;
+
+    (void)arg;
+
+    while (1) {
+        const display_store_t *active_store;
+
+        // Wait until encoder.c reports either:
+        // - a Z pulse, which marks the start of a new revolution
+        // - a count watch point, which marks the next slice update angle
+        xTaskNotifyWait(0, UINT32_MAX, &notify_bits, portMAX_DELAY);
+
+        if ((notify_bits & ENCODER_NOTIFY_EVENT_Z) != 0U) {
+            bool did_swap = false;
+
+            encoder_get_count(&current_encoder_count);
+            // int encoder_count_before_reset = 0;
+
+            // err = encoder_get_count(&encoder_count_before_reset);
+            // if (err != ESP_OK) {
+            //     ESP_LOGW(TAG_display_task, "encoder_get_count failed before Z: %s", esp_err_to_name(err));
+            //     encoder_count_before_reset = 0;
+            // }
+
+            // if (!z_ready_for_next_pulse) {
+            //     display_task_print_event_console("z_ignored", current_frame_index, next_slice_index, encoder_count_before_reset);
+            //     notify_bits &= ~ENCODER_NOTIFY_EVENT_COUNT;
+            //     continue;
+            // }
+
+            // A new dataset received over Wi-Fi is only promoted to active at a
+            // revolution boundary so slice data and trigger counts stay in sync.
+            err = display_store_swap_if_pending(&did_swap);
+            if (err != ESP_OK) {
+                ESP_LOGE(TAG_display_task, "display_store_swap_if_pending failed: %s", esp_err_to_name(err));
+                continue;
+            }
+
+            active_store = display_store_get_active();
+
+            // Start every revolution from slice 0.
+            next_slice_index = 0;
+
+            // Start new animations from frame 0 after a buffer swap. Otherwise
+            // advance one frame per revolution when multiple frames are active.
+            if (did_swap || active_store == NULL || !display_store_is_allocated(active_store)) {
+                current_frame_index = 0;
+            } else if (active_store->frame_count > 1U) {
+                current_frame_index = (current_frame_index + 1U) % active_store->frame_count;
+            } else {
+                current_frame_index = 0;
+            }
+
+            // The encoder count is measured relative to the most recent Z pulse,
+            // so clear it here before arming any slice watch points.
+            err = encoder_clear_count();
+            if (err != ESP_OK) {
+                ESP_LOGE(TAG_display_task, "encoder_clear_count failed: %s", esp_err_to_name(err));
+                continue;
+            }
+
+            // Any watch point from the previous revolution is no longer valid
+            // once the count has been reset to zero.
+            // err = encoder_clear_count_watch_point();
+            // if (err != ESP_OK) {
+            //     ESP_LOGE(TAG_display_task, "encoder_clear_count_watch_point failed: %s", esp_err_to_name(err));
+            //     continue;
+            // }
+
+            if (active_store == NULL || !display_store_is_allocated(active_store)) {
+                display_task_print_event_console("z_no_active_store", 0U, 0U, current_encoder_count, watch_point);
+                continue;
+            }
+
+            // err = display_active_slice(active_store, current_frame_index, next_slice_index);
+            // if (err != ESP_OK) {
+            //     ESP_LOGE(TAG_display_task, "display_active_slice failed: %s", esp_err_to_name(err));
+            //     continue;
+            // }
+
+            if (did_swap) {
+                display_task_print_event_console("swap_at_z", current_frame_index, next_slice_index, current_encoder_count, watch_point);
+                err = schedule_next_slice_update(active_store, &next_slice_index);
+                if (err != ESP_OK) {
+                    ESP_LOGE(TAG_display_task, "schedule_next_slice_update failed: %s", esp_err_to_name(err));
+                }
+            }
+            display_task_print_event_console("z", current_frame_index, next_slice_index, current_encoder_count, watch_point);
+
+            //z_ready_for_next_pulse = false;
+
+            //next_slice_index++;
+
+            // if (next_slice_index < active_store->slice_count) {
+            //     err = schedule_next_slice_update(active_store, &next_slice_index);
+            //     if (err != ESP_OK) {
+            //         ESP_LOGE(TAG_display_task, "schedule_next_slice_update failed: %s", esp_err_to_name(err));
+            //     }
+            // }
+
+            // A Z pulse defines the start of a new revolution. If a count event
+            // bit arrived in the same task notification, it belongs to the old
+            // revolution and should not be processed after the counter reset.
+            // notify_bits &= ~ENCODER_NOTIFY_EVENT_COUNT;
+        }
+
+        if ((notify_bits & ENCODER_NOTIFY_EVENT_COUNT) != 0U) {
+            
+            
+            encoder_get_count(&current_encoder_count);
+
+            // Count events are only meaningful when there is an active dataset
+            // and at least one remaining slice left to show this revolution.
+            active_store = display_store_get_active();
+            if (active_store == NULL || !display_store_is_allocated(active_store)) {
+                continue;
+            }
+
+            if (next_slice_index >= active_store->slice_count) {
+                continue;
+            }
+
+            err = encoder_get_last_watch_point(&watch_point);
+            if (err != ESP_OK) {
+                ESP_LOGE(TAG_display_task, "encoder_get_last_watch_point failed: %s", esp_err_to_name(err));
+                continue;
+            }
+
+            err = display_active_slice(active_store, current_frame_index, next_slice_index);
+            if (err != ESP_OK) {
+                ESP_LOGE(TAG_display_task, "display_active_slice failed: %s", esp_err_to_name(err));
+                continue;
+            }
+
+            ESP_LOGI(TAG_display_task,
+                     "Displayed frame %u slice %u at count %d",
+                     (unsigned)current_frame_index,
+                     (unsigned)next_slice_index,
+                     watch_point);
+
+            // Use the watch point value as the encoder count for this update.
+            // It is the exact threshold that triggered the slice change.
+            display_task_print_event_console("update", current_frame_index, next_slice_index, current_encoder_count, watch_point);
+
+            // Rearm Z acceptance once we have progressed far enough into the
+            // revolution. Use the exact watch point first, then fall back to a
+            // live count sample if needed.
+            // if (watch_point >= DISPLAY_TASK_Z_REARM_COUNT) {
+            //     z_ready_for_next_pulse = true;
+            // } else {
+            //     err = encoder_get_count(&current_encoder_count);
+            //     if (err == ESP_OK && current_encoder_count >= DISPLAY_TASK_Z_REARM_COUNT) {
+            //         z_ready_for_next_pulse = true;
+            //     }
+            // }
+
+            // Move on to the following slice for this same revolution.
+            next_slice_index++;
+
+            if (next_slice_index < active_store->slice_count) {
+                err = schedule_next_slice_update(active_store, &next_slice_index);
+                if (err != ESP_OK) {
+                    ESP_LOGE(TAG_display_task, "schedule_next_slice_update failed: %s", esp_err_to_name(err));
+                }
+            }
+        }
+    }
+}
+
+esp_err_t display_task_start(void)
+{
+    // Only allow one display task instance.
+    if (s_display_task_handle != NULL) {
+        ESP_LOGW(TAG_display_task, "display_task_start called more than once");
+        return ESP_OK;
+    }
+
+    // Run the display task on core 0 so the encoder-driven timing path stays
+    // separate from the Wi-Fi receive task pinned to core 1.
+    if (xTaskCreatePinnedToCore(
+            display_task,
+            "display_task",
+            4096,
+            NULL,
+            10,
+            &s_display_task_handle,
+            0) != pdPASS) {
+        return ESP_ERR_NO_MEM;
+    }
+
+    // Route both encoder event types to this task.
+    encoder_set_z_notify_task(s_display_task_handle);
+    encoder_set_count_notify_task(s_display_task_handle);
+
+    return ESP_OK;
+}

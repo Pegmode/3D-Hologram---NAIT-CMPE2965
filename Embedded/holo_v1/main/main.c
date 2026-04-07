@@ -12,6 +12,7 @@
 #include "shiftreg.h"
 #include "pwm.h"
 #include "console_io.h"
+#include "display_store.h"
 #include "display_task.h"
 #include "main.h"
 #include "wifi_rx.h"
@@ -57,7 +58,7 @@ void app_main(void)
 	encoder_config.pin_z		= PIN_ENC_Z;
 	encoder_config.ab_pull 		= GPIO_FLOATING;
 	encoder_config.z_pull		= GPIO_FLOATING;
-	encoder_config.glitch_filter_ns = 0;
+	encoder_config.glitch_filter_ns = 1000;
 
 	// Configure Wi-Fi receiver in SoftAP mode for packet-header bring-up.
 	//
@@ -77,7 +78,7 @@ void app_main(void)
 	wifi_rx_config.print_headers_to_console = true;
 
 
-    err = shiftreg_init();
+    err = shiftreg_init(); 
     if (err != ESP_OK) {
         ESP_LOGE(TAG_main, "shiftreg_init failed: %s", esp_err_to_name(err));
         return;
@@ -98,6 +99,12 @@ void app_main(void)
     err = encoder_init();
     if (err != ESP_OK) {
         ESP_LOGE(TAG_main, "encoder_init failed: %s", esp_err_to_name(err));
+        return;
+    }
+
+    err = display_store_manager_init();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG_main, "display_store_manager_init failed: %s", esp_err_to_name(err));
         return;
     }
 

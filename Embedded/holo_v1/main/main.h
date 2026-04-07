@@ -26,6 +26,15 @@ extern "C" {
 #define PIN_ENC_A			4
 #define PIN_ENC_B			5
 #define PIN_ENC_Z			6
+#define ENC_PPR             2000
+
+// Encoder count mode used by encoder.c.
+//
+// The current PCNT setup counts both edges of channel A only, which gives x2
+// counting relative to the encoder's base pulses-per-revolution spec.
+#define ENC_COUNT_MULTIPLIER 1
+#define ENC_COUNTS_PER_REV   (ENC_PPR * ENC_COUNT_MULTIPLIER)
+
 
 //pwm
 #define PIN_ESC_PWM			16
