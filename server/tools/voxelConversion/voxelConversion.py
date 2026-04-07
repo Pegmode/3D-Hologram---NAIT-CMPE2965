@@ -104,9 +104,21 @@ def actionConvertToPipe():
     '''
     convert an .obj file to custom byte array and return in a windows pipe
     '''
-    global args, parser, SLICE_COUNT
+    global args, parser, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT
+    ##Convert everything...
+    objFilepath = argsGetFilepath()
+    #load the obj and convert the coords to quantized cylindrical
+    cartesianVoxels = getVoxelsFromObj(objFilepath)
+    cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)
+    quantizedVoxels = cylindricalList2Quantized(cylindricalVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
+    #prep change the voxel format to match what is needed in C
+    flatBits = convertVoxelsToFlatList(quantizedVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
+    packedBytes = packFlattenedVoxelsToBytes(flatBits)
+
+    #Send the frame over pipe
+    print("Writing voxel data to pipe...")
+    sys.stdout.flush()
     pipeName = r'\\.\pipe\VoxelPipe'
-    #run a test
     try:
         handle = win32file.CreateFile(
             pipeName,
@@ -119,7 +131,7 @@ def actionConvertToPipe():
         print(f"[ERROR] named pipe {pipeName} not found!! (has the UI process created the pipe yet? )")
         sys.stdout.flush()
         return
-    data = bytearray([1,2,3,4,5])
+    data = bytearray(packedBytes)
     win32file.WriteFile(handle, data)
     
 
@@ -136,7 +148,7 @@ def argsInit():
     parser.add_argument("-d", "--debug", action="store_true")
     parser.add_argument("-dv", "--debugVisualize", action="store_true",  help="visualize .obj in matplotlib as 3d plot")
     parser.add_argument("-ch", "--convertHeader", action="store_true", help="convert .obj file to a C header in quantized cylindrical coords")
-    parser.add_argument("-cp", "--convertPipe", action="store_true", help="convert .obj file to a byte array returned in a windows pipe")
+    parser.add_argument("-cp", "--convertPipe", action="store_true", help="convert .obj file to a byte array returned in a windows pipe. The UI pipe server MUST be running with named pipe VoxelPipe")
     parser.add_argument("-sc", "--sliceCount", type=int, help=f"override the default slicecount, default:{SLICE_COUNT}")
     args = parser.parse_args()
 
