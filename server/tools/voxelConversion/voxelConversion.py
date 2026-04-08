@@ -19,6 +19,7 @@ import win32pipe, win32file
 DEFAULT_OBJ_FILEPATH = "tea.obj"
 HELPSTRING = '''
 .obj 2 .hvox tool by Daniel Chu
+for use with CMPE2965 3D hologram project
 
 example usage: py voxelConversion.py tea.obj -dv
 '''
@@ -55,7 +56,8 @@ def actionDebugVisualize():
     '''
     objFilepath = argsGetFilepath()
     voxels = getVoxelsFromObj(objFilepath)#get the voxels from file
-    print(f"debug {args.debug}")
+    print(f"plotting voxels...")
+    sys.stdout.flush()
     plotVoxels(voxels)#visualize the voxels for debug
 
 def actionConvertToHeader():
@@ -107,10 +109,18 @@ def actionConvertToPipe():
     ##Convert everything...
     objFilepath = argsGetFilepath()
     #load the obj and convert the coords to quantized cylindrical
+    print(f"converting {objFilepath} to cartesian voxels...")
+    sys.stdout.flush()
     cartesianVoxels = getVoxelsFromObj(objFilepath)
+    print(f"converting cartesian to cylindrical...")
+    sys.stdout.flush()
     cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)
+    print(f"quantizing cylindrical coordinates...")
+    sys.stdout.flush()
     quantizedVoxels = cylindricalList2Quantized(cylindricalVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
     #prep change the voxel format to match what is needed in C
+    print(f"packing voxel data for pipe transfer to UI...")
+    sys.stdout.flush()
     flatBits = convertVoxelsToFlatList(quantizedVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
     packedBytes = packFlattenedVoxelsToBytes(flatBits)
 
@@ -132,6 +142,8 @@ def actionConvertToPipe():
         return
     data = bytearray(packedBytes)
     win32file.WriteFile(handle, data)
+    print(f"finished converting {objFilepath}!")
+    sys.stdout.flush()
     
 
 
