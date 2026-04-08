@@ -26,10 +26,9 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            UI_Textbox_OUtput = new TextBox();
+            UI_Textbox_Output = new TextBox();
             UI_Button_RUN = new Button();
             UI_Button_Visualize = new Button();
             UI_Button_LoadObj = new Button();
@@ -39,15 +38,15 @@
             UI_Button_Disconnect = new Button();
             SuspendLayout();
             // 
-            // UI_Textbox_OUtput
+            // UI_Textbox_Output
             // 
-            UI_Textbox_OUtput.Location = new Point(164, 27);
-            UI_Textbox_OUtput.Multiline = true;
-            UI_Textbox_OUtput.Name = "UI_Textbox_OUtput";
-            UI_Textbox_OUtput.ReadOnly = true;
-            UI_Textbox_OUtput.ScrollBars = ScrollBars.Vertical;
-            UI_Textbox_OUtput.Size = new Size(282, 277);
-            UI_Textbox_OUtput.TabIndex = 0;
+            UI_Textbox_Output.Location = new Point(164, 27);
+            UI_Textbox_Output.Multiline = true;
+            UI_Textbox_Output.Name = "UI_Textbox_Output";
+            UI_Textbox_Output.ReadOnly = true;
+            UI_Textbox_Output.ScrollBars = ScrollBars.Vertical;
+            UI_Textbox_Output.Size = new Size(282, 277);
+            UI_Textbox_Output.TabIndex = 0;
             // 
             // UI_Button_RUN
             // 
@@ -132,7 +131,7 @@
             Controls.Add(UI_Button_LoadObj);
             Controls.Add(UI_Button_Visualize);
             Controls.Add(UI_Button_RUN);
-            Controls.Add(UI_Textbox_OUtput);
+            Controls.Add(UI_Textbox_Output);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "3D Hologram Server";
@@ -142,7 +141,7 @@
 
         #endregion
 
-        private TextBox UI_Textbox_OUtput;
+        private TextBox UI_Textbox_Output;
         private Button UI_Button_RUN;
         private Button UI_Button_Visualize;
         private Button UI_Button_LoadObj;
