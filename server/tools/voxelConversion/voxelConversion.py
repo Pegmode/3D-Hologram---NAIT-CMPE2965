@@ -71,7 +71,6 @@ def actionConvertToHeader():
     #prep change the voxel format to match what is needed in C
     flatBits = convertVoxelsToFlatList(quantizedVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
     packedBytes = packFlattenedVoxelsToBytes(flatBits)
-    pdb.set_trace()
     #build the output string
     dataStringLines = []
     valuesPerLine = 16#change the to change how long each data segment is in the data formatting
