@@ -43,7 +43,7 @@ def cartesianList2Cylindrical(cartesianList):
 def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
     '''
     Convert a list of  cylindrical coordinates [...(theta, r, h)] to normalized and quantized values
-    that fit on the hologram display board [(nth slice, h, horizontal position on board)]
+    that fit on the hologram display board [(nth slice, h, horizontal position on board r)]
     
     returns the quantized list
     
@@ -75,11 +75,11 @@ def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
         thetaDegree = (numpy.degrees(thetaRad) + 360.0) % 360.0
         thetaFold = thetaDegree % 180.0 #I need to fold the angles into the range [0,180) degrees
         #deal with board indices...
-        sliceN = int(thetaFold // anglePerSlice)
-        if sliceN >= sliceCount:
-            sliceN = sliceCount - 1 #clamp upper range
+        sliceIndex = int(thetaFold // anglePerSlice)
+        if sliceIndex >= sliceCount:
+            sliceIndex = sliceCount - 1 #clamp upper range
         #rQuantized = int(numpy.floor(r))
-        rQuantized = int(numpy.floor((r / maxRadius) * (halfWidth - 1)))#try to scale the radius into one half of the board....
+        rQuantized = int(numpy.floor((r / maxRadius) * (halfWidth - 1)))#try to scale the radius into one half of the board. Use the ratio of r relative to the max r to deal with corners from the cartesian conversion.
         if thetaDegree >= 180.0:#If the voxel is in the "other right half" of the board normalize it to our board
             rNormalized = rQuantized + halfWidth
         else:
@@ -90,7 +90,7 @@ def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
             continue
         if hNormalized < 0 or hNormalized >= height:
             continue
-        quantizedCoordinates.append((sliceN, hNormalized, rNormalized))#Our board array will be of the form [slice][height][horizontal position]
+        quantizedCoordinates.append((sliceIndex, hNormalized, rNormalized))#Our board array will be of the form [slice][height][horizontal position]
     return quantizedCoordinates 
 
 
