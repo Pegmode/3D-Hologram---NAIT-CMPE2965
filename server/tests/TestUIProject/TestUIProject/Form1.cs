@@ -39,7 +39,6 @@ namespace TestUIProject
         {
             InitializeComponent();
             UI_Textbox_Output.TextChanged += UI_Textbox_Output_TextChangedHandler;
-            checkForConverterPath();//Check if the convert is present, if not continuously prompt for the file
         }
 
         ///////////////////////////////////////////////////////////////////
@@ -68,6 +67,9 @@ namespace TestUIProject
 
         private void UI_Button_Visualize_Click(object sender, EventArgs e)
         {
+            if (!converterExecutableExists()) {//the the converter is not present, we can't run things that rely on it...
+                return;
+            }
             Process process = new Process();
             process.StartInfo.FileName = "voxelConversion.exe";
             process.StartInfo.Arguments = "-dv";
@@ -84,6 +86,9 @@ namespace TestUIProject
 
         private void UI_Button_LoadObj_Click(object sender, EventArgs e)
         {
+            if (!converterExecutableExists()) {//the the converter is not present, we can't run things that rely on it...
+                return;
+            }
             string objFilepath;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Obj files (*.obj) | *.obj";
@@ -166,9 +171,9 @@ namespace TestUIProject
             voxelConverterProcess.WaitForExit();
         }
 
-        private void checkForConverterPath() {
+        private bool converterExecutableExists() {
             string converterPath = voxelConverterProcessFilepath;
-            while(!File.Exists(converterPath)) {
+            if(!File.Exists(converterPath)) {
                 MessageBox.Show($"WARNING: Converter .exe file not found. Please select the voxelConverter");
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Filter = "executable files (*.exe) | *.exe";
@@ -176,13 +181,12 @@ namespace TestUIProject
                     converterPath = openFileDialog.FileName;
                 }
                 else {//close the program if the user doesn't want to provide an executable
-                    MessageBox.Show($"WARNING: Hologram server requires the converter executable to run, closing program...");
-                    Application.Exit();
-                    Environment.Exit(0);
-                    return;
+                    MessageBox.Show($"WARNING: Hologram server requires the converter executable to run");
+                    return false;
                 }
+                voxelConverterProcessFilepath = converterPath;
             }
-            voxelConverterProcessFilepath = converterPath;
+            return true;
         }
 
         ///////////////////////////////////////////////////////////////////
