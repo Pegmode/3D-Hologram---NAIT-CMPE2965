@@ -51,6 +51,11 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes);
 // If OE pin is not configured, this function does nothing and returns ESP_OK.
 esp_err_t shiftreg_set_output_enabled(bool enable);
 
+// Send an all-zero frame to the shift register chain.
+//
+// This clears all 64 output bytes so every LED is turned off.
+esp_err_t shiftreg_clear(void);
+
 // Pulse the latch pin manually
 esp_err_t shiftreg_latch(void);
 

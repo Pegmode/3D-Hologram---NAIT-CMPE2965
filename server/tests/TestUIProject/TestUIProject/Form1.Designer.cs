@@ -36,6 +36,7 @@
             d = new Label();
             UI_Button_Send_Test = new Button();
             UI_Button_Disconnect = new Button();
+            UI_Button_Send_Tea = new Button();
             SuspendLayout();
             // 
             // UI_Textbox_Output
@@ -111,7 +112,7 @@
             // UI_Button_Disconnect
             // 
             UI_Button_Disconnect.Enabled = false;
-            UI_Button_Disconnect.Location = new Point(30, 160);
+            UI_Button_Disconnect.Location = new Point(30, 189);
             UI_Button_Disconnect.Name = "UI_Button_Disconnect";
             UI_Button_Disconnect.Size = new Size(113, 23);
             UI_Button_Disconnect.TabIndex = 7;
@@ -119,11 +120,23 @@
             UI_Button_Disconnect.UseVisualStyleBackColor = true;
             UI_Button_Disconnect.Click += UI_Button_Disconnect_Click;
             // 
+            // UI_Button_Send_Tea
+            // 
+            UI_Button_Send_Tea.Enabled = false;
+            UI_Button_Send_Tea.Location = new Point(30, 160);
+            UI_Button_Send_Tea.Name = "UI_Button_Send_Tea";
+            UI_Button_Send_Tea.Size = new Size(113, 23);
+            UI_Button_Send_Tea.TabIndex = 8;
+            UI_Button_Send_Tea.Text = "Send Mr Tea Pot";
+            UI_Button_Send_Tea.UseVisualStyleBackColor = true;
+            UI_Button_Send_Tea.Click += UI_Button_Send_Tea_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(511, 450);
+            Controls.Add(UI_Button_Send_Tea);
             Controls.Add(UI_Button_Disconnect);
             Controls.Add(UI_Button_Send_Test);
             Controls.Add(d);
@@ -149,5 +162,6 @@
         private Label d;
         private Button UI_Button_Send_Test;
         private Button UI_Button_Disconnect;
+        private Button UI_Button_Send_Tea;
     }
 }

@@ -116,6 +116,7 @@ namespace TestUIProject
                 UI_Textbox_Output.Text += "\r\nConnected";
                 UI_Button_Connect.Enabled = false;
                 UI_Button_Send_Test.Enabled = true;
+                UI_Button_Send_Tea.Enabled = true;
                 UI_Button_Disconnect.Enabled = true;
                 //clientRx();
             }
@@ -123,7 +124,7 @@ namespace TestUIProject
 
         private void UI_Button_Send_Test_Click(object sender, EventArgs e)
         {
-            clientTx();
+            clientTxRando();
         }
 
         private void UI_Button_Disconnect_Click(object sender, EventArgs e) {
@@ -235,8 +236,8 @@ namespace TestUIProject
             }
         }
 
+        private async void clientTxTea()
 
-        private async void clientTx()
         {
             //check if connection is alive
             if (socket == null || !socket.Connected)
@@ -252,12 +253,59 @@ namespace TestUIProject
                 msgHead.Version = 2;
                 msgHead.DataType = (sbyte)WifiTxDataType.Still3D;
                 msgHead.FrameCount = 1;
-                msgHead.SliceCount = 4;
+                msgHead.SliceCount = 16;
+                msgHead.PayloadBytes = msgHead.FrameCount * msgHead.SliceCount * 64;
+                msgHead.MotorSpeedRpm = (short)WifiTxMotor.Off;
+
+                byte[] payload = demoFrames.teapot;
+                msgHead.PayloadCrc32 = Crc32.HashToUInt32(payload);
+
+                byte[] header = msgHead.GetBytes();
+                byte[] txBytes = new byte[header.Length + payload.Length];
+
+                Buffer.BlockCopy(header, 0, txBytes, 0, header.Length);
+                Buffer.BlockCopy(payload, 0, txBytes, header.Length, payload.Length);
+
+                await SendAllAsync(socket, txBytes);
+
+                Trace.WriteLine($"sent {txBytes.Length} bytes:\n{msgHead}");
+            }
+            catch (SocketException exc)
+            {
+                Trace.WriteLine("Send:SocketException : " + exc.Message);
+                HandleDisconnect();
+                return;
+            }
+            catch (Exception exc)
+            {
+                Trace.WriteLine("Send:Exception : " + exc.Message);
+                HandleDisconnect();
+                return;
+            }
+        }
+
+        private async void clientTxRando()
+        {
+            //check if connection is alive
+            if (socket == null || !socket.Connected)
+            {
+                HandleDisconnect();
+                return;
+            }
+
+            //serialize, encode and send message
+            try
+            {
+                MessageHeader msgHead = new MessageHeader();
+                msgHead.Version = 2;
+                msgHead.DataType = (sbyte)WifiTxDataType.Animation3D;
+                msgHead.FrameCount = 20;
+                msgHead.SliceCount = 8;
                 msgHead.PayloadBytes = msgHead.FrameCount * msgHead.SliceCount * 64;
                 msgHead.MotorSpeedRpm = (short)WifiTxMotor.Off;
 
                 byte[] payload = RandomNumberGenerator.GetBytes(msgHead.PayloadBytes);
-                
+
                 msgHead.PayloadCrc32 = Crc32.HashToUInt32(payload);
 
                 byte[] header = msgHead.GetBytes();
@@ -302,8 +350,14 @@ namespace TestUIProject
             socket = null;
             UI_Button_Connect.Enabled = true;
             UI_Button_Send_Test.Enabled = false;
+            UI_Button_Send_Tea.Enabled = false;
             UI_Button_Disconnect.Enabled = false;
             UI_Textbox_Output.Text += "\r\nNot Connected";
+        }
+
+        private void UI_Button_Send_Tea_Click(object sender, EventArgs e)
+        {
+            clientTxTea();
         }
     }
 }
