@@ -5,14 +5,15 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Hashing;
 using System.IO.Pipes;
+using System.IO.Pipes;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
-using System.Xml.Linq;
-using System.IO.Pipes;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 
 namespace TestUIProject
@@ -38,6 +39,7 @@ namespace TestUIProject
         {
             InitializeComponent();
             UI_Textbox_Output.TextChanged += UI_Textbox_Output_TextChangedHandler;
+            checkForConverterPath();//Check if the convert is present, if not continuously prompt for the file
         }
 
         ///////////////////////////////////////////////////////////////////
@@ -146,6 +148,9 @@ namespace TestUIProject
             voxelConverterProcess.EnableRaisingEvents = true;
             voxelConverterProcess.StartInfo.RedirectStandardOutput = true;
             voxelConverterProcess.StartInfo.RedirectStandardError = true;
+            voxelConverterProcess.StartInfo.UseShellExecute = false;
+            voxelConverterProcess.StartInfo.CreateNoWindow = true;
+            voxelConverterProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             voxelConverterProcess.Start();
             voxelConverterProcess.BeginOutputReadLine();
             //get the data from the pipe
@@ -159,6 +164,19 @@ namespace TestUIProject
             //cleanup process
             await voxelConverterProcess.WaitForExitAsync();//wait for the process to exit AFTER we have flushed STDOUT to the UI
             voxelConverterProcess.WaitForExit();
+        }
+
+        private void checkForConverterPath() {
+            string converterPath = voxelConverterProcessFilepath;
+            while(!File.Exists(converterPath)) {
+                MessageBox.Show($"WARNING: Converter .exe file not found. Please select the voxelConverter");
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "executable files (*.exe) | *.exe";
+                if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                    converterPath = openFileDialog.FileName;
+                }
+            }
+            voxelConverterProcessFilepath = converterPath;
         }
 
         ///////////////////////////////////////////////////////////////////
