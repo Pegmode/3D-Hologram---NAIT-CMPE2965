@@ -175,6 +175,12 @@ namespace TestUIProject
                 if (openFileDialog.ShowDialog() == DialogResult.OK) {
                     converterPath = openFileDialog.FileName;
                 }
+                else {//close the program if the user doesn't want to provide an executable
+                    MessageBox.Show($"WARNING: Hologram server requires the converter executable to run, closing program...");
+                    Application.Exit();
+                    Environment.Exit(0);
+                    return;
+                }
             }
             voxelConverterProcessFilepath = converterPath;
         }
