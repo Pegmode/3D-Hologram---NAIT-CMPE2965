@@ -1,15 +1,19 @@
-using System.Diagnostics;
-using System.Net.Sockets;
-using System.Text.Json;
-using System.Text;
-using System.Threading;
-using System.Xml.Linq;
-using System.Security.Cryptography;
-using System.IO.Hashing;
-using System.IO;
 //Custom lib
 using dlg_kadens;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Hashing;
 using System.IO.Pipes;
+using System.Net.Sockets;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Xml.Linq;
+using System.IO.Pipes;
+using System.Threading.Tasks;
+
 
 namespace TestUIProject
 {
@@ -18,12 +22,16 @@ namespace TestUIProject
         //constants
         const int PIPE_BUFFER_SIZE = 1024;
         const string VOXEL_CONVERTER_DEFAULT_FILEPATH = "voxelConversion.exe";
+        const string VOXEL_PIPE_NAME = "VoxelPipe";
         //Networking
         string espAddr = "192.168.4.1";
         int espPort = 3333;
         Socket socket;
         //Processes/Pipes
         byte[] pipeBuffer = new byte[PIPE_BUFFER_SIZE];
+        NamedPipeServerStream voxelPipe;
+        Process voxelConverterProcess;
+        string voxelConverterProcessFilepath = VOXEL_CONVERTER_DEFAULT_FILEPATH;
 
 
         public Form1()
@@ -79,7 +87,7 @@ namespace TestUIProject
                     return;
                 }
                 //open a pipe....
-                UI_Textbox_Output.Text += "Creating pipe for conversion...";
+                callVoxelConverter();
             }
         }
 
@@ -111,11 +119,65 @@ namespace TestUIProject
         ///////////////////////////////////////////////////////////////////
         //Process Utils
         ///////////////////////////////////////////////////////////////////
-        private void callVoxelConverter() { 
-        
-        
+        private async Task callVoxelConverter() {
+            if (voxelConverterProcess != null && !voxelConverterProcess.HasExited) { //Check if the process is running. Kill the process if its still running
+                voxelConverterProcess.Kill();
+                voxelConverterProcess.WaitForExit();
+            }
+            //start the pipe server
+            UI_Textbox_Output.Text += "Creating pipe...\r\n";
+            voxelPipe = new NamedPipeServerStream(VOXEL_PIPE_NAME, PipeDirection.In);
+
+            //setup the converter process call
+            UI_Textbox_Output.Text += "Calling converter process...\r\n";
+            voxelConverterProcess = new Process();
+            voxelConverterProcess.StartInfo.FileName = voxelConverterProcessFilepath;
+            voxelConverterProcess.StartInfo.Arguments = "-cp";//TODO add actual obj filepath
+            voxelConverterProcess.StartInfo.UseShellExecute = false;
+            voxelConverterProcess.OutputDataReceived += Process_OutputDataReceived;
+            voxelConverterProcess.EnableRaisingEvents = true;
+            voxelConverterProcess.StartInfo.RedirectStandardOutput = true;
+            voxelConverterProcess.StartInfo.RedirectStandardError = true;
+            voxelConverterProcess.Start();
+            voxelConverterProcess.BeginOutputReadLine();
+
+
+            await voxelPipe.WaitForConnectionAsync();
+            UI_Textbox_Output.Text += "UI got pipe connection from converter!\r\n";
+            byte[] voxelBytes = await readAllDataInFromPipe(voxelPipe);
+            UI_Textbox_Output.Text += $"Data from pipe:";
+            foreach (int val in voxelBytes) {
+                UI_Textbox_Output.Text += $" {val},";
+            }
+
+
+            await voxelConverterProcess.WaitForExitAsync();
+            voxelConverterProcess.WaitForExit();
+
+
         }
 
+
+        private async Task<byte[]> readAllDataInFromPipe(NamedPipeServerStream pipe) {
+            using MemoryStream ms = new MemoryStream();
+            byte[] buffer = new byte[PIPE_BUFFER_SIZE];
+            while (true) {
+                int bytesRead = await pipe.ReadAsync(buffer, 0, buffer.Length);
+                if (bytesRead == 0) break;//pipe closed, exit the 
+                ms.Write(buffer, 0, bytesRead);
+            }
+            return ms.ToArray();
+        }
+        ///////////////////////////////////////////////////////////////////
+        //Process Event Handlers
+        ///////////////////////////////////////////////////////////////////
+        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e) {
+            if (e.Data != null) {
+                UI_Textbox_Output.BeginInvoke(new Action(() => {
+                    UI_Textbox_Output.AppendText($"{e.Data}\r\n");
+                }));
+            }
+        }
 
         ///////////////////////////////////////////////////////////////////
         //Networking / Sockets
@@ -141,14 +203,7 @@ namespace TestUIProject
             }
         }
 
-        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e) {
-            UI_Textbox_Output.Text += "stuff";
-            if (e.Data != null) {
-                UI_Textbox_Output.AppendText(e.Data);
-            }
 
-
-        }
         private async void clientTx()
         {
             //check if connection is alive
