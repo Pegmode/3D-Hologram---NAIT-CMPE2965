@@ -139,7 +139,7 @@ namespace TestUIProject
             voxelConverterProcess = new Process();
             voxelConverterProcess.StartInfo.FileName = voxelConverterProcessFilepath;
             voxelConverterProcess.StartInfo.ArgumentList.Clear();
-            //voxelConverterProcess.StartInfo.ArgumentList.Add(objFilepath);
+            voxelConverterProcess.StartInfo.ArgumentList.Add(objFilepath);
             voxelConverterProcess.StartInfo.ArgumentList.Add("-cp");
             voxelConverterProcess.StartInfo.UseShellExecute = false;
             voxelConverterProcess.OutputDataReceived += Process_OutputDataReceived;
