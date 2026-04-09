@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Hashing;
 using System.IO.Pipes;
-using System.IO.Pipes;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
@@ -70,18 +69,19 @@ namespace TestUIProject
             if (!converterExecutableExists()) {//the the converter is not present, we can't run things that rely on it...
                 return;
             }
-            Process process = new Process();
-            process.StartInfo.FileName = "voxelConversion.exe";
-            process.StartInfo.Arguments = "-dv";
-            process.StartInfo.UseShellExecute = false;
-            process.OutputDataReceived += Process_OutputDataReceived;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.EnableRaisingEvents = true;
-            process.Start();
-            process.WaitForExit();
-            string t = process.StandardOutput.ReadToEnd();
-            UI_Textbox_Output.AppendText(t);
+            string objFilepath;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Obj files (*.obj) | *.obj";
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                objFilepath = openFileDialog.FileName;
+                if (!File.Exists(objFilepath)) {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
+                    MessageBox.Show($"File {objFilepath} not found."); ;
+                    return;
+                }
+                //Run the converter to get data from an OBJ
+                callVoxelConverterToVisualize(objFilepath);
+            }
+
         }
 
         private void UI_Button_LoadObj_Click(object sender, EventArgs e)
@@ -170,6 +170,29 @@ namespace TestUIProject
             //cleanup process
             await voxelConverterProcess.WaitForExitAsync();//wait for the process to exit AFTER we have flushed STDOUT to the UI
             voxelConverterProcess.WaitForExit();
+        }
+
+        private async Task callVoxelConverterToVisualize(string objFilepath) {
+            Process process = new Process();
+            process.StartInfo.FileName = voxelConverterProcessFilepath;
+            process.StartInfo.ArgumentList.Clear();
+            process.StartInfo.ArgumentList.Add(objFilepath);
+            process.StartInfo.ArgumentList.Add("-dv");
+            process.StartInfo.UseShellExecute = false;
+            process.OutputDataReceived += Process_OutputDataReceived;
+            process.EnableRaisingEvents = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process .StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.Start();
+            process.BeginOutputReadLine();
+            string t = process.StandardOutput.ReadToEnd();
+            UI_Textbox_Output.AppendText(t);
+
+            await process.WaitForExitAsync();//wait for the process to exit AFTER we have flushed STDOUT to the UI
+            process.WaitForExit();
         }
 
         private bool converterExecutableExists() {
