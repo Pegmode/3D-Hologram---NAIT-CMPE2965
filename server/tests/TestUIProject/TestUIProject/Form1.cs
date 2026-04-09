@@ -147,20 +147,18 @@ namespace TestUIProject
             voxelConverterProcess.Start();
             voxelConverterProcess.BeginOutputReadLine();
 
-
-            await voxelPipe.WaitForConnectionAsync();
+            ///////////////////////////////////////////////////////////////////
+            //Process Async/Events
+            ///////////////////////////////////////////////////////////////////
+            await voxelPipe.WaitForConnectionAsync();//wait for the pipe to be populated but dont hang the UI thread
             UI_Textbox_Output.Text += "UI got pipe connection from converter!\r\n";
             byte[] voxelBytes = await readAllDataInFromPipe(voxelPipe);
             UI_Textbox_Output.Text += $"Data from pipe:";
             foreach (int val in voxelBytes) {
                 UI_Textbox_Output.Text += $" {val},";
             }
-
-
-            await voxelConverterProcess.WaitForExitAsync();
+            await voxelConverterProcess.WaitForExitAsync();//wait for the process to exit AFTER we have flushed STDOUT to the UI
             voxelConverterProcess.WaitForExit();
-
-
         }
 
 
