@@ -82,18 +82,18 @@ namespace TestUIProject
 
         private void UI_Button_LoadObj_Click(object sender, EventArgs e)
         {
-            string filePath;
+            string objFilepath;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Obj files (*.obj) | *.obj";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                filePath = openFileDialog.FileName;
-                if (!File.Exists(filePath)) {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
-                    MessageBox.Show($"File {filePath} not found."); ;
+                objFilepath = openFileDialog.FileName;
+                if (!File.Exists(objFilepath)) {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
+                    MessageBox.Show($"File {objFilepath} not found."); ;
                     return;
                 }
-                //open a pipe....
-                callVoxelConverter();
+                //Run the converter to get data from an OBJ
+                callVoxelConverterToConvert(objFilepath);
             }
         }
 
@@ -125,7 +125,7 @@ namespace TestUIProject
         ///////////////////////////////////////////////////////////////////
         //Process Utils
         ///////////////////////////////////////////////////////////////////
-        private async Task callVoxelConverter() {
+        private async Task callVoxelConverterToConvert(string objFilepath) {
             if (voxelConverterProcess != null && !voxelConverterProcess.HasExited) { //Check if the process is running. Kill the process if its still running
                 voxelConverterProcess.Kill();
                 voxelConverterProcess.WaitForExit();
@@ -138,7 +138,9 @@ namespace TestUIProject
             UI_Textbox_Output.Text += "Calling converter process...\r\n";
             voxelConverterProcess = new Process();
             voxelConverterProcess.StartInfo.FileName = voxelConverterProcessFilepath;
-            voxelConverterProcess.StartInfo.Arguments = "-cp";//TODO add actual obj filepath
+            voxelConverterProcess.StartInfo.ArgumentList.Clear();
+            //voxelConverterProcess.StartInfo.ArgumentList.Add(objFilepath);
+            voxelConverterProcess.StartInfo.ArgumentList.Add("-cp");
             voxelConverterProcess.StartInfo.UseShellExecute = false;
             voxelConverterProcess.OutputDataReceived += Process_OutputDataReceived;
             voxelConverterProcess.EnableRaisingEvents = true;
@@ -146,10 +148,7 @@ namespace TestUIProject
             voxelConverterProcess.StartInfo.RedirectStandardError = true;
             voxelConverterProcess.Start();
             voxelConverterProcess.BeginOutputReadLine();
-
-            ///////////////////////////////////////////////////////////////////
-            //Process Async/Events
-            ///////////////////////////////////////////////////////////////////
+            //get the data from the pipe
             await voxelPipe.WaitForConnectionAsync();//wait for the pipe to be populated but dont hang the UI thread
             UI_Textbox_Output.Text += "UI got pipe connection from converter!\r\n";
             byte[] voxelBytes = await readAllDataInFromPipe(voxelPipe);
@@ -157,11 +156,14 @@ namespace TestUIProject
             foreach (int val in voxelBytes) {
                 UI_Textbox_Output.Text += $" {val},";
             }
+            //cleanup process
             await voxelConverterProcess.WaitForExitAsync();//wait for the process to exit AFTER we have flushed STDOUT to the UI
             voxelConverterProcess.WaitForExit();
         }
 
-
+        ///////////////////////////////////////////////////////////////////
+        //Process Async/Events
+        ///////////////////////////////////////////////////////////////////
         private async Task<byte[]> readAllDataInFromPipe(NamedPipeServerStream pipe) {
             using MemoryStream ms = new MemoryStream();
             byte[] buffer = new byte[PIPE_BUFFER_SIZE];
@@ -172,9 +174,7 @@ namespace TestUIProject
             }
             return ms.ToArray();
         }
-        ///////////////////////////////////////////////////////////////////
-        //Process Event Handlers
-        ///////////////////////////////////////////////////////////////////
+
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e) {
             if (e.Data != null) {
                 UI_Textbox_Output.BeginInvoke(new Action(() => {

@@ -7,6 +7,8 @@ import struct
 import matplotlib.pyplot as plt
 import os, subprocess
 import requests,sys
+from pathlib import Path
+import pdb
 
 
 DEFAULT_OBJ_FILEPATH = "tea.obj"
@@ -74,11 +76,10 @@ def getVoxelsFromObj(objFilepath):
     :param objFilepath: filepath to OBJ file
     '''
     ##Check if filepath containts obj extension
-    if objFilepath.split(".")[-1] != "obj":
+    objPathObject = Path(objFilepath)
+    if objPathObject.suffix.lower() != ".obj":
         raise Exception(f"ERROR: file {objFilepath} does not have .obj extension")
-    vl32Filepath = f"{''.join(objFilepath.split('.')[:-1])}.vl32"
-    if vl32Filepath[0] == "\\":#TODO running in os can have bad stuff here, figure out a way to filter this better
-        vl32Filepath = "." + vl32Filepath
+    vl32Filepath = str(objPathObject.with_suffix(".vl32"))
     downloadConversionProgram()
     externalConvertObj2Vl32(objFilepath, vl32Filepath)
     voxels = readVL32(vl32Filepath)
