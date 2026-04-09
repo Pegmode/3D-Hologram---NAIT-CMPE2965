@@ -37,11 +37,17 @@ namespace TestUIProject
         public Form1()
         {
             InitializeComponent();
+            UI_Textbox_Output.TextChanged += UI_Textbox_Output_TextChangedHandler;
         }
 
         ///////////////////////////////////////////////////////////////////
         //UI Event handlers
         ///////////////////////////////////////////////////////////////////
+        private void UI_Textbox_Output_TextChangedHandler(object? sender, EventArgs e) {//perform auto scrolling
+            UI_Textbox_Output.SelectionStart = UI_Textbox_Output.Text.Length;
+            UI_Textbox_Output.ScrollToCaret();
+        }
+
         private void UI_Button_RUN_Click(object sender, EventArgs e)
         {
             Process process = new Process();
