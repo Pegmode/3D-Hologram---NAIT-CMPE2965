@@ -50,17 +50,7 @@ namespace TestUIProject
 
         private void UI_Button_RUN_Click(object sender, EventArgs e)
         {
-            Process process = new Process();
-            process.StartInfo.FileName = "voxelConversion.exe";
-            process.StartInfo.UseShellExecute = false;
-            process.OutputDataReceived += Process_OutputDataReceived;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.EnableRaisingEvents = true;
-            process.Start();
-            process.WaitForExit();
-            string t = process.StandardOutput.ReadToEnd();
-            UI_Textbox_Output.AppendText(t);
+            //TODO
 
         }
 
@@ -173,6 +163,7 @@ namespace TestUIProject
         }
 
         private async Task callVoxelConverterToVisualize(string objFilepath) {
+
             Process process = new Process();
             process.StartInfo.FileName = voxelConverterProcessFilepath;
             process.StartInfo.ArgumentList.Clear();
