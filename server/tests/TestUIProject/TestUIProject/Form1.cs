@@ -221,6 +221,13 @@ namespace TestUIProject {
         //Networking / Sockets
         ///////////////////////////////////////////////////////////////////
 
+        private byte[] buildMessage(byte[] payload, Int32 frameCount, WifiTxDataType messageType, Int16 rpm) {
+            MessageHeader messageHeader = new MessageHeader();
+
+
+
+        }
+
         private static async Task SendAllAsync(Socket socket, byte[] data, CancellationToken cancellationToken = default) {
             int totalSent = 0;
 
