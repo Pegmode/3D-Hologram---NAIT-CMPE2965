@@ -15,10 +15,8 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 
-namespace TestUIProject
-{
-    public partial class Form1 : Form
-    {
+namespace TestUIProject {
+    public partial class Form1 : Form {
         //constants
         const int PIPE_BUFFER_SIZE = 1024;
         const string VOXEL_CONVERTER_DEFAULT_FILEPATH = "voxelConversion.exe";
@@ -34,8 +32,7 @@ namespace TestUIProject
         string voxelConverterProcessFilepath = VOXEL_CONVERTER_DEFAULT_FILEPATH;
 
 
-        public Form1()
-        {
+        public Form1() {
             InitializeComponent();
             UI_Textbox_Output.TextChanged += UI_Textbox_Output_TextChangedHandler;
         }
@@ -48,14 +45,12 @@ namespace TestUIProject
             UI_Textbox_Output.ScrollToCaret();
         }
 
-        private void UI_Button_RUN_Click(object sender, EventArgs e)
-        {
+        private void UI_Button_RUN_Click(object sender, EventArgs e) {
             //TODO
 
         }
 
-        private void UI_Button_Visualize_Click(object sender, EventArgs e)
-        {
+        private void UI_Button_Visualize_Click(object sender, EventArgs e) {
             if (!converterExecutableExists()) {//the the converter is not present, we can't run things that rely on it...
                 return;
             }
@@ -74,16 +69,14 @@ namespace TestUIProject
 
         }
 
-        private void UI_Button_LoadObj_Click(object sender, EventArgs e)
-        {
+        private void UI_Button_LoadObj_Click(object sender, EventArgs e) {
             if (!converterExecutableExists()) {//the the converter is not present, we can't run things that rely on it...
                 return;
             }
             string objFilepath;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Obj files (*.obj) | *.obj";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 objFilepath = openFileDialog.FileName;
                 if (!File.Exists(objFilepath)) {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
                     MessageBox.Show($"File {objFilepath} not found."); ;
@@ -94,12 +87,10 @@ namespace TestUIProject
             }
         }
 
-        private void UI_Button_Connect_Click(object sender, EventArgs e)
-        {
+        private void UI_Button_Connect_Click(object sender, EventArgs e) {
             //use Kaden's dialog dll for connection
             ConnDlg dlg = new(espAddr, espPort);
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
+            if (dlg.ShowDialog() == DialogResult.OK) {
                 socket = dlg.ConnClient;
                 espAddr = dlg.Address;
                 espPort = dlg.Port;
@@ -112,8 +103,7 @@ namespace TestUIProject
             }
         }
 
-        private void UI_Button_Send_Test_Click(object sender, EventArgs e)
-        {
+        private void UI_Button_Send_Test_Click(object sender, EventArgs e) {
             clientTxRando();
         }
 
@@ -173,7 +163,7 @@ namespace TestUIProject
             process.OutputDataReceived += Process_OutputDataReceived;
             process.EnableRaisingEvents = true;
             process.StartInfo.RedirectStandardOutput = true;
-            process .StartInfo.RedirectStandardError = true;
+            process.StartInfo.RedirectStandardError = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -188,7 +178,7 @@ namespace TestUIProject
 
         private bool converterExecutableExists() {
             string converterPath = voxelConverterProcessFilepath;
-            if(!File.Exists(converterPath)) {
+            if (!File.Exists(converterPath)) {
                 MessageBox.Show($"WARNING: Converter .exe file not found. Please select the voxelConverter");
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Filter = "executable files (*.exe) | *.exe";
@@ -203,6 +193,7 @@ namespace TestUIProject
             }
             return true;
         }
+
 
         ///////////////////////////////////////////////////////////////////
         //Process Async/Events
@@ -230,19 +221,16 @@ namespace TestUIProject
         //Networking / Sockets
         ///////////////////////////////////////////////////////////////////
 
-        private static async Task SendAllAsync(Socket socket, byte[] data, CancellationToken cancellationToken = default)
-        {
+        private static async Task SendAllAsync(Socket socket, byte[] data, CancellationToken cancellationToken = default) {
             int totalSent = 0;
 
-            while (totalSent < data.Length)
-            {
+            while (totalSent < data.Length) {
                 int sent = await socket.SendAsync(
                     data.AsMemory(totalSent, data.Length - totalSent),
                     SocketFlags.None,
                     cancellationToken);
 
-                if (sent <= 0)
-                {
+                if (sent <= 0) {
                     throw new SocketException((int)SocketError.ConnectionReset);
                 }
 
@@ -250,19 +238,15 @@ namespace TestUIProject
             }
         }
 
-        private async void clientTxTea()
-
-        {
+        private async void clientTxTea() {
             //check if connection is alive
-            if (socket == null || !socket.Connected)
-            {
+            if (socket == null || !socket.Connected) {
                 HandleDisconnect();
                 return;
             }
 
             //serialize, encode and send message
-            try
-            {
+            try {
                 MessageHeader msgHead = new MessageHeader();
                 msgHead.Version = 2;
                 msgHead.DataType = (sbyte)WifiTxDataType.Still3D;
@@ -284,32 +268,27 @@ namespace TestUIProject
 
                 Trace.WriteLine($"sent {txBytes.Length} bytes:\n{msgHead}");
             }
-            catch (SocketException exc)
-            {
+            catch (SocketException exc) {
                 Trace.WriteLine("Send:SocketException : " + exc.Message);
                 HandleDisconnect();
                 return;
             }
-            catch (Exception exc)
-            {
+            catch (Exception exc) {
                 Trace.WriteLine("Send:Exception : " + exc.Message);
                 HandleDisconnect();
                 return;
             }
         }
 
-        private async void clientTxRando()
-        {
+        private async void clientTxRando() {
             //check if connection is alive
-            if (socket == null || !socket.Connected)
-            {
+            if (socket == null || !socket.Connected) {
                 HandleDisconnect();
                 return;
             }
 
             //serialize, encode and send message
-            try
-            {
+            try {
                 MessageHeader msgHead = new MessageHeader();
                 msgHead.Version = 2;
                 msgHead.DataType = (sbyte)WifiTxDataType.Animation3D;
@@ -332,14 +311,12 @@ namespace TestUIProject
 
                 Trace.WriteLine($"sent {txBytes.Length} bytes:\n{msgHead}");
             }
-            catch (SocketException exc)
-            {
+            catch (SocketException exc) {
                 Trace.WriteLine("Send:SocketException : " + exc.Message);
                 HandleDisconnect();
                 return;
             }
-            catch (Exception exc)
-            {
+            catch (Exception exc) {
                 Trace.WriteLine("Send:Exception : " + exc.Message);
                 HandleDisconnect();
                 return;
@@ -349,12 +326,9 @@ namespace TestUIProject
 
 
         //deal with loss of connection event
-        private void HandleDisconnect()
-        {
-            try
-            {
-                if (socket != null && socket.Connected)
-                {
+        private void HandleDisconnect() {
+            try {
+                if (socket != null && socket.Connected) {
                     socket.Shutdown(SocketShutdown.Both);
                 }
                 socket?.Close();
@@ -369,8 +343,7 @@ namespace TestUIProject
             UI_Textbox_Output.Text += "\r\nNot Connected";
         }
 
-        private void UI_Button_Send_Tea_Click(object sender, EventArgs e)
-        {
+        private void UI_Button_Send_Tea_Click(object sender, EventArgs e) {
             clientTxTea();
         }
     }
