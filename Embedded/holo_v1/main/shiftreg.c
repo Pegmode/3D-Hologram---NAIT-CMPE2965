@@ -169,7 +169,7 @@ esp_err_t shiftreg_init()
              shiftreg_config.pin_le,
              shiftreg_config.pin_oe);
 
-    return ESP_OK;
+    return shiftreg_clear();
 }
 
 esp_err_t shiftreg_set_output_enabled(bool enable)
@@ -254,6 +254,18 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes)
     // shiftreg_dbg_low();
 
     return ESP_OK;
+}
+
+esp_err_t shiftreg_clear(void)
+{
+    // A zeroed 64-byte frame turns every LED output off.
+    static const uint8_t clear_frame[SR_FRAME_BYTES] = { 0 };
+
+    if (!shiftreg_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    return shiftreg_send_frame(clear_frame, SR_FRAME_BYTES);
 }
 
 bool shiftreg_is_initialized(void)

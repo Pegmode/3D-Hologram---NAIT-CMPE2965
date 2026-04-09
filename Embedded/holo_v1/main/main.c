@@ -9,6 +9,7 @@
 #include "esp_heap_caps.h"
 #include "esp_rom_sys.h"   // esp_rom_delay_us()
 #include "encoder.h"
+#include "buck_4v.h"
 #include "shiftreg.h"
 #include "pwm.h"
 #include "console_io.h"
@@ -81,6 +82,12 @@ void app_main(void)
     err = shiftreg_init(); 
     if (err != ESP_OK) {
         ESP_LOGE(TAG_main, "shiftreg_init failed: %s", esp_err_to_name(err));
+        return;
+    }
+
+    err = buck_4v_enable_and_wait();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG_main, "buck_4v_enable_and_wait failed: %s", esp_err_to_name(err));
         return;
     }
 
