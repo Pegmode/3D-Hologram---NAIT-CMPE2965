@@ -50,7 +50,7 @@ extern "C" {
 #define SR_SPI_HOST     SPI2_HOST
 
 // SPI clock rate (start lower for clean waveforms; increase later)
-#define SR_SPI_HZ       (10 * 1000 * 1000)  // 10 MHz
+#define SR_SPI_HZ       (2 * 1000 * 1000)  // 2 MHz
 
 // Our frame is 512 LEDs -> 512 bits -> 64 bytes
 #define SR_FRAME_BYTES  64

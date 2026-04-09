@@ -144,6 +144,14 @@ esp_err_t shiftreg_init()
         "spi_bus_add_device failed"
     );
 
+    // Give the SPI clock pin a moderate drive strength to help with external
+    // line loading during bring-up.
+    ESP_RETURN_ON_ERROR(
+        gpio_set_drive_capability(shiftreg_config.pin_sclk, GPIO_DRIVE_CAP_3),
+        TAG_shiftreg,
+        "gpio_set_drive_capability failed for SCLK"
+    );
+
     // ------------------------------
     // Allocate DMA-capable TX buffer
     //

@@ -82,6 +82,7 @@ void app_main(void)
     err = shiftreg_init(); 
     if (err != ESP_OK) {
         ESP_LOGE(TAG_main, "shiftreg_init failed: %s", esp_err_to_name(err));
+        buck_4v_disable();
         return;
     }
 
