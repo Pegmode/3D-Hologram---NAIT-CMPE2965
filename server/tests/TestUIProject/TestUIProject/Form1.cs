@@ -26,7 +26,7 @@ namespace TestUIProject {
         int espPort = 3333;
         Socket socket;
         //Processes/Pipes
-        byte[] pipeBuffer = new byte[PIPE_BUFFER_SIZE];
+        byte[] storedTxMessage;//message for whatever is loaded 
         NamedPipeServerStream voxelPipe;
         Process voxelConverterProcess;
         string voxelConverterProcessFilepath = VOXEL_CONVERTER_DEFAULT_FILEPATH;
@@ -69,7 +69,7 @@ namespace TestUIProject {
 
         }
 
-        private void UI_Button_LoadObj_Click(object sender, EventArgs e) {
+        private async void UI_Button_LoadObj_Click(object sender, EventArgs e) {
             if (!converterExecutableExists()) {//the the converter is not present, we can't run things that rely on it...
                 return;
             }
@@ -83,7 +83,12 @@ namespace TestUIProject {
                     return;
                 }
                 //Run the converter to get data from an OBJ
-                callVoxelConverterToConvert(objFilepath);
+                byte[] voxelBytes = await callVoxelConverterToConvert(objFilepath);
+                Int32 currentFramecount = 1;//debug const
+                Int32 currentSliceCount = 16;//standard...
+                Int16 currentRPM = 100;
+                storedTxMessage = MessageHeader.Build3DImageMessage(voxelBytes, currentFramecount, currentSliceCount, WifiTxDataType.Still3D, currentRPM);
+                UI_Textbox_Output.Text += "obj ready to send to hologram!\r\n";
             }
         }
 
@@ -113,7 +118,7 @@ namespace TestUIProject {
         ///////////////////////////////////////////////////////////////////
         //Process Utils
         ///////////////////////////////////////////////////////////////////
-        private async Task callVoxelConverterToConvert(string objFilepath) {
+        private async Task<byte[]> callVoxelConverterToConvert(string objFilepath) {
             if (voxelConverterProcess != null && !voxelConverterProcess.HasExited) { //Check if the process is running. Kill the process if its still running
                 voxelConverterProcess.Kill();
                 voxelConverterProcess.WaitForExit();
@@ -150,10 +155,12 @@ namespace TestUIProject {
             //cleanup process
             await voxelConverterProcess.WaitForExitAsync();//wait for the process to exit AFTER we have flushed STDOUT to the UI
             voxelConverterProcess.WaitForExit();
+            voxelPipe.Disconnect();//close the pipe so we can reopen it later
+            voxelPipe.Close();
+            return voxelBytes;
         }
 
         private async Task callVoxelConverterToVisualize(string objFilepath) {
-
             Process process = new Process();
             process.StartInfo.FileName = voxelConverterProcessFilepath;
             process.StartInfo.ArgumentList.Clear();
@@ -221,12 +228,6 @@ namespace TestUIProject {
         //Networking / Sockets
         ///////////////////////////////////////////////////////////////////
 
-        private byte[] buildMessage(byte[] payload, Int32 frameCount, WifiTxDataType messageType, Int16 rpm) {
-            MessageHeader messageHeader = new MessageHeader();
-
-
-
-        }
 
         private static async Task SendAllAsync(Socket socket, byte[] data, CancellationToken cancellationToken = default) {
             int totalSent = 0;
