@@ -39,6 +39,10 @@ namespace TestUIProject
         public Int16 MotorSpeedRpm { get; set; }
         public UInt32 PayloadCrc32 { get; set; }
 
+        public MessageHeader() {// lagacy empty constructor
+
+        }
+
         public MessageHeader(WifiTxDataType dataType, Int32 frameCount, Int32 sliceCount, Int32 payloadBytes, Int16 motorSpeed, UInt32 payloadCrc32) {
             this.DataType = (sbyte)dataType;
             this.FrameCount = frameCount;
