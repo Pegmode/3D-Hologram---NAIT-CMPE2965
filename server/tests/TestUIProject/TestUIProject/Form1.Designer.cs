@@ -40,6 +40,8 @@
             UI_Textbox_LoadedImageName = new TextBox();
             label1 = new Label();
             UI_Button_SendLoaded = new Button();
+            UI_ComboBox_TestBakedData = new ComboBox();
+            label2 = new Label();
             SuspendLayout();
             // 
             // UI_Textbox_Output
@@ -136,7 +138,7 @@
             // 
             // UI_Textbox_LoadedImageName
             // 
-            UI_Textbox_LoadedImageName.Location = new Point(250, 315);
+            UI_Textbox_LoadedImageName.Location = new Point(250, 342);
             UI_Textbox_LoadedImageName.Name = "UI_Textbox_LoadedImageName";
             UI_Textbox_LoadedImageName.ReadOnly = true;
             UI_Textbox_LoadedImageName.Size = new Size(196, 23);
@@ -145,7 +147,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(159, 318);
+            label1.Location = new Point(159, 345);
             label1.Name = "label1";
             label1.Size = new Size(85, 15);
             label1.TabIndex = 10;
@@ -154,7 +156,7 @@
             // UI_Button_SendLoaded
             // 
             UI_Button_SendLoaded.Enabled = false;
-            UI_Button_SendLoaded.Location = new Point(297, 344);
+            UI_Button_SendLoaded.Location = new Point(297, 371);
             UI_Button_SendLoaded.Name = "UI_Button_SendLoaded";
             UI_Button_SendLoaded.Size = new Size(149, 23);
             UI_Button_SendLoaded.TabIndex = 11;
@@ -162,11 +164,31 @@
             UI_Button_SendLoaded.UseVisualStyleBackColor = true;
             UI_Button_SendLoaded.Click += UI_Button_SendLoaded_Click;
             // 
+            // UI_ComboBox_TestBakedData
+            // 
+            UI_ComboBox_TestBakedData.FormattingEnabled = true;
+            UI_ComboBox_TestBakedData.Location = new Point(250, 310);
+            UI_ComboBox_TestBakedData.Name = "UI_ComboBox_TestBakedData";
+            UI_ComboBox_TestBakedData.Size = new Size(196, 23);
+            UI_ComboBox_TestBakedData.TabIndex = 12;
+            UI_ComboBox_TestBakedData.SelectedIndexChanged += UI_ComboBox_TestBakedData_SelectedIndexChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(159, 313);
+            label2.Name = "label2";
+            label2.Size = new Size(88, 15);
+            label2.TabIndex = 13;
+            label2.Text = "Built in images:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(511, 450);
+            Controls.Add(label2);
+            Controls.Add(UI_ComboBox_TestBakedData);
             Controls.Add(UI_Button_SendLoaded);
             Controls.Add(label1);
             Controls.Add(UI_Textbox_LoadedImageName);
@@ -200,5 +222,7 @@
         private TextBox UI_Textbox_LoadedImageName;
         private Label label1;
         private Button UI_Button_SendLoaded;
+        private ComboBox UI_ComboBox_TestBakedData;
+        private Label label2;
     }
 }

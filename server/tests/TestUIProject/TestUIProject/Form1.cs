@@ -21,6 +21,9 @@ namespace TestUIProject {
         const int PIPE_BUFFER_SIZE = 1024;
         const string VOXEL_CONVERTER_DEFAULT_FILEPATH = "voxelConversion.exe";
         const string VOXEL_PIPE_NAME = "VoxelPipe";
+        readonly Dictionary<string, byte[]> testBackedDataDict = new Dictionary<string, byte[]>{
+               { "Teapot" , demoFrames.teapot }
+            };
         //Networking
         string espAddr = "192.168.4.1";
         int espPort = 3333;
@@ -35,6 +38,9 @@ namespace TestUIProject {
         public Form1() {
             InitializeComponent();
             UI_Textbox_Output.TextChanged += UI_Textbox_Output_TextChangedHandler;
+            List<string> testBakedDataTitles = ["", "Teapot"];
+   
+            UI_ComboBox_TestBakedData.DataSource = testBakedDataTitles;
         }
 
         ///////////////////////////////////////////////////////////////////
@@ -142,6 +148,33 @@ namespace TestUIProject {
         private void UI_Button_Disconnect_Click(object sender, EventArgs e) {
             HandleDisconnect();
         }
+
+        private void UI_ComboBox_TestBakedData_SelectedIndexChanged(object sender, EventArgs e) {
+            ComboBox thisCombobox = (ComboBox)sender;
+            if (!(sender is ComboBox)) {
+                return;
+            }
+            if (thisCombobox.SelectedIndex == 0) {//if we unselect a preloaded images, reset the loaded image to be blank
+                UI_Textbox_LoadedImageName.Text = "";
+                storedTxMessage = null;
+                UI_Button_SendLoaded.Enabled = false;
+                return;
+            }
+            byte[] backedData;
+            try {
+                backedData = testBackedDataDict[thisCombobox.Text];
+            }
+            catch {
+                return;//this shouldn't run but just in case give a somewhat gracefull way to not crash
+            }
+            Int32 currentFramecount = 1;//debug const
+            Int32 currentSliceCount = 16;//standard...
+            Int16 currentRPM = 100;//debug const
+            storedTxMessage = MessageHeader.Build3DImageMessage(backedData, currentFramecount, currentSliceCount, WifiTxDataType.Still3D, currentRPM);
+            UI_Textbox_LoadedImageName.Text = thisCombobox.Text;
+            UI_Button_SendLoaded.Enabled = true;
+        }
+
         ///////////////////////////////////////////////////////////////////
         //Process Utils
         ///////////////////////////////////////////////////////////////////
