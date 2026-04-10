@@ -37,6 +37,9 @@
             UI_Button_Send_Test = new Button();
             UI_Button_Disconnect = new Button();
             UI_Button_Send_Tea = new Button();
+            UI_Textbox_LoadedImageName = new TextBox();
+            label1 = new Label();
+            UI_Button_SendLoaded = new Button();
             SuspendLayout();
             // 
             // UI_Textbox_Output
@@ -131,11 +134,42 @@
             UI_Button_Send_Tea.UseVisualStyleBackColor = true;
             UI_Button_Send_Tea.Click += UI_Button_Send_Tea_Click;
             // 
+            // UI_Textbox_LoadedImageName
+            // 
+            UI_Textbox_LoadedImageName.Location = new Point(250, 315);
+            UI_Textbox_LoadedImageName.Name = "UI_Textbox_LoadedImageName";
+            UI_Textbox_LoadedImageName.ReadOnly = true;
+            UI_Textbox_LoadedImageName.Size = new Size(196, 23);
+            UI_Textbox_LoadedImageName.TabIndex = 9;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(159, 318);
+            label1.Name = "label1";
+            label1.Size = new Size(85, 15);
+            label1.TabIndex = 10;
+            label1.Text = "Loaded Image:";
+            // 
+            // UI_Button_SendLoaded
+            // 
+            UI_Button_SendLoaded.Enabled = false;
+            UI_Button_SendLoaded.Location = new Point(297, 344);
+            UI_Button_SendLoaded.Name = "UI_Button_SendLoaded";
+            UI_Button_SendLoaded.Size = new Size(149, 23);
+            UI_Button_SendLoaded.TabIndex = 11;
+            UI_Button_SendLoaded.Text = "Send Loaded Image";
+            UI_Button_SendLoaded.UseVisualStyleBackColor = true;
+            UI_Button_SendLoaded.Click += UI_Button_SendLoaded_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(511, 450);
+            Controls.Add(UI_Button_SendLoaded);
+            Controls.Add(label1);
+            Controls.Add(UI_Textbox_LoadedImageName);
             Controls.Add(UI_Button_Send_Tea);
             Controls.Add(UI_Button_Disconnect);
             Controls.Add(UI_Button_Send_Test);
@@ -163,5 +197,8 @@
         private Button UI_Button_Send_Test;
         private Button UI_Button_Disconnect;
         private Button UI_Button_Send_Tea;
+        private TextBox UI_Textbox_LoadedImageName;
+        private Label label1;
+        private Button UI_Button_SendLoaded;
     }
 }

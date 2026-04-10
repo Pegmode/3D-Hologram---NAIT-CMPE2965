@@ -86,9 +86,12 @@ namespace TestUIProject {
                 byte[] voxelBytes = await callVoxelConverterToConvert(objFilepath);
                 Int32 currentFramecount = 1;//debug const
                 Int32 currentSliceCount = 16;//standard...
-                Int16 currentRPM = 100;
+                Int16 currentRPM = 100;//debug const
                 storedTxMessage = MessageHeader.Build3DImageMessage(voxelBytes, currentFramecount, currentSliceCount, WifiTxDataType.Still3D, currentRPM);
+                UI_Button_SendLoaded.Enabled = true;
+                UI_Textbox_LoadedImageName.Text = objFilepath;
                 UI_Textbox_Output.Text += "obj ready to send to hologram!\r\n";
+
             }
         }
 
@@ -106,6 +109,30 @@ namespace TestUIProject {
                 UI_Button_Disconnect.Enabled = true;
                 //clientRx();
             }
+        }
+
+        private async void UI_Button_SendLoaded_Click(object sender, EventArgs e) {
+            //check if connection is alive
+            if (socket == null || !socket.Connected) {
+                HandleDisconnect();
+                return;
+            }
+            try {
+                await SendAllAsync(socket, storedTxMessage);
+
+                Trace.WriteLine($"sent {storedTxMessage.Length}");
+            }
+            catch (SocketException exc) {
+                Trace.WriteLine("Send:SocketException : " + exc.Message);
+                HandleDisconnect();
+                return;
+            }
+            catch (Exception exc) {
+                Trace.WriteLine("Send:Exception : " + exc.Message);
+                HandleDisconnect();
+                return;
+            }
+
         }
 
         private void UI_Button_Send_Test_Click(object sender, EventArgs e) {
@@ -354,5 +381,7 @@ namespace TestUIProject {
         private void UI_Button_Send_Tea_Click(object sender, EventArgs e) {
             clientTxTea();
         }
+
+
     }
 }
