@@ -389,6 +389,23 @@ esp_err_t display_store_swap_if_pending(bool *did_swap)
     return ESP_OK;
 }
 
+esp_err_t display_store_clear_all(void)
+{
+    if (!s_manager_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    portENTER_CRITICAL(&s_display_store_lock);
+    display_store_free(&s_store_a);
+    display_store_free(&s_store_b);
+    s_active_store = &s_store_a;
+    s_staging_store = &s_store_b;
+    s_swap_pending = false;
+    portEXIT_CRITICAL(&s_display_store_lock);
+
+    return ESP_OK;
+}
+
 esp_err_t display_store_print_staging_triggers_console(void)
 {
     uint32_t slice_index;

@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TestUIProject
 {
+
+    //(Int32 #frames, Int32 #slices, byte[] payload)
     internal class demoFrames
     {
-        static public byte[] teapot = {
+        static public (Int32, Int32, byte[]) teapot = (1, 16, [
             0x00, 0x00, 0xC0, 0xC0, 0xC0, 0xE0, 0xE0, 0xE0, 0xE0, 0xE0, 0xC0, 0xE0, 0x80, 0x80, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -74,10 +77,9 @@ namespace TestUIProject
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        };
+        ]);
 
-        static public byte[] wave = buildWave();
-
+        static public (Int32, Int32, byte[]) wave = (1, 16, buildWave());
         static private byte[] buildWave()
         {
             byte[] payload = new byte[16 * 32 * 2];
@@ -117,8 +119,7 @@ namespace TestUIProject
 
             return payload;
         }
-
-        private static byte[,] PackBoolArray(bool[,] input)
+        static private byte[,] PackBoolArray(bool[,] input)
         {
             int rows = input.GetLength(0);
             int cols = input.GetLength(1);
@@ -144,5 +145,7 @@ namespace TestUIProject
 
             return output;
         }
+
+        static public (Int32, Int32, byte[]) Rando = (RandomNumberGenerator.GetInt32(20), RandomNumberGenerator.GetInt32(8, 32), RandomNumberGenerator.GetBytes(Rando.Item1*Rando.Item2*64));
     }
 }

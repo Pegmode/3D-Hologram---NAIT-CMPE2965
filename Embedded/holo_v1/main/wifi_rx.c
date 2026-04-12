@@ -24,6 +24,7 @@
 #include "esp_heap_caps.h"
 #include "nvs_flash.h"
 
+#include "display_task.h"
 #include "display_store.h"
 #include "main.h"
 
@@ -80,6 +81,7 @@ static esp_err_t wifi_rx_get_effective_frame_count(const wifi_rx_header_t *heade
 
     switch (header->data_type) {
         case WIFI_RX_DATA_TYPE_NONE:
+        case WIFI_RX_DATA_TYPE_DISPLAYOFF:
             *frame_count = 0;
             return ESP_OK;
 
@@ -416,7 +418,8 @@ static esp_err_t wifi_rx_parse_header(const wifi_rx_wire_header_t *wire_header,
 
     if (parsed_header->data_type != WIFI_RX_DATA_TYPE_NONE &&
         parsed_header->data_type != WIFI_RX_DATA_TYPE_STILL_3D &&
-        parsed_header->data_type != WIFI_RX_DATA_TYPE_ANIMATION_3D) {
+        parsed_header->data_type != WIFI_RX_DATA_TYPE_ANIMATION_3D &&
+        parsed_header->data_type != WIFI_RX_DATA_TYPE_DISPLAYOFF) {
         ESP_LOGE(TAG_wifi_rx, "Unsupported data type: %d", (int)parsed_header->data_type);
         return ESP_ERR_NOT_SUPPORTED;
     }
@@ -428,14 +431,15 @@ static esp_err_t wifi_rx_parse_header(const wifi_rx_wire_header_t *wire_header,
 
     switch (parsed_header->data_type) {
         case WIFI_RX_DATA_TYPE_NONE:
+        case WIFI_RX_DATA_TYPE_DISPLAYOFF:
             if (parsed_header->frame_count != -1 ||
                 parsed_header->slice_count != -1 ||
                 parsed_header->payload_bytes != -1) {
-                ESP_LOGE(TAG_wifi_rx, "None packets must use -1 for frame_count, slice_count, and payload_bytes");
+                ESP_LOGE(TAG_wifi_rx, "Control packets must use -1 for frame_count, slice_count, and payload_bytes");
                 return ESP_ERR_INVALID_ARG;
             }
             if (parsed_header->payload_crc32 != 0U) {
-                ESP_LOGE(TAG_wifi_rx, "None packets must use payload_crc32 = 0");
+                ESP_LOGE(TAG_wifi_rx, "Control packets must use payload_crc32 = 0");
                 return ESP_ERR_INVALID_ARG;
             }
             break;
@@ -526,6 +530,14 @@ static esp_err_t wifi_rx_process_client(int client_sock)
         }
 
         if (payload_buf == NULL) {
+            if (header.data_type == WIFI_RX_DATA_TYPE_DISPLAYOFF) {
+                err = display_task_request_display_off();
+                if (err != ESP_OK) {
+                    ESP_LOGW(TAG_wifi_rx, "display_task_request_display_off failed: %s", esp_err_to_name(err));
+                } else {
+                    ESP_LOGI(TAG_wifi_rx, "Display off requested");
+                }
+            }
             continue;
         }
 
@@ -778,6 +790,8 @@ const char *wifi_rx_data_type_to_string(wifi_rx_data_type_t data_type)
             return "still_3d";
         case WIFI_RX_DATA_TYPE_ANIMATION_3D:
             return "animation_3d";
+        case WIFI_RX_DATA_TYPE_DISPLAYOFF:
+            return "display_off";
         default:
             return "invalid";
     }

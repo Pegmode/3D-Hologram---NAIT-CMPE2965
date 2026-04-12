@@ -26,7 +26,8 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             UI_Textbox_Output = new TextBox();
             UI_Button_RUN = new Button();
@@ -34,14 +35,13 @@
             UI_Button_LoadObj = new Button();
             UI_Button_Connect = new Button();
             d = new Label();
-            UI_Button_Send_Test = new Button();
             UI_Button_Disconnect = new Button();
-            UI_Button_Send_Tea = new Button();
             UI_Textbox_LoadedImageName = new TextBox();
             label1 = new Label();
             UI_Button_SendLoaded = new Button();
             UI_ComboBox_TestBakedData = new ComboBox();
             label2 = new Label();
+            UI_Button_DisplayOff = new Button();
             SuspendLayout();
             // 
             // UI_Textbox_Output
@@ -103,38 +103,16 @@
             d.TabIndex = 5;
             d.Text = "Log:";
             // 
-            // UI_Button_Send_Test
-            // 
-            UI_Button_Send_Test.Enabled = false;
-            UI_Button_Send_Test.Location = new Point(30, 131);
-            UI_Button_Send_Test.Name = "UI_Button_Send_Test";
-            UI_Button_Send_Test.Size = new Size(113, 23);
-            UI_Button_Send_Test.TabIndex = 6;
-            UI_Button_Send_Test.Text = "Send Test";
-            UI_Button_Send_Test.UseVisualStyleBackColor = true;
-            UI_Button_Send_Test.Click += UI_Button_Send_Test_Click;
-            // 
             // UI_Button_Disconnect
             // 
             UI_Button_Disconnect.Enabled = false;
-            UI_Button_Disconnect.Location = new Point(30, 189);
+            UI_Button_Disconnect.Location = new Point(30, 160);
             UI_Button_Disconnect.Name = "UI_Button_Disconnect";
             UI_Button_Disconnect.Size = new Size(113, 23);
             UI_Button_Disconnect.TabIndex = 7;
             UI_Button_Disconnect.Text = "Disconnect";
             UI_Button_Disconnect.UseVisualStyleBackColor = true;
             UI_Button_Disconnect.Click += UI_Button_Disconnect_Click;
-            // 
-            // UI_Button_Send_Tea
-            // 
-            UI_Button_Send_Tea.Enabled = false;
-            UI_Button_Send_Tea.Location = new Point(30, 160);
-            UI_Button_Send_Tea.Name = "UI_Button_Send_Tea";
-            UI_Button_Send_Tea.Size = new Size(113, 23);
-            UI_Button_Send_Tea.TabIndex = 8;
-            UI_Button_Send_Tea.Text = "Send Mr Tea Pot";
-            UI_Button_Send_Tea.UseVisualStyleBackColor = true;
-            UI_Button_Send_Tea.Click += UI_Button_Send_Tea_Click;
             // 
             // UI_Textbox_LoadedImageName
             // 
@@ -182,19 +160,29 @@
             label2.TabIndex = 13;
             label2.Text = "Built in images:";
             // 
+            // UI_Button_DisplayOff
+            // 
+            UI_Button_DisplayOff.Enabled = false;
+            UI_Button_DisplayOff.Location = new Point(30, 131);
+            UI_Button_DisplayOff.Name = "UI_Button_DisplayOff";
+            UI_Button_DisplayOff.Size = new Size(113, 23);
+            UI_Button_DisplayOff.TabIndex = 14;
+            UI_Button_DisplayOff.Text = "Display Off";
+            UI_Button_DisplayOff.UseVisualStyleBackColor = true;
+            UI_Button_DisplayOff.Click += UI_Button_DisplayOff_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(511, 450);
+            Controls.Add(UI_Button_DisplayOff);
             Controls.Add(label2);
             Controls.Add(UI_ComboBox_TestBakedData);
             Controls.Add(UI_Button_SendLoaded);
             Controls.Add(label1);
             Controls.Add(UI_Textbox_LoadedImageName);
-            Controls.Add(UI_Button_Send_Tea);
             Controls.Add(UI_Button_Disconnect);
-            Controls.Add(UI_Button_Send_Test);
             Controls.Add(d);
             Controls.Add(UI_Button_Connect);
             Controls.Add(UI_Button_LoadObj);
@@ -216,13 +204,12 @@
         private Button UI_Button_LoadObj;
         private Button UI_Button_Connect;
         private Label d;
-        private Button UI_Button_Send_Test;
         private Button UI_Button_Disconnect;
-        private Button UI_Button_Send_Tea;
         private TextBox UI_Textbox_LoadedImageName;
         private Label label1;
         private Button UI_Button_SendLoaded;
         private ComboBox UI_ComboBox_TestBakedData;
         private Label label2;
+        private Button UI_Button_DisplayOff;
     }
 }

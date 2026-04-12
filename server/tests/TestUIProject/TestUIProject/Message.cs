@@ -17,7 +17,8 @@ namespace TestUIProject
         None = -1,
         Invalid = 0,
         Still3D = 1,
-        Animation3D = 2
+        Animation3D = 2,
+        DisplayOff = 3
     }
 
     public enum WifiTxMotor
@@ -28,7 +29,7 @@ namespace TestUIProject
 
     public class MessageHeader
     {
-        public const int CURRENT_VERSION = 2;
+        public const int CURRENT_VERSION = 3;
         public const UInt32 Magic = 0x484F4C4FU; //HOLO
         public byte Version { get; set; }
         public byte HeaderSizeBytes { get { return 25; } }
