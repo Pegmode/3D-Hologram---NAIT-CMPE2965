@@ -3,14 +3,12 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_err.h"
 #include "esp_log.h"
 
-#include "console_io.h"
 #include "display_store.h"
 #include "encoder.h"
 #include "shiftreg.h"
@@ -32,32 +30,20 @@ typedef struct
     bool pending_immediate_update;
 } display_task_state_t;
 
-// Print one display-task event to the USB console during bring-up.
+// Print one display-task event through ESP-IDF logging during bring-up.
 static void display_task_print_event_console(const char *event_name,
                                              size_t frame_index,
                                              size_t slice_index,
                                              int encoder_count,
                                              int trigger_count)
 {
-    char line[128];
-    int err;
-
-    err = snprintf(line,
-                   sizeof(line),
-                   "display event: %s frame=%u slice=%u enc_count=%d trigger_count=%d",
-                   event_name,
-                   (unsigned)frame_index,
-                   (unsigned)slice_index,
-                   encoder_count,
-                   trigger_count);
-    if (err < 0 || (size_t)err >= sizeof(line)) {
-        ESP_LOGW(TAG_display_task, "display_task_print_event_console snprintf failed");
-        return;
-    }
-
-    if (console_io_write_line(line) != ESP_OK) {
-        ESP_LOGW(TAG_display_task, "display_task_print_event_console console_io_write_line failed");
-    }
+    ESP_LOGI(TAG_display_task,
+             "display event: %s frame=%u slice=%u enc_count=%d trigger_count=%d",
+             event_name,
+             (unsigned)frame_index,
+             (unsigned)slice_index,
+             encoder_count,
+             trigger_count);
 }
 
 // Push one slice from the active display store to the shift-register chain.
@@ -125,8 +111,6 @@ static esp_err_t display_task_arm_next_watch_point(const display_store_t *store,
 static esp_err_t display_task_handle_count_event(display_task_state_t *state,
                                                  int trigger_count, display_store_t *active_store)
 {
-
-
     int encoder_count = 0;
     esp_err_t err;
 
@@ -144,7 +128,6 @@ static esp_err_t display_task_handle_count_event(display_task_state_t *state,
     }
 
     state->current_slice_index = state->next_slice_index;
-
 
     err = encoder_get_count(&encoder_count);
     if (err != ESP_OK) {

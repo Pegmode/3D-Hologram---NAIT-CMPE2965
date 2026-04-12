@@ -24,7 +24,6 @@
 #include "esp_heap_caps.h"
 #include "nvs_flash.h"
 
-#include "console_io.h"
 #include "display_store.h"
 #include "main.h"
 
@@ -786,48 +785,27 @@ const char *wifi_rx_data_type_to_string(wifi_rx_data_type_t data_type)
 
 esp_err_t wifi_rx_print_header_console(const wifi_rx_header_t *header)
 {
-    char line[160];
-    esp_err_t err;
-
     if (header == NULL) {
         return ESP_ERR_INVALID_ARG;
     }
 
-    // Print the core payload-shape fields first.
-    err = snprintf(line,
-                   sizeof(line),
-                   "wifi header: type=%s frames=%" PRId32 " slices=%" PRId32 " bytes=%" PRId32,
-                   wifi_rx_data_type_to_string(header->data_type),
-                   header->frame_count,
-                   header->slice_count,
-                   header->payload_bytes);
-    if (err < 0 || (size_t)err >= sizeof(line)) {
-        return ESP_ERR_INVALID_ARG;
-    }
-    ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+    ESP_LOGI(TAG_wifi_rx,
+             "wifi header: type=%s frames=%" PRId32 " slices=%" PRId32 " bytes=%" PRId32,
+             wifi_rx_data_type_to_string(header->data_type),
+             header->frame_count,
+             header->slice_count,
+             header->payload_bytes);
 
-    // Print motor-command semantics using the new compact encoding.
-    err = snprintf(line,
-                   sizeof(line),
-                   "wifi header: motor_cmd=%" PRId16 " (-1=off 0=same >0=set_rpm)",
-                   header->motor_speed_rpm);
-    if (err < 0 || (size_t)err >= sizeof(line)) {
-        return ESP_ERR_INVALID_ARG;
-    }
-    ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+    ESP_LOGI(TAG_wifi_rx,
+             "wifi header: motor_cmd=%" PRId16 " (-1=off 0=same >0=set_rpm)",
+             header->motor_speed_rpm);
 
-    // Print protocol information last.
-    err = snprintf(line,
-                   sizeof(line),
-                   "wifi header: magic=0x%08" PRIX32 " version=%u header_size=%u crc32=0x%08" PRIX32,
-                   header->magic,
-                   header->version,
-                   header->header_size_bytes,
-                   header->payload_crc32);
-    if (err < 0 || (size_t)err >= sizeof(line)) {
-        return ESP_ERR_INVALID_ARG;
-    }
-    ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+    ESP_LOGI(TAG_wifi_rx,
+             "wifi header: magic=0x%08" PRIX32 " version=%u header_size=%u crc32=0x%08" PRIX32,
+             header->magic,
+             header->version,
+             header->header_size_bytes,
+             header->payload_crc32);
 
     return ESP_OK;
 }
@@ -836,7 +814,6 @@ esp_err_t wifi_rx_print_payload_slices_console(const wifi_rx_header_t *header,
                                                const uint8_t *payload,
                                                size_t payload_len)
 {
-    char line[160];
     size_t expected_payload_bytes = 0;
     size_t effective_frame_count = 0;
     size_t frame_index;
@@ -865,38 +842,31 @@ esp_err_t wifi_rx_print_payload_slices_console(const wifi_rx_header_t *header,
 
     for (frame_index = 0; frame_index < effective_frame_count; frame_index++) {
         for (slice_index = 0; slice_index < (size_t)header->slice_count; slice_index++) {
-            int err = snprintf(line,
-                               sizeof(line),
-                               "wifi payload: frame=%u slice=%u",
-                               (unsigned)frame_index,
-                               (unsigned)slice_index);
-            if (err < 0 || (size_t)err >= sizeof(line)) {
-                return ESP_ERR_INVALID_ARG;
-            }
-
-            ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+            ESP_LOGI(TAG_wifi_rx,
+                     "wifi payload: frame=%u slice=%u",
+                     (unsigned)frame_index,
+                     (unsigned)slice_index);
 
             // Print each 64-byte slice as four 16-byte rows to keep the output readable.
             for (size_t row = 0; row < DISPLAY_SLICE_BYTES; row += 16U) {
-                size_t line_offset = 0;
-                int written = snprintf(line + line_offset, sizeof(line) - line_offset, "  ");
-                if (written < 0) {
-                    return ESP_ERR_INVALID_ARG;
-                }
-                line_offset += (size_t)written;
-
-                for (size_t col = 0; col < 16U; col++) {
-                    written = snprintf(line + line_offset,
-                                       sizeof(line) - line_offset,
-                                       "%02X ",
-                                       payload[payload_offset + row + col]);
-                    if (written < 0 || (size_t)written >= (sizeof(line) - line_offset)) {
-                        return ESP_ERR_INVALID_ARG;
-                    }
-                    line_offset += (size_t)written;
-                }
-
-                ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+                ESP_LOGI(TAG_wifi_rx,
+                         "  %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X",
+                         payload[payload_offset + row + 0U],
+                         payload[payload_offset + row + 1U],
+                         payload[payload_offset + row + 2U],
+                         payload[payload_offset + row + 3U],
+                         payload[payload_offset + row + 4U],
+                         payload[payload_offset + row + 5U],
+                         payload[payload_offset + row + 6U],
+                         payload[payload_offset + row + 7U],
+                         payload[payload_offset + row + 8U],
+                         payload[payload_offset + row + 9U],
+                         payload[payload_offset + row + 10U],
+                         payload[payload_offset + row + 11U],
+                         payload[payload_offset + row + 12U],
+                         payload[payload_offset + row + 13U],
+                         payload[payload_offset + row + 14U],
+                         payload[payload_offset + row + 15U]);
             }
 
             payload_offset += DISPLAY_SLICE_BYTES;

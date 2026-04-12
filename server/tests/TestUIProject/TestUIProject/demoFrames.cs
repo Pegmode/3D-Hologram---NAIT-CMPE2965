@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,5 +75,74 @@ namespace TestUIProject
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
         };
+
+        static public byte[] wave = buildWave();
+
+        static private byte[] buildWave()
+        {
+            byte[] payload = new byte[16 * 32 * 2];
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool[,] slice = new bool[32, 16];
+
+                for (int j = 0; j < 16; j++)
+                {
+                    int index = (15 - j + i) % 16;
+                    for (int k = 0; k < 16; k++)
+                    {
+                        slice[j, k] = (k == index);
+                    }
+                }
+
+                for (int j = 16; j < 32; j++)
+                {
+                    int index = (j - 16 + i) % 16;
+                    for (int k = 0; k < 16; k++)
+                    {
+                        slice[j, k] = (k == index);
+                    }
+                }
+
+                byte[,] sliceByte = PackBoolArray(slice);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    for (int k = 0; k < 2; k++)
+                    {
+                        payload[i * 64 + j * 2 + k] = sliceByte[j, k];
+                    }
+                }
+            }
+
+            return payload;
+        }
+
+        private static byte[,] PackBoolArray(bool[,] input)
+        {
+            int rows = input.GetLength(0);
+            int cols = input.GetLength(1);
+
+            if (cols != 16)
+                throw new ArgumentException("Input must be [rows,16].");
+
+            byte[,] output = new byte[rows, 2];
+
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < 16; c++)
+                {
+                    if (input[r, c])
+                    {
+                        int byteIndex = c / 8;   // 0 or 1
+                        int bitIndex = c % 8;    // 0 to 7
+
+                        output[r, byteIndex] |= (byte)(1 << bitIndex);
+                    }
+                }
+            }
+
+            return output;
+        }
     }
 }

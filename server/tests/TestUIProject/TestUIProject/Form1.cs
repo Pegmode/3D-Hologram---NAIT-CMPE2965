@@ -21,9 +21,11 @@ namespace TestUIProject {
         const int PIPE_BUFFER_SIZE = 1024;
         const string VOXEL_CONVERTER_DEFAULT_FILEPATH = "voxelConversion.exe";
         const string VOXEL_PIPE_NAME = "VoxelPipe";
-        readonly Dictionary<string, byte[]> testBackedDataDict = new Dictionary<string, byte[]>{
-               { "Teapot" , demoFrames.teapot }
-            };
+        readonly Dictionary<string, byte[]> testBakedDataDict = new Dictionary<string, byte[]>{
+            { "", [0] },
+            { "Teapot" , demoFrames.teapot },
+            { "Arrow Wave", demoFrames.wave }
+        };
         //Networking
         string espAddr = "192.168.4.1";
         int espPort = 3333;
@@ -38,9 +40,9 @@ namespace TestUIProject {
         public Form1() {
             InitializeComponent();
             UI_Textbox_Output.TextChanged += UI_Textbox_Output_TextChangedHandler;
-            List<string> testBakedDataTitles = ["", "Teapot"];
-   
-            UI_ComboBox_TestBakedData.DataSource = testBakedDataTitles;
+            //List<string> testBakedDataTitles = ["", "Teapot"];
+
+            UI_ComboBox_TestBakedData.DataSource = testBakedDataDict.Keys.ToList();
         }
 
         ///////////////////////////////////////////////////////////////////
@@ -162,7 +164,7 @@ namespace TestUIProject {
             }
             byte[] backedData;
             try {
-                backedData = testBackedDataDict[thisCombobox.Text];
+                backedData = testBakedDataDict[thisCombobox.Text];
             }
             catch {
                 return;//this shouldn't run but just in case give a somewhat gracefull way to not crash
