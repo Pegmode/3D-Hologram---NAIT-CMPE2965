@@ -254,7 +254,7 @@ def argsParseAndRunFlags():
     '''
     Look through all the given flag arguements and run what is needed based on what is given
     '''
-    global args, parser, SLICE_COUNT
+    global args, parser, bounceMultiplier, SLICE_COUNT
     #value args
     if args.sliceCount:#override the default slice count if arg is given.
         SLICE_COUNT = args.sliceCount
