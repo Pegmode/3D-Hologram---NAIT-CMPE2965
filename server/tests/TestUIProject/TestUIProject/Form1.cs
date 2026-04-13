@@ -18,7 +18,7 @@ using System.Xml.Linq;
 namespace TestUIProject {
     public partial class Form1 : Form {
         //constants
-        const int PIPE_BUFFER_SIZE = 0xFFFFF;
+        const int PIPE_BUFFER_SIZE = 0xFFFFFFF;
         const string VOXEL_CONVERTER_DEFAULT_FILEPATH = "voxelConversion.exe";
         const string VOXEL_PIPE_NAME = "VoxelPipe";
         readonly Dictionary<string, (Int32, Int32, byte[])> testBakedDataDict = new Dictionary<string, (Int32, Int32, byte[])>{
