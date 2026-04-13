@@ -29,6 +29,7 @@ def readVL32(path):
         while True:
             chunk = f.read(16) #format spec shows each voxel is 16 bytes 
             if len(chunk) < 16:#check if there is tailing data at the end of the file
+                pass
                 break
             x, y, z, a, _, _, _ = struct.unpack(">iiiBBBB", chunk)# unpack the struct given in the format spec, ignore color data, keep alpha for pixel is present
             if a != 0: #dont save the voxel if its see through / not present

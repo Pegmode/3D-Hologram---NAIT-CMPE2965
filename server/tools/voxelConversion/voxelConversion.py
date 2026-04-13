@@ -144,6 +144,73 @@ def actionConvertToPipe():
     win32file.WriteFile(handle, data)
     print(f"finished converting {objFilepath}!")
     sys.stdout.flush()
+
+def actionConvertToAnimatedPipe():
+    '''
+    convert an .obj file to custom byte array animation and return in a windows pipe
+    '''
+    global args, parser, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT
+    ##Convert everything...
+    objFilepath = argsGetFilepath()
+    #load the obj and convert the coords to quantized cylindrical
+    print(f"converting {objFilepath} to cartesian voxels...")
+    sys.stdout.flush()
+    cartesianVoxels = getVoxelsFromObj(objFilepath)
+    print(f"converting cartesian to cylindrical...")
+    sys.stdout.flush()
+    cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)
+    print(f"quantizing cylindrical coordinates...")
+    sys.stdout.flush()
+    quantizedVoxels = cylindricalList2Quantized(cylindricalVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
+    ## Simple vertical animation...
+    print(f"Performing vertical transforms for simple animation")
+    sys.stdout.flush()
+    maxHeight = max(h for _, h, _ in quantizedVoxels)
+    maxOffset = (BOARD_HEIGHT - 1) - maxHeight
+    if maxOffset < 0:
+        print("Model already exceeds board height!")
+        sys.stdout.flush()
+        return
+    offsets = list(range(0, maxOffset + 1)) + list(range(maxOffset - 1, -1 ,-1))
+    animatedFrames = []
+    animatedFrames.extend(quantizedVoxels)
+    frameCount = 1
+    frameSize = len(quantizedVoxels)
+    for currentOffset in offsets:#perform all the transformations
+        currentFrame = [(sliceN, h, + currentOffset, r) for sliceN, h, r in quantizedVoxels]
+        animatedFrames.extend(currentFrame)
+    #TODO ADD SOME MESSAGING FOR SIZE
+    #
+    #
+    #
+
+    #prep change the voxel format to match what is needed in C
+    print(f"packing voxel data for pipe transfer to UI...")
+    sys.stdout.flush()
+    flatBits = convertVoxelsToFlatList(animatedFrames, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
+    packedBytes = packFlattenedVoxelsToBytes(flatBits)
+    #Send the frame over pipe
+    print("Writing voxel data to pipe...")
+    sys.stdout.flush()
+    pipeName = r'\\.\pipe\VoxelPipe'
+    try:
+        handle = win32file.CreateFile(
+            pipeName,
+            win32file.GENERIC_WRITE,
+            0, None,
+            win32file.OPEN_EXISTING,
+            0, None
+        )    
+    except:
+        print(f"[ERROR] named pipe {pipeName} not found!! (has the UI process created the pipe yet? )")
+        sys.stdout.flush()
+        return
+    data = bytearray(packedBytes)
+    win32file.WriteFile(handle, data)
+    print(f"finished converting {objFilepath}!")
+    sys.stdout.flush()
+
+
     
 
 
@@ -161,6 +228,7 @@ def argsInit():
     parser.add_argument("-ch", "--convertHeader", action="store_true", help="convert .obj file to a C header in quantized cylindrical coords")
     parser.add_argument("-cp", "--convertPipe", action="store_true", help="convert .obj file to a byte array returned in a windows pipe. The UI pipe server MUST be running with named pipe VoxelPipe")
     parser.add_argument("-sc", "--sliceCount", type=int, help=f"override the default slicecount, default:{SLICE_COUNT}")
+    parser.add_argument("-cpa","--convertPipeAnimated", action="store_true", help="convert .obj file to a byte array, formatted as an animation returned in a windows pipe. The UI pipe server MUST be running with named pipe VoxelPipe")
     args = parser.parse_args()
 
 def argsParseAndRunFlags():
@@ -178,6 +246,8 @@ def argsParseAndRunFlags():
         actionConvertToHeader()
     if args.convertPipe:
         actionConvertToPipe()
+    if args.convertPipeAnimated:
+        actionConvertToAnimatedPipe()
 
 
 def argsGetFilepath():
