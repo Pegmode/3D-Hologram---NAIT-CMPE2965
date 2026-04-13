@@ -34,7 +34,7 @@ HEADER_OUTPUT_FILENAME = "voxelData.h"
 ##########################################################
 args = None
 parser = None
-
+bounceMultiplier = 5
 #Utility/General
 ##########################################################
 
@@ -187,6 +187,7 @@ def actionConvertToAnimatedPipe():
         sys.stdout.flush()
         return
     offsets = list(range(0, maxOffset + 1)) + list(range(maxOffset - 1, -1 ,-1))
+    offsets = [x for x in offsets for _ in range(bounceMultiplier)]# repeat the frame N times to control speed...
     animatedFrames = []
     animatedFrames.extend(packFlattenedVoxelsToBytes(convertVoxelsToFlatList(quantizedVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)))
     frameCount = 1
@@ -246,6 +247,7 @@ def argsInit():
     parser.add_argument("-cp", "--convertPipe", action="store_true", help="convert .obj file to a byte array returned in a windows pipe. The UI pipe server MUST be running with named pipe VoxelPipe")
     parser.add_argument("-sc", "--sliceCount", type=int, help=f"override the default slicecount, default:{SLICE_COUNT}")
     parser.add_argument("-cpa","--convertPipeAnimated", action="store_true", help="convert .obj file to a byte array, formatted as an animation returned in a windows pipe. The UI pipe server MUST be running with named pipe VoxelPipe")
+    parser.add_argument("-as", "--animationSpeed", type=int, help=f"Set the animation speed, default:{bounceMultiplier}")
     args = parser.parse_args()
 
 def argsParseAndRunFlags():
@@ -256,6 +258,9 @@ def argsParseAndRunFlags():
     #value args
     if args.sliceCount:#override the default slice count if arg is given.
         SLICE_COUNT = args.sliceCount
+    if args.animationSpeed:
+        bounceMultiplier = args.animationSpeed
+    
     #actions
     if args.debugVisualize:
         actionDebugVisualize()
