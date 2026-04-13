@@ -74,7 +74,16 @@ typedef struct
     int32_t slice_count;          // Number of angular slices per frame, or -1 if unused.
     int32_t payload_bytes;        // Total payload size immediately after header, or -1 for no payload.
 
-    int16_t motor_speed_rpm;      // -1 = off, 0 = keep same, >0 = set RPM.
+    // Motor control command carried in the packet header.
+    //
+    // Current bring-up behavior:
+    // -1 = off / minimum throttle pulse
+    //  0 = keep current output
+    // >0 = raw ESC pulse width in microseconds
+    //
+    // The field name is kept for protocol compatibility even though the
+    // implementation is temporarily pulse-width based rather than true RPM.
+    int16_t motor_speed_rpm;
     uint32_t payload_crc32;       // CRC32 of the payload bytes, or 0 when no payload is sent.
 } wifi_rx_header_t;
 

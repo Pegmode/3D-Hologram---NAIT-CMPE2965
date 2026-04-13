@@ -129,6 +129,7 @@ namespace TestUIProject {
                 UI_Button_Connect.Enabled = false;
                 UI_Button_DisplayOff.Enabled = true;
                 UI_Button_Disconnect.Enabled = true;
+                UI_Button_UpdateSpeed.Enabled = true;
                 //clientRx();
             }
         }
@@ -363,6 +364,7 @@ namespace TestUIProject {
             UI_Button_Connect.Enabled = true;
             UI_Button_Disconnect.Enabled = false;
             UI_Button_DisplayOff.Enabled = false;
+            UI_Button_UpdateSpeed.Enabled = false;
             UI_Textbox_Output.Text += "\r\nNot Connected";
         }
 
@@ -406,5 +408,54 @@ namespace TestUIProject {
                 return;
             }
         }
+
+        private void UI_TrackBar_EscPulseWidth_ValueChanged(object sender, EventArgs e)
+        {
+            UI_TextBox_Esc_Low.Text = UI_TrackBar_EscPulseWidth.Minimum.ToString();
+            UI_TextBox_Esc_Value.Text = UI_TrackBar_EscPulseWidth.Value.ToString();
+            UI_TextBox_Esc_High.Text = UI_TrackBar_EscPulseWidth.Maximum.ToString();
+        }
+
+        private async void UI_Button_UpdateSpeed_Click(object sender, EventArgs e)
+        {
+            //check if connection is alive
+            if (socket == null || !socket.Connected)
+            {
+                HandleDisconnect();
+                return;
+            }
+
+            //serialize, encode and send message
+            try
+            {
+                MessageHeader msgHead = new MessageHeader();
+                msgHead.Version = MessageHeader.CURRENT_VERSION;
+                msgHead.DataType = (sbyte)WifiTxDataType.None;
+                msgHead.FrameCount = -1;
+                msgHead.SliceCount = -1;
+                msgHead.PayloadBytes = -1;
+                msgHead.MotorSpeedRpm = (short)UI_TrackBar_EscPulseWidth.Value;
+                msgHead.PayloadCrc32 = 0;
+
+                byte[] header = msgHead.GetBytes();
+
+                await SendAllAsync(socket, header);
+
+                Trace.WriteLine($"sent {header.Length} bytes:\n{msgHead}");
+            }
+            catch (SocketException exc)
+            {
+                Trace.WriteLine("Send:SocketException : " + exc.Message);
+                HandleDisconnect();
+                return;
+            }
+            catch (Exception exc)
+            {
+                Trace.WriteLine("Send:Exception : " + exc.Message);
+                HandleDisconnect();
+                return;
+            }
+        }
     }
+    
 }

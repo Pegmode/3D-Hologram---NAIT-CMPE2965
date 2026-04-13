@@ -37,7 +37,7 @@ extern "C" {
 
 
 //pwm
-#define PIN_ESC_PWM			16
+#define PIN_ESC_PWM			17
 
 // Optional debug pins 
 #define PIN_SW_OPT1         21    // set -1 if not used

@@ -27,6 +27,7 @@
 #include "display_task.h"
 #include "display_store.h"
 #include "main.h"
+#include "pwm.h"
 
 // Default runtime values used when the caller does not override them.
 //
@@ -68,6 +69,32 @@ static esp_event_handler_instance_t s_wifi_event_instance = NULL;
 static esp_netif_t *s_wifi_ap_netif = NULL;
 
 static void wifi_rx_task(void *arg);
+
+// Apply the motor-control field from the received header.
+//
+// For now, positive values are treated as raw ESC pulse widths in
+// microseconds. This gives the project a working Wi-Fi-to-ESC control path
+// before a true RPM control layer is added on top of the PWM module.
+static esp_err_t wifi_rx_apply_motor_command(const wifi_rx_header_t *header)
+{
+    uint32_t pulse_us;
+
+    if (header == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    if (header->motor_speed_rpm == WIFI_RX_MOTOR_SAME) {
+        return ESP_OK;
+    }
+
+    if (header->motor_speed_rpm == WIFI_RX_MOTOR_OFF) {
+        pulse_us = pwm_config.command_min_us;
+    } else {
+        pulse_us = (uint32_t)header->motor_speed_rpm;
+    }
+
+    return pwm_set_pulse_us(pulse_us);
+}
 
 // Return how many frames should be used when interpreting the payload.
 //
@@ -513,6 +540,19 @@ static esp_err_t wifi_rx_process_client(int client_sock)
             if (err != ESP_OK) {
                 ESP_LOGW(TAG_wifi_rx, "wifi_rx_print_header_console failed: %s", esp_err_to_name(err));
             }
+        }
+
+        err = wifi_rx_apply_motor_command(&header);
+        if (err != ESP_OK) {
+            ESP_LOGW(TAG_wifi_rx,
+                     "wifi_rx_apply_motor_command failed for command %" PRId16 ": %s",
+                     header.motor_speed_rpm,
+                     esp_err_to_name(err));
+        } else if (header.motor_speed_rpm != WIFI_RX_MOTOR_SAME) {
+            ESP_LOGI(TAG_wifi_rx,
+                     "Motor command applied: field=%" PRId16 " pulse=%lu us",
+                     header.motor_speed_rpm,
+                     (unsigned long)pwm_get_pulse_us());
         }
 
         // Receive the payload and prepare it for the staging display store.

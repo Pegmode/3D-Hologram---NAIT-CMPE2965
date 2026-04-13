@@ -42,6 +42,13 @@
             UI_ComboBox_TestBakedData = new ComboBox();
             label2 = new Label();
             UI_Button_DisplayOff = new Button();
+            UI_TrackBar_EscPulseWidth = new TrackBar();
+            label3 = new Label();
+            UI_TextBox_Esc_Low = new TextBox();
+            UI_TextBox_Esc_Value = new TextBox();
+            UI_TextBox_Esc_High = new TextBox();
+            UI_Button_UpdateSpeed = new Button();
+            ((System.ComponentModel.ISupportInitialize)UI_TrackBar_EscPulseWidth).BeginInit();
             SuspendLayout();
             // 
             // UI_Textbox_Output
@@ -171,11 +178,78 @@
             UI_Button_DisplayOff.UseVisualStyleBackColor = true;
             UI_Button_DisplayOff.Click += UI_Button_DisplayOff_Click;
             // 
+            // UI_TrackBar_EscPulseWidth
+            // 
+            UI_TrackBar_EscPulseWidth.LargeChange = 50;
+            UI_TrackBar_EscPulseWidth.Location = new Point(30, 456);
+            UI_TrackBar_EscPulseWidth.Maximum = 1200;
+            UI_TrackBar_EscPulseWidth.Minimum = 870;
+            UI_TrackBar_EscPulseWidth.Name = "UI_TrackBar_EscPulseWidth";
+            UI_TrackBar_EscPulseWidth.Size = new Size(416, 45);
+            UI_TrackBar_EscPulseWidth.SmallChange = 10;
+            UI_TrackBar_EscPulseWidth.TabIndex = 15;
+            UI_TrackBar_EscPulseWidth.TickFrequency = 5;
+            UI_TrackBar_EscPulseWidth.Value = 870;
+            UI_TrackBar_EscPulseWidth.ValueChanged += UI_TrackBar_EscPulseWidth_ValueChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(164, 504);
+            label3.Name = "label3";
+            label3.Size = new Size(153, 15);
+            label3.TabIndex = 16;
+            label3.Text = "esc pulse width (for testing)";
+            // 
+            // UI_TextBox_Esc_Low
+            // 
+            UI_TextBox_Esc_Low.Location = new Point(18, 432);
+            UI_TextBox_Esc_Low.Name = "UI_TextBox_Esc_Low";
+            UI_TextBox_Esc_Low.ReadOnly = true;
+            UI_TextBox_Esc_Low.Size = new Size(49, 23);
+            UI_TextBox_Esc_Low.TabIndex = 17;
+            UI_TextBox_Esc_Low.Text = "870us";
+            // 
+            // UI_TextBox_Esc_Value
+            // 
+            UI_TextBox_Esc_Value.Location = new Point(213, 432);
+            UI_TextBox_Esc_Value.Name = "UI_TextBox_Esc_Value";
+            UI_TextBox_Esc_Value.ReadOnly = true;
+            UI_TextBox_Esc_Value.Size = new Size(49, 23);
+            UI_TextBox_Esc_Value.TabIndex = 18;
+            UI_TextBox_Esc_Value.Text = "870us";
+            // 
+            // UI_TextBox_Esc_High
+            // 
+            UI_TextBox_Esc_High.Location = new Point(397, 432);
+            UI_TextBox_Esc_High.Name = "UI_TextBox_Esc_High";
+            UI_TextBox_Esc_High.ReadOnly = true;
+            UI_TextBox_Esc_High.Size = new Size(49, 23);
+            UI_TextBox_Esc_High.TabIndex = 19;
+            UI_TextBox_Esc_High.Text = "1200";
+            // 
+            // UI_Button_UpdateSpeed
+            // 
+            UI_Button_UpdateSpeed.Enabled = false;
+            UI_Button_UpdateSpeed.Location = new Point(12, 500);
+            UI_Button_UpdateSpeed.Name = "UI_Button_UpdateSpeed";
+            UI_Button_UpdateSpeed.Size = new Size(113, 23);
+            UI_Button_UpdateSpeed.TabIndex = 20;
+            UI_Button_UpdateSpeed.Text = "Update Speed";
+            UI_Button_UpdateSpeed.UseVisualStyleBackColor = true;
+            UI_Button_UpdateSpeed.Click += UI_Button_UpdateSpeed_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(511, 450);
+            ClientSize = new Size(478, 550);
+            Controls.Add(UI_Button_UpdateSpeed);
+            Controls.Add(UI_TextBox_Esc_High);
+            Controls.Add(UI_TextBox_Esc_Value);
+            Controls.Add(UI_TextBox_Esc_Low);
+            Controls.Add(label3);
+            Controls.Add(UI_TrackBar_EscPulseWidth);
             Controls.Add(UI_Button_DisplayOff);
             Controls.Add(label2);
             Controls.Add(UI_ComboBox_TestBakedData);
@@ -189,9 +263,11 @@
             Controls.Add(UI_Button_Visualize);
             Controls.Add(UI_Button_RUN);
             Controls.Add(UI_Textbox_Output);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "3D Hologram Server";
+            ((System.ComponentModel.ISupportInitialize)UI_TrackBar_EscPulseWidth).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -211,5 +287,11 @@
         private ComboBox UI_ComboBox_TestBakedData;
         private Label label2;
         private Button UI_Button_DisplayOff;
+        private TrackBar UI_TrackBar_EscPulseWidth;
+        private Label label3;
+        private TextBox UI_TextBox_Esc_Low;
+        private TextBox UI_TextBox_Esc_Value;
+        private TextBox UI_TextBox_Esc_High;
+        private Button UI_Button_UpdateSpeed;
     }
 }
