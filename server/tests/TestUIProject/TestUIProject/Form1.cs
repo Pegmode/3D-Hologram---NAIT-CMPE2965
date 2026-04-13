@@ -25,6 +25,7 @@ namespace TestUIProject {
             { "", (0,0,[0]) },
             { "Teapot" , demoFrames.teapot },
             { "Arrow Wave", demoFrames.wave },
+            { "Cube", demoFrames.wireCube},
             { "Rando", demoFrames.Rando}
         };
         //Networking
@@ -196,8 +197,17 @@ namespace TestUIProject {
             //Int32 currentFramecount = 1;//debug const
             //Int32 currentSliceCount = 16;//standard...
             //Int16 currentRPM = 100;//debug const
-            storedTxMessage = MessageHeader.Build3DImageMessage(backedData.Item3, backedData.Item1, backedData.Item2, WifiTxDataType.Still3D, (sbyte)WifiTxMotor.Same);
-            UI_Textbox_LoadedImageName.Text = thisCombobox.Text;
+            if (backedData.Item1 == 1) {
+                storedTxMessage = MessageHeader.Build3DImageMessage(backedData.Item3, backedData.Item1, backedData.Item2, WifiTxDataType.Still3D, (sbyte)WifiTxMotor.Same);
+            }
+            else if (backedData.Item1 > 1) {
+                storedTxMessage = MessageHeader.Build3DImageMessage(backedData.Item3, backedData.Item1, backedData.Item2, WifiTxDataType.Animation3D, (sbyte)WifiTxMotor.Same);
+            }
+            else {
+                UI_Textbox_Output.Text += "ERROR: could not build tx message. Bad frame size";
+                return;///shouldn't happen but gives a graceful way to exit
+            }
+                UI_Textbox_LoadedImageName.Text = thisCombobox.Text;
             UI_Button_SendLoaded.Enabled = true;
         }
 
