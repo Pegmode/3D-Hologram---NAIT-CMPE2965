@@ -1,1 +1,5 @@
 voxelData.h
+dist/
+build/
+voxelConversion.spec
+__pycache__/
