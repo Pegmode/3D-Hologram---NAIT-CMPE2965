@@ -26,8 +26,7 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             UI_Textbox_Output = new TextBox();
             UI_Button_RUN = new Button();
@@ -48,6 +47,7 @@
             UI_TextBox_Esc_Value = new TextBox();
             UI_TextBox_Esc_High = new TextBox();
             UI_Button_UpdateSpeed = new Button();
+            UI_Button_LoadAnimationObj = new Button();
             ((System.ComponentModel.ISupportInitialize)UI_TrackBar_EscPulseWidth).BeginInit();
             SuspendLayout();
             // 
@@ -65,7 +65,7 @@
             // 
             UI_Button_RUN.Location = new Point(30, 15);
             UI_Button_RUN.Name = "UI_Button_RUN";
-            UI_Button_RUN.Size = new Size(113, 23);
+            UI_Button_RUN.Size = new Size(128, 23);
             UI_Button_RUN.TabIndex = 1;
             UI_Button_RUN.Text = "Run Hologram";
             UI_Button_RUN.UseVisualStyleBackColor = true;
@@ -73,9 +73,9 @@
             // 
             // UI_Button_Visualize
             // 
-            UI_Button_Visualize.Location = new Point(30, 73);
+            UI_Button_Visualize.Location = new Point(30, 102);
             UI_Button_Visualize.Name = "UI_Button_Visualize";
-            UI_Button_Visualize.Size = new Size(113, 23);
+            UI_Button_Visualize.Size = new Size(128, 23);
             UI_Button_Visualize.TabIndex = 2;
             UI_Button_Visualize.Text = "Visualize";
             UI_Button_Visualize.UseVisualStyleBackColor = true;
@@ -85,7 +85,7 @@
             // 
             UI_Button_LoadObj.Location = new Point(30, 44);
             UI_Button_LoadObj.Name = "UI_Button_LoadObj";
-            UI_Button_LoadObj.Size = new Size(113, 23);
+            UI_Button_LoadObj.Size = new Size(128, 23);
             UI_Button_LoadObj.TabIndex = 3;
             UI_Button_LoadObj.Text = "Load .obj";
             UI_Button_LoadObj.UseVisualStyleBackColor = true;
@@ -93,9 +93,9 @@
             // 
             // UI_Button_Connect
             // 
-            UI_Button_Connect.Location = new Point(30, 102);
+            UI_Button_Connect.Location = new Point(30, 131);
             UI_Button_Connect.Name = "UI_Button_Connect";
-            UI_Button_Connect.Size = new Size(113, 23);
+            UI_Button_Connect.Size = new Size(128, 23);
             UI_Button_Connect.TabIndex = 4;
             UI_Button_Connect.Text = "Connect";
             UI_Button_Connect.UseVisualStyleBackColor = true;
@@ -113,9 +113,9 @@
             // UI_Button_Disconnect
             // 
             UI_Button_Disconnect.Enabled = false;
-            UI_Button_Disconnect.Location = new Point(30, 160);
+            UI_Button_Disconnect.Location = new Point(30, 189);
             UI_Button_Disconnect.Name = "UI_Button_Disconnect";
-            UI_Button_Disconnect.Size = new Size(113, 23);
+            UI_Button_Disconnect.Size = new Size(128, 23);
             UI_Button_Disconnect.TabIndex = 7;
             UI_Button_Disconnect.Text = "Disconnect";
             UI_Button_Disconnect.UseVisualStyleBackColor = true;
@@ -170,9 +170,9 @@
             // UI_Button_DisplayOff
             // 
             UI_Button_DisplayOff.Enabled = false;
-            UI_Button_DisplayOff.Location = new Point(30, 131);
+            UI_Button_DisplayOff.Location = new Point(30, 160);
             UI_Button_DisplayOff.Name = "UI_Button_DisplayOff";
-            UI_Button_DisplayOff.Size = new Size(113, 23);
+            UI_Button_DisplayOff.Size = new Size(128, 23);
             UI_Button_DisplayOff.TabIndex = 14;
             UI_Button_DisplayOff.Text = "Display Off";
             UI_Button_DisplayOff.UseVisualStyleBackColor = true;
@@ -239,11 +239,22 @@
             UI_Button_UpdateSpeed.UseVisualStyleBackColor = true;
             UI_Button_UpdateSpeed.Click += UI_Button_UpdateSpeed_Click;
             // 
+            // UI_Button_LoadAnimationObj
+            // 
+            UI_Button_LoadAnimationObj.Location = new Point(30, 73);
+            UI_Button_LoadAnimationObj.Name = "UI_Button_LoadAnimationObj";
+            UI_Button_LoadAnimationObj.Size = new Size(128, 23);
+            UI_Button_LoadAnimationObj.TabIndex = 21;
+            UI_Button_LoadAnimationObj.Text = "Load .obj Animated";
+            UI_Button_LoadAnimationObj.UseVisualStyleBackColor = true;
+            UI_Button_LoadAnimationObj.Click += UI_Button_LoadAnimationObj_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(478, 550);
+            Controls.Add(UI_Button_LoadAnimationObj);
             Controls.Add(UI_Button_UpdateSpeed);
             Controls.Add(UI_TextBox_Esc_High);
             Controls.Add(UI_TextBox_Esc_Value);
@@ -293,5 +304,6 @@
         private TextBox UI_TextBox_Esc_Value;
         private TextBox UI_TextBox_Esc_High;
         private Button UI_Button_UpdateSpeed;
+        private Button UI_Button_LoadAnimationObj;
     }
 }
