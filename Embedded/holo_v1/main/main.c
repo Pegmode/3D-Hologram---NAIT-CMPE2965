@@ -11,6 +11,7 @@
 #include "encoder.h"
 #include "buck_4v.h"
 #include "shiftreg.h"
+#include "shiftreg_pwm.h"
 #include "pwm.h"
 #include "console_io.h"
 #include "display_store.h"
@@ -41,6 +42,14 @@ void app_main(void)
 	shiftreg_config.pin_oe 				= PIN_SR_NOT_OE;
 	shiftreg_config.spi_clock_hz 		= SR_SPI_HZ;
 	shiftreg_config.max_transfer_bytes 	= SR_FRAME_BYTES;
+
+    // config shift-register global brightness PWM
+    shiftreg_pwm_config.init                       = 1;
+    shiftreg_pwm_config.gpio_num                   = PIN_SR_NOT_OE;
+    shiftreg_pwm_config.channel                    = LEDC_CHANNEL_1;
+    shiftreg_pwm_config.timer                      = LEDC_TIMER_1;
+    shiftreg_pwm_config.frequency_hz               = SR_PWM_HZ;
+    shiftreg_pwm_config.startup_brightness_percent = SR_PWM_STARTUP_BRIGHTNESS_PERCENT;
 	
 	//config pwm
 	pwm_config.init			   	= 1;
@@ -92,17 +101,24 @@ void app_main(void)
         return;
     }
 
+    err = shiftreg_pwm_init();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG_main, "shiftreg_pwm_init failed: %s", esp_err_to_name(err));
+        buck_4v_disable();
+        return;
+    }
+
     err = pwm_init();
     if (err != ESP_OK) {
         ESP_LOGE(TAG_main, "pwm_init failed: %s", esp_err_to_name(err));
         return;
     }
 
-    err = console_io_init();
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG_main, "console_io_init failed: %s", esp_err_to_name(err));
-        return;
-    }
+    // err = console_io_init();
+    // if (err != ESP_OK) {
+    //     ESP_LOGE(TAG_main, "console_io_init failed: %s", esp_err_to_name(err));
+    //     return;
+    // }
 
     err = encoder_init();
     if (err != ESP_OK) {

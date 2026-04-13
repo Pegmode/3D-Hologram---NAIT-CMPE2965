@@ -38,7 +38,7 @@ esp_err_t shiftreg_init();
 //
 // The function does:
 // 1) shift data out over SPI
-// 2) blank outputs briefly if OE is available
+// 2) blank outputs briefly if OE is available and not owned by shiftreg_pwm
 // 3) pulse LE to latch the new outputs
 // 4) re-enable outputs
 esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes);
@@ -48,7 +48,9 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes);
 // enable = true  -> outputs ON
 // enable = false -> outputs OFF
 //
-// If OE pin is not configured, this function does nothing and returns ESP_OK.
+// If shiftreg_pwm owns OE, this helper maps:
+// enable = true  -> 100% brightness
+// enable = false -> 0% brightness
 esp_err_t shiftreg_set_output_enabled(bool enable);
 
 // Send an all-zero frame to the shift register chain.

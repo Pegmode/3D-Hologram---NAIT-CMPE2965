@@ -18,18 +18,20 @@ extern "C" {
 // Current packet-header version.
 //
 // Bump this if the wire format changes in an incompatible way.
-#define WIFI_RX_HEADER_VERSION 2U
+#define WIFI_RX_HEADER_VERSION 3U
 
 // Types of display payloads that may arrive over TCP.
 //
 // This is the first routing decision the receiver will use after validating the
-// header: still image vs multi-frame animation.
+// header: still image, multi-frame animation, or a control packet such as
+// display-off.
 typedef enum
 {
     WIFI_RX_DATA_TYPE_NONE = -1,
     WIFI_RX_DATA_TYPE_INVALID = 0,
     WIFI_RX_DATA_TYPE_STILL_3D = 1,
     WIFI_RX_DATA_TYPE_ANIMATION_3D = 2,
+    WIFI_RX_DATA_TYPE_DISPLAYOFF = 3
 } wifi_rx_data_type_t;
 
 typedef enum
@@ -72,7 +74,16 @@ typedef struct
     int32_t slice_count;          // Number of angular slices per frame, or -1 if unused.
     int32_t payload_bytes;        // Total payload size immediately after header, or -1 for no payload.
 
-    int16_t motor_speed_rpm;      // -1 = off, 0 = keep same, >0 = set RPM.
+    // Motor control command carried in the packet header.
+    //
+    // Current bring-up behavior:
+    // -1 = off / minimum throttle pulse
+    //  0 = keep current output
+    // >0 = raw ESC pulse width in microseconds
+    //
+    // The field name is kept for protocol compatibility even though the
+    // implementation is temporarily pulse-width based rather than true RPM.
+    int16_t motor_speed_rpm;
     uint32_t payload_crc32;       // CRC32 of the payload bytes, or 0 when no payload is sent.
 } wifi_rx_header_t;
 
@@ -138,6 +149,7 @@ esp_err_t wifi_rx_print_header_console(const wifi_rx_header_t *header);
 //
 // The payload size depends on data_type:
 // - none: no payload
+// - display_off: no payload
 // - still_3d: 1 * slice_count * DISPLAY_SLICE_BYTES
 // - animation_3d: frame_count * slice_count * DISPLAY_SLICE_BYTES
 //

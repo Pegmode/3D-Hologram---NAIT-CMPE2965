@@ -9,6 +9,7 @@
 #include "esp_heap_caps.h"
 #include "esp_log.h"
 #include "esp_rom_sys.h"
+#include "shiftreg_pwm.h"
 
 
 // public config
@@ -147,7 +148,7 @@ esp_err_t shiftreg_init()
     // Give the SPI clock pin a moderate drive strength to help with external
     // line loading during bring-up.
     ESP_RETURN_ON_ERROR(
-        gpio_set_drive_capability(shiftreg_config.pin_sclk, GPIO_DRIVE_CAP_3),
+        gpio_set_drive_capability(shiftreg_config.pin_sclk, GPIO_DRIVE_CAP_2),
         TAG_shiftreg,
         "gpio_set_drive_capability failed for SCLK"
     );
@@ -170,7 +171,7 @@ esp_err_t shiftreg_init()
     shiftreg_initialized = true;
 
     ESP_LOGI(TAG_shiftreg, "Shift register initialized");
-    ESP_LOGI(TAG_shiftreg, "SPI host=%d, MOSI=%d, SCLK=%d, LE=%d, OE=%d, DBG=%d",
+    ESP_LOGI(TAG_shiftreg, "SPI host=%d, MOSI=%d, SCLK=%d, LE=%d, OE=%d",
              shiftreg_config.spi_host,
              shiftreg_config.pin_mosi,
              shiftreg_config.pin_sclk,
@@ -184,6 +185,12 @@ esp_err_t shiftreg_set_output_enabled(bool enable)
 {
     if (!shiftreg_initialized) {
         return ESP_ERR_INVALID_STATE;
+    }
+
+    // When OE is owned by the PWM dimmer, map the request to full-on or full-off
+    // brightness rather than fighting LEDC with gpio_set_level().
+    if (shiftreg_pwm_is_initialized()) {
+        return shiftreg_pwm_set_brightness_percent(enable ? 100U : 0U);
     }
 
     // If OE is not connected, there is nothing to do
@@ -235,6 +242,7 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes)
         .length = frame_len_bytes * 8,   // SPI length is in bits
         .tx_buffer = g_tx_dma
     };
+    bool manual_oe_blank = false;
 
     // Optional debug pin high during transmit + latch
     // shiftreg_dbg_high();
@@ -247,7 +255,9 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes)
     );
 
     // 2) Blank outputs briefly while latching, if OE exists
-    if (shiftreg_config.pin_oe >= 0) {
+    manual_oe_blank = (shiftreg_config.pin_oe >= 0) && !shiftreg_pwm_is_initialized();
+
+    if (manual_oe_blank) {
         gpio_set_level(shiftreg_config.pin_oe, 1);
     }
 
@@ -255,7 +265,7 @@ esp_err_t shiftreg_send_frame(const uint8_t *frame, size_t frame_len_bytes)
     ESP_RETURN_ON_ERROR(shiftreg_latch(), TAG_shiftreg, "shiftreg_latch failed");
 
     // 4) Re-enable outputs
-    if (shiftreg_config.pin_oe >= 0) {
+    if (manual_oe_blank) {
         gpio_set_level(shiftreg_config.pin_oe, 0);
     }
 

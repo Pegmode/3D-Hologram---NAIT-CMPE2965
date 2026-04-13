@@ -9,8 +9,6 @@
 #include "esp_heap_caps.h"
 #include "esp_log.h"
 
-#include "console_io.h"
-
 static const char *TAG_display_store = "display_store";
 
 // Protect active/staging pointer swaps across the Wi-Fi task on core 1 and the
@@ -391,11 +389,26 @@ esp_err_t display_store_swap_if_pending(bool *did_swap)
     return ESP_OK;
 }
 
+esp_err_t display_store_clear_all(void)
+{
+    if (!s_manager_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    portENTER_CRITICAL(&s_display_store_lock);
+    display_store_free(&s_store_a);
+    display_store_free(&s_store_b);
+    s_active_store = &s_store_a;
+    s_staging_store = &s_store_b;
+    s_swap_pending = false;
+    portEXIT_CRITICAL(&s_display_store_lock);
+
+    return ESP_OK;
+}
+
 esp_err_t display_store_print_staging_triggers_console(void)
 {
-    char line[96];
     uint32_t slice_index;
-    int err;
 
     if (!s_manager_initialized) {
         return ESP_ERR_INVALID_STATE;
@@ -405,27 +418,16 @@ esp_err_t display_store_print_staging_triggers_console(void)
         return ESP_ERR_INVALID_STATE;
     }
 
-    err = snprintf(line,
-                   sizeof(line),
-                   "staged trigger list: slices=%u counts_per_rev=%u",
-                   (unsigned)s_staging_store->slice_count,
-                   (unsigned)ENC_COUNTS_PER_REV);
-    if (err < 0 || (size_t)err >= sizeof(line)) {
-        return ESP_ERR_INVALID_ARG;
-    }
-    ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_display_store, "console_io_write_line failed");
+    ESP_LOGI(TAG_display_store,
+             "staged trigger list: slices=%u counts_per_rev=%u",
+             (unsigned)s_staging_store->slice_count,
+             (unsigned)ENC_COUNTS_PER_REV);
 
     for (slice_index = 0; slice_index < s_staging_store->slice_count; slice_index++) {
-        err = snprintf(line,
-                       sizeof(line),
-                       "trigger[%u] = %ld",
-                       (unsigned)slice_index,
-                       (long)s_staging_store->trigger_counts[slice_index]);
-        if (err < 0 || (size_t)err >= sizeof(line)) {
-            return ESP_ERR_INVALID_ARG;
-        }
-
-        ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_display_store, "console_io_write_line failed");
+        ESP_LOGI(TAG_display_store,
+                 "trigger[%u] = %ld",
+                 (unsigned)slice_index,
+                 (long)s_staging_store->trigger_counts[slice_index]);
     }
 
     return ESP_OK;

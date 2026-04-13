@@ -92,6 +92,12 @@ bool display_store_swap_pending(void);
 // and trigger counts change only at a safe revolution boundary.
 esp_err_t display_store_swap_if_pending(bool *did_swap);
 
+// Free both active and staging data sets and cancel any pending swap.
+//
+// This is used by control flows such as DISPLAYOFF where the currently shown
+// image data should be dropped completely instead of waiting for replacement.
+esp_err_t display_store_clear_all(void);
+
 // Test helper: print the currently staged trigger-count list to the console.
 esp_err_t display_store_print_staging_triggers_console(void);
 

@@ -37,7 +37,7 @@ extern "C" {
 
 
 //pwm
-#define PIN_ESC_PWM			16
+#define PIN_ESC_PWM			17
 
 // Optional debug pins 
 #define PIN_SW_OPT1         21    // set -1 if not used
@@ -51,6 +51,10 @@ extern "C" {
 
 // SPI clock rate (start lower for clean waveforms; increase later)
 #define SR_SPI_HZ       (2 * 1000 * 1000)  // 2 MHz
+
+// Global display brightness PWM settings on OE.
+#define SR_PWM_HZ       (20 * 1000)        // 20 kHz global dimming PWM
+#define SR_PWM_STARTUP_BRIGHTNESS_PERCENT 40U
 
 // Our frame is 512 LEDs -> 512 bits -> 64 bytes
 #define SR_FRAME_BYTES  64

@@ -16,6 +16,13 @@ extern "C" {
 // one-by-one as each count event is handled.
 esp_err_t display_task_start(void);
 
+// Request that the display task blank the LEDs and drop any loaded image data.
+//
+// This is intended for control packets such as WIFI_RX_DATA_TYPE_DISPLAYOFF so
+// the actual display shutdown still happens on core 0 where the display logic
+// already lives.
+esp_err_t display_task_request_display_off(void);
+
 #ifdef __cplusplus
 }
 #endif

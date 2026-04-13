@@ -3,19 +3,21 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_err.h"
 #include "esp_log.h"
 
-#include "console_io.h"
 #include "display_store.h"
 #include "encoder.h"
 #include "shiftreg.h"
 
 static const char *TAG_display_task = "display_task";
+
+// Private task-notify bit used for control requests that originate outside the
+// encoder module.
+#define DISPLAY_TASK_NOTIFY_EVENT_DISPLAY_OFF (1UL << 2)
 
 static TaskHandle_t s_display_task_handle = NULL;
 
@@ -32,32 +34,20 @@ typedef struct
     bool pending_immediate_update;
 } display_task_state_t;
 
-// Print one display-task event to the USB console during bring-up.
+// Print one display-task event through ESP-IDF logging during bring-up.
 static void display_task_print_event_console(const char *event_name,
                                              size_t frame_index,
                                              size_t slice_index,
                                              int encoder_count,
                                              int trigger_count)
 {
-    char line[128];
-    int err;
-
-    err = snprintf(line,
-                   sizeof(line),
-                   "display event: %s frame=%u slice=%u enc_count=%d trigger_count=%d",
-                   event_name,
-                   (unsigned)frame_index,
-                   (unsigned)slice_index,
-                   encoder_count,
-                   trigger_count);
-    if (err < 0 || (size_t)err >= sizeof(line)) {
-        ESP_LOGW(TAG_display_task, "display_task_print_event_console snprintf failed");
-        return;
-    }
-
-    if (console_io_write_line(line) != ESP_OK) {
-        ESP_LOGW(TAG_display_task, "display_task_print_event_console console_io_write_line failed");
-    }
+    ESP_LOGI(TAG_display_task,
+             "display event: %s frame=%u slice=%u enc_count=%d trigger_count=%d",
+             event_name,
+             (unsigned)frame_index,
+             (unsigned)slice_index,
+             encoder_count,
+             trigger_count);
 }
 
 // Push one slice from the active display store to the shift-register chain.
@@ -125,8 +115,6 @@ static esp_err_t display_task_arm_next_watch_point(const display_store_t *store,
 static esp_err_t display_task_handle_count_event(display_task_state_t *state,
                                                  int trigger_count, display_store_t *active_store)
 {
-
-
     int encoder_count = 0;
     esp_err_t err;
 
@@ -144,7 +132,6 @@ static esp_err_t display_task_handle_count_event(display_task_state_t *state,
     }
 
     state->current_slice_index = state->next_slice_index;
-
 
     err = encoder_get_count(&encoder_count);
     if (err != ESP_OK) {
@@ -243,6 +230,44 @@ static esp_err_t display_task_handle_z_event(display_task_state_t *state)
     return ESP_OK;
 }
 
+// Blank the display immediately and drop all active/staged image data.
+//
+// This is handled on core 0 so the display output path and the store cleanup
+// stay in one place.
+static esp_err_t display_task_handle_display_off(display_task_state_t *state)
+{
+    esp_err_t err;
+
+    if (state == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    err = shiftreg_clear();
+    if (err != ESP_OK) {
+        return err;
+    }
+
+    err = encoder_clear_count_watch_point();
+    if (err != ESP_OK) {
+        return err;
+    }
+
+    err = display_store_clear_all();
+    if (err != ESP_OK) {
+        return err;
+    }
+
+    state->current_frame_index = 0U;
+    state->current_slice_index = 0U;
+    state->next_slice_index = 0U;
+    state->frame_sequence_started = false;
+    state->pending_immediate_update = false;
+
+    display_task_print_event_console("display_off", 0U, 0U, 0, 0);
+
+    return ESP_OK;
+}
+
 static void display_task(void *arg)
 {
     int encoder_count = 0;
@@ -270,6 +295,18 @@ static void display_task(void *arg)
         notified = xTaskNotifyWait(0, UINT32_MAX, &notify_bits, 0);
         if (notified != pdTRUE) {
             notify_bits = 0;
+        }
+
+        if ((notify_bits & DISPLAY_TASK_NOTIFY_EVENT_DISPLAY_OFF) != 0U) {
+            err = display_task_handle_display_off(&state);
+            if (err != ESP_OK) {
+                ESP_LOGE(TAG_display_task, "display_task_handle_display_off failed: %s", esp_err_to_name(err));
+            }
+
+            active_store = display_store_get_active();
+            notify_bits &= ~(ENCODER_NOTIFY_EVENT_Z | ENCODER_NOTIFY_EVENT_COUNT);
+            taskYIELD();
+            continue;
         }
 
         if ((notify_bits & ENCODER_NOTIFY_EVENT_Z) != 0U) {
@@ -355,6 +392,19 @@ esp_err_t display_task_start(void)
 
     encoder_set_z_notify_task(s_display_task_handle);
     //encoder_set_count_notify_task(s_display_task_handle);
+
+    return ESP_OK;
+}
+
+esp_err_t display_task_request_display_off(void)
+{
+    if (s_display_task_handle == NULL) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    if (xTaskNotify(s_display_task_handle, DISPLAY_TASK_NOTIFY_EVENT_DISPLAY_OFF, eSetBits) != pdPASS) {
+        return ESP_FAIL;
+    }
 
     return ESP_OK;
 }

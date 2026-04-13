@@ -24,9 +24,10 @@
 #include "esp_heap_caps.h"
 #include "nvs_flash.h"
 
-#include "console_io.h"
+#include "display_task.h"
 #include "display_store.h"
 #include "main.h"
+#include "pwm.h"
 
 // Default runtime values used when the caller does not override them.
 //
@@ -69,6 +70,32 @@ static esp_netif_t *s_wifi_ap_netif = NULL;
 
 static void wifi_rx_task(void *arg);
 
+// Apply the motor-control field from the received header.
+//
+// For now, positive values are treated as raw ESC pulse widths in
+// microseconds. This gives the project a working Wi-Fi-to-ESC control path
+// before a true RPM control layer is added on top of the PWM module.
+static esp_err_t wifi_rx_apply_motor_command(const wifi_rx_header_t *header)
+{
+    uint32_t pulse_us;
+
+    if (header == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    if (header->motor_speed_rpm == WIFI_RX_MOTOR_SAME) {
+        return ESP_OK;
+    }
+
+    if (header->motor_speed_rpm == WIFI_RX_MOTOR_OFF) {
+        pulse_us = pwm_config.command_min_us;
+    } else {
+        pulse_us = (uint32_t)header->motor_speed_rpm;
+    }
+
+    return pwm_set_pulse_us(pulse_us);
+}
+
 // Return how many frames should be used when interpreting the payload.
 //
 // A still image only carries one frame of slice data, so frame_count may be
@@ -81,6 +108,7 @@ static esp_err_t wifi_rx_get_effective_frame_count(const wifi_rx_header_t *heade
 
     switch (header->data_type) {
         case WIFI_RX_DATA_TYPE_NONE:
+        case WIFI_RX_DATA_TYPE_DISPLAYOFF:
             *frame_count = 0;
             return ESP_OK;
 
@@ -417,7 +445,8 @@ static esp_err_t wifi_rx_parse_header(const wifi_rx_wire_header_t *wire_header,
 
     if (parsed_header->data_type != WIFI_RX_DATA_TYPE_NONE &&
         parsed_header->data_type != WIFI_RX_DATA_TYPE_STILL_3D &&
-        parsed_header->data_type != WIFI_RX_DATA_TYPE_ANIMATION_3D) {
+        parsed_header->data_type != WIFI_RX_DATA_TYPE_ANIMATION_3D &&
+        parsed_header->data_type != WIFI_RX_DATA_TYPE_DISPLAYOFF) {
         ESP_LOGE(TAG_wifi_rx, "Unsupported data type: %d", (int)parsed_header->data_type);
         return ESP_ERR_NOT_SUPPORTED;
     }
@@ -429,14 +458,15 @@ static esp_err_t wifi_rx_parse_header(const wifi_rx_wire_header_t *wire_header,
 
     switch (parsed_header->data_type) {
         case WIFI_RX_DATA_TYPE_NONE:
+        case WIFI_RX_DATA_TYPE_DISPLAYOFF:
             if (parsed_header->frame_count != -1 ||
                 parsed_header->slice_count != -1 ||
                 parsed_header->payload_bytes != -1) {
-                ESP_LOGE(TAG_wifi_rx, "None packets must use -1 for frame_count, slice_count, and payload_bytes");
+                ESP_LOGE(TAG_wifi_rx, "Control packets must use -1 for frame_count, slice_count, and payload_bytes");
                 return ESP_ERR_INVALID_ARG;
             }
             if (parsed_header->payload_crc32 != 0U) {
-                ESP_LOGE(TAG_wifi_rx, "None packets must use payload_crc32 = 0");
+                ESP_LOGE(TAG_wifi_rx, "Control packets must use payload_crc32 = 0");
                 return ESP_ERR_INVALID_ARG;
             }
             break;
@@ -512,6 +542,19 @@ static esp_err_t wifi_rx_process_client(int client_sock)
             }
         }
 
+        err = wifi_rx_apply_motor_command(&header);
+        if (err != ESP_OK) {
+            ESP_LOGW(TAG_wifi_rx,
+                     "wifi_rx_apply_motor_command failed for command %" PRId16 ": %s",
+                     header.motor_speed_rpm,
+                     esp_err_to_name(err));
+        } else if (header.motor_speed_rpm != WIFI_RX_MOTOR_SAME) {
+            ESP_LOGI(TAG_wifi_rx,
+                     "Motor command applied: field=%" PRId16 " pulse=%lu us",
+                     header.motor_speed_rpm,
+                     (unsigned long)pwm_get_pulse_us());
+        }
+
         // Receive the payload and prepare it for the staging display store.
         err = wifi_rx_receive_payload(client_sock, &header, &payload_buf);
         if (err != ESP_OK) {
@@ -527,6 +570,14 @@ static esp_err_t wifi_rx_process_client(int client_sock)
         }
 
         if (payload_buf == NULL) {
+            if (header.data_type == WIFI_RX_DATA_TYPE_DISPLAYOFF) {
+                err = display_task_request_display_off();
+                if (err != ESP_OK) {
+                    ESP_LOGW(TAG_wifi_rx, "display_task_request_display_off failed: %s", esp_err_to_name(err));
+                } else {
+                    ESP_LOGI(TAG_wifi_rx, "Display off requested");
+                }
+            }
             continue;
         }
 
@@ -779,6 +830,8 @@ const char *wifi_rx_data_type_to_string(wifi_rx_data_type_t data_type)
             return "still_3d";
         case WIFI_RX_DATA_TYPE_ANIMATION_3D:
             return "animation_3d";
+        case WIFI_RX_DATA_TYPE_DISPLAYOFF:
+            return "display_off";
         default:
             return "invalid";
     }
@@ -786,48 +839,27 @@ const char *wifi_rx_data_type_to_string(wifi_rx_data_type_t data_type)
 
 esp_err_t wifi_rx_print_header_console(const wifi_rx_header_t *header)
 {
-    char line[160];
-    esp_err_t err;
-
     if (header == NULL) {
         return ESP_ERR_INVALID_ARG;
     }
 
-    // Print the core payload-shape fields first.
-    err = snprintf(line,
-                   sizeof(line),
-                   "wifi header: type=%s frames=%" PRId32 " slices=%" PRId32 " bytes=%" PRId32,
-                   wifi_rx_data_type_to_string(header->data_type),
-                   header->frame_count,
-                   header->slice_count,
-                   header->payload_bytes);
-    if (err < 0 || (size_t)err >= sizeof(line)) {
-        return ESP_ERR_INVALID_ARG;
-    }
-    ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+    ESP_LOGI(TAG_wifi_rx,
+             "wifi header: type=%s frames=%" PRId32 " slices=%" PRId32 " bytes=%" PRId32,
+             wifi_rx_data_type_to_string(header->data_type),
+             header->frame_count,
+             header->slice_count,
+             header->payload_bytes);
 
-    // Print motor-command semantics using the new compact encoding.
-    err = snprintf(line,
-                   sizeof(line),
-                   "wifi header: motor_cmd=%" PRId16 " (-1=off 0=same >0=set_rpm)",
-                   header->motor_speed_rpm);
-    if (err < 0 || (size_t)err >= sizeof(line)) {
-        return ESP_ERR_INVALID_ARG;
-    }
-    ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+    ESP_LOGI(TAG_wifi_rx,
+             "wifi header: motor_cmd=%" PRId16 " (-1=off 0=same >0=set_rpm)",
+             header->motor_speed_rpm);
 
-    // Print protocol information last.
-    err = snprintf(line,
-                   sizeof(line),
-                   "wifi header: magic=0x%08" PRIX32 " version=%u header_size=%u crc32=0x%08" PRIX32,
-                   header->magic,
-                   header->version,
-                   header->header_size_bytes,
-                   header->payload_crc32);
-    if (err < 0 || (size_t)err >= sizeof(line)) {
-        return ESP_ERR_INVALID_ARG;
-    }
-    ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+    ESP_LOGI(TAG_wifi_rx,
+             "wifi header: magic=0x%08" PRIX32 " version=%u header_size=%u crc32=0x%08" PRIX32,
+             header->magic,
+             header->version,
+             header->header_size_bytes,
+             header->payload_crc32);
 
     return ESP_OK;
 }
@@ -836,7 +868,6 @@ esp_err_t wifi_rx_print_payload_slices_console(const wifi_rx_header_t *header,
                                                const uint8_t *payload,
                                                size_t payload_len)
 {
-    char line[160];
     size_t expected_payload_bytes = 0;
     size_t effective_frame_count = 0;
     size_t frame_index;
@@ -865,38 +896,31 @@ esp_err_t wifi_rx_print_payload_slices_console(const wifi_rx_header_t *header,
 
     for (frame_index = 0; frame_index < effective_frame_count; frame_index++) {
         for (slice_index = 0; slice_index < (size_t)header->slice_count; slice_index++) {
-            int err = snprintf(line,
-                               sizeof(line),
-                               "wifi payload: frame=%u slice=%u",
-                               (unsigned)frame_index,
-                               (unsigned)slice_index);
-            if (err < 0 || (size_t)err >= sizeof(line)) {
-                return ESP_ERR_INVALID_ARG;
-            }
-
-            ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+            ESP_LOGI(TAG_wifi_rx,
+                     "wifi payload: frame=%u slice=%u",
+                     (unsigned)frame_index,
+                     (unsigned)slice_index);
 
             // Print each 64-byte slice as four 16-byte rows to keep the output readable.
             for (size_t row = 0; row < DISPLAY_SLICE_BYTES; row += 16U) {
-                size_t line_offset = 0;
-                int written = snprintf(line + line_offset, sizeof(line) - line_offset, "  ");
-                if (written < 0) {
-                    return ESP_ERR_INVALID_ARG;
-                }
-                line_offset += (size_t)written;
-
-                for (size_t col = 0; col < 16U; col++) {
-                    written = snprintf(line + line_offset,
-                                       sizeof(line) - line_offset,
-                                       "%02X ",
-                                       payload[payload_offset + row + col]);
-                    if (written < 0 || (size_t)written >= (sizeof(line) - line_offset)) {
-                        return ESP_ERR_INVALID_ARG;
-                    }
-                    line_offset += (size_t)written;
-                }
-
-                ESP_RETURN_ON_ERROR(console_io_write_line(line), TAG_wifi_rx, "console_io_write_line failed");
+                ESP_LOGI(TAG_wifi_rx,
+                         "  %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X",
+                         payload[payload_offset + row + 0U],
+                         payload[payload_offset + row + 1U],
+                         payload[payload_offset + row + 2U],
+                         payload[payload_offset + row + 3U],
+                         payload[payload_offset + row + 4U],
+                         payload[payload_offset + row + 5U],
+                         payload[payload_offset + row + 6U],
+                         payload[payload_offset + row + 7U],
+                         payload[payload_offset + row + 8U],
+                         payload[payload_offset + row + 9U],
+                         payload[payload_offset + row + 10U],
+                         payload[payload_offset + row + 11U],
+                         payload[payload_offset + row + 12U],
+                         payload[payload_offset + row + 13U],
+                         payload[payload_offset + row + 14U],
+                         payload[payload_offset + row + 15U]);
             }
 
             payload_offset += DISPLAY_SLICE_BYTES;

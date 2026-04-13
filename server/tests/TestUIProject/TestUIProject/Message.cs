@@ -17,7 +17,8 @@ namespace TestUIProject
         None = -1,
         Invalid = 0,
         Still3D = 1,
-        Animation3D = 2
+        Animation3D = 2,
+        DisplayOff = 3
     }
 
     public enum WifiTxMotor
@@ -28,7 +29,7 @@ namespace TestUIProject
 
     public class MessageHeader
     {
-        public const int CURRENT_VERSION = 2;
+        public const int CURRENT_VERSION = 3;
         public const UInt32 Magic = 0x484F4C4FU; //HOLO
         public byte Version { get; set; }
         public byte HeaderSizeBytes { get { return 25; } }
@@ -49,7 +50,7 @@ namespace TestUIProject
             this.SliceCount = sliceCount;
             this.PayloadBytes = payloadBytes;
             this.MotorSpeedRpm = motorSpeed;
-            this.PayloadCrc32 = 0;//Header does not contain the payload so dont fill the CRC in the header CTR
+            this.PayloadCrc32 = payloadCrc32;
             this.Version = CURRENT_VERSION;//this ctr does not contain the override for version
         }
 
@@ -66,14 +67,14 @@ namespace TestUIProject
 
         public static byte[] Build3DImageMessage(byte[] payload, Int32 frameCount, Int32 sliceCount, WifiTxDataType messageType, Int16 rpm) {
             Int32 payloadBytes = payload.Length;
-            Crc32.HashToUInt32(payload);
+            uint crc32 = Crc32.HashToUInt32(payload);
             MessageHeader messageHeader = new MessageHeader(
                 WifiTxDataType.Still3D,
                 frameCount,
                 sliceCount,
                 payloadBytes,
                 rpm,
-                Crc32.HashToUInt32(payload)
+                crc32
             );
             //pack the message 
             byte[] header = messageHeader.GetBytes();
