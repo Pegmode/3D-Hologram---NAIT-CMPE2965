@@ -97,8 +97,7 @@ namespace TestUIProject {
                 byte[] voxelBytes = await callVoxelConverterToConvert(objFilepath, "-cp");
                 Int32 currentFramecount = 1;//debug const
                 Int32 currentSliceCount = 16;//standard...
-                Int16 currentRPM = 100;//debug const
-                storedTxMessage = MessageHeader.Build3DImageMessage(voxelBytes, currentFramecount, currentSliceCount, WifiTxDataType.Still3D, currentRPM);
+                storedTxMessage = MessageHeader.Build3DImageMessage(voxelBytes, currentFramecount, currentSliceCount, WifiTxDataType.Still3D);
                 UI_Button_SendLoaded.Enabled = true;
                 UI_Textbox_LoadedImageName.Text = objFilepath;
                 UI_Textbox_Output.Text += "obj ready to send to hologram!\r\n";
@@ -198,10 +197,10 @@ namespace TestUIProject {
             //Int32 currentSliceCount = 16;//standard...
             //Int16 currentRPM = 100;//debug const
             if (backedData.Item1 == 1) {
-                storedTxMessage = MessageHeader.Build3DImageMessage(backedData.Item3, backedData.Item1, backedData.Item2, WifiTxDataType.Still3D, (sbyte)WifiTxMotor.Same);
+                storedTxMessage = MessageHeader.Build3DImageMessage(backedData.Item3, backedData.Item1, backedData.Item2, WifiTxDataType.Still3D);
             }
             else if (backedData.Item1 > 1) {
-                storedTxMessage = MessageHeader.Build3DImageMessage(backedData.Item3, backedData.Item1, backedData.Item2, WifiTxDataType.Animation3D, (sbyte)WifiTxMotor.Same);
+                storedTxMessage = MessageHeader.Build3DImageMessage(backedData.Item3, backedData.Item1, backedData.Item2, WifiTxDataType.Animation3D);
             }
             else {
                 UI_Textbox_Output.Text += "ERROR: could not build tx message. Bad frame size";
@@ -326,7 +325,6 @@ namespace TestUIProject {
             //build the content for socket MSG
             Int32 currentFramecount = (Int32)frameCount;
             Int32 currentSliceCount = 16; // standard
-            Int16 currentRPM = 100;       // debug const
             WifiTxDataType dataType;
             if (frameCount == 1) {
                 dataType = WifiTxDataType.Still3D;
@@ -339,8 +337,7 @@ namespace TestUIProject {
                 voxelBytes,
                 currentFramecount,
                 currentSliceCount,
-                dataType,
-                currentRPM
+                dataType
             );
 
             return true;

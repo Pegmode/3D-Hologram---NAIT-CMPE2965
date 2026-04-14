@@ -44,12 +44,12 @@ namespace TestUIProject
 
         }
 
-        public MessageHeader(WifiTxDataType dataType, Int32 frameCount, Int32 sliceCount, Int32 payloadBytes, Int16 motorSpeed, UInt32 payloadCrc32) {
+        public MessageHeader(WifiTxDataType dataType, Int32 frameCount, Int32 sliceCount, Int32 payloadBytes, UInt32 payloadCrc32) {
             this.DataType = (sbyte)dataType;
             this.FrameCount = frameCount;
             this.SliceCount = sliceCount;
             this.PayloadBytes = payloadBytes;
-            this.MotorSpeedRpm = motorSpeed;
+            this.MotorSpeedRpm = (short)WifiTxMotor.Same;
             this.PayloadCrc32 = payloadCrc32;
             this.Version = CURRENT_VERSION;//this ctr does not contain the override for version
         }
@@ -65,7 +65,7 @@ namespace TestUIProject
             this.MotorSpeedRpm = motorSpeed;
         }
 
-        public static byte[] Build3DImageMessage(byte[] payload, Int32 frameCount, Int32 sliceCount, WifiTxDataType messageType, Int16 rpm) {
+        public static byte[] Build3DImageMessage(byte[] payload, Int32 frameCount, Int32 sliceCount, WifiTxDataType messageType) {
             Int32 payloadBytes = payload.Length;
             uint crc32 = Crc32.HashToUInt32(payload);
             MessageHeader messageHeader = new MessageHeader(
@@ -73,7 +73,6 @@ namespace TestUIProject
                 frameCount,
                 sliceCount,
                 payloadBytes,
-                rpm,
                 crc32
             );
             //pack the message 
