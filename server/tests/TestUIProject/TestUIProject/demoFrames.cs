@@ -146,7 +146,15 @@ namespace TestUIProject
             return output;
         }
 
-        static public (Int32, Int32, byte[]) Rando = (RandomNumberGenerator.GetInt32(20), RandomNumberGenerator.GetInt32(8, 32), RandomNumberGenerator.GetBytes(Rando.Item1*Rando.Item2*64));
+        static public (Int32, Int32, byte[]) Rando = genRando();
+
+        static private (Int32, Int32, byte[]) genRando() {
+            Int32 frames = RandomNumberGenerator.GetInt32(1, 20);
+            Int32 slices = RandomNumberGenerator.GetInt32(8, 32);
+            byte[] bytes = RandomNumberGenerator.GetBytes(frames * slices * 64);
+            return (frames, slices, bytes);
+        }
+
 
         static public (Int32, Int32, byte[]) wireCube = (72, 16, [
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -4758,6 +4766,23 @@ namespace TestUIProject
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
     ]);
+        
+        static public (Int32, Int32, byte[]) testVertLines = (1, 4, BuildLines());
+
+        static public byte[] BuildLines()
+        {
+            byte[] data = new byte[256];
+
+            for (int i = 0; i < 64; i++)
+            {
+                data[i] = 0x01;
+                data[i + 64] = 0x04;
+                data[i + 128] = 0x10;
+                data[i + 192] = 0x40;
+            }
+
+            return data;
+        }
     }
 
 

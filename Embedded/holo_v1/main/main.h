@@ -50,11 +50,11 @@ extern "C" {
 #define SR_SPI_HOST     SPI2_HOST
 
 // SPI clock rate (start lower for clean waveforms; increase later)
-#define SR_SPI_HZ       (2 * 1000 * 1000)  // 2 MHz
+#define SR_SPI_HZ       (4 * 1000 * 1000)  // 4 MHz
 
 // Global display brightness PWM settings on OE.
 #define SR_PWM_HZ       (20 * 1000)        // 20 kHz global dimming PWM
-#define SR_PWM_STARTUP_BRIGHTNESS_PERCENT 40U
+#define SR_PWM_STARTUP_BRIGHTNESS_PERCENT 20U
 
 // Our frame is 512 LEDs -> 512 bits -> 64 bytes
 #define SR_FRAME_BYTES  64

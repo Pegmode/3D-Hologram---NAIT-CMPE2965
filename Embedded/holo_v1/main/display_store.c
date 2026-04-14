@@ -11,6 +11,16 @@
 
 static const char *TAG_display_store = "display_store";
 
+// One 64-byte slice is arranged as 32 rows of 16 columns, with each row
+// occupying two bytes in the payload.
+#define DISPLAY_SLICE_ROWS               32U
+#define DISPLAY_SLICE_BYTES_PER_ROW      2U
+
+// The current display mode plays each slice set twice per revolution:
+// - original image in the first 180 degrees
+// - mirrored image in the second 180 degrees
+#define DISPLAY_PLAYBACKS_PER_REV        2U
+
 // Protect active/staging pointer swaps across the Wi-Fi task on core 1 and the
 // display task on core 0.
 static portMUX_TYPE s_display_store_lock = portMUX_INITIALIZER_UNLOCKED;
@@ -72,21 +82,13 @@ static esp_err_t display_store_get_effective_frame_count(const wifi_rx_header_t 
 
 // Compute evenly spaced encoder update triggers for one full revolution.
 //
-// Trigger i indicates when slice i+1 should be displayed. Slice 0 is shown at
-// the Z pulse immediately after the count is cleared.
-//
-// Using slice_count as the divisor spaces the remaining slices evenly across
-// the revolution after slice 0:
-// - slice 0 at count 0 / Z
-// - slice 1 at 1 * counts_per_rev / slice_count
-// - slice 2 at 2 * counts_per_rev / slice_count
-// - ...
-// - final slice at (slice_count - 1) * counts_per_rev / slice_count
-//
-// That leaves the next Z pulse to restart the sequence at slice 0.
+// The display now uses two playback windows per revolution:
+// - the first half-revolution shows the original slices
+// - the second half-revolution shows mirrored slices
 static esp_err_t display_store_fill_update_triggers(display_store_t *store)
 {
     uint32_t slice_index;
+    uint32_t half_counts_per_rev;
 
     if (store == NULL || !display_store_is_allocated(store)) {
         return ESP_ERR_INVALID_ARG;
@@ -96,15 +98,67 @@ static esp_err_t display_store_fill_update_triggers(display_store_t *store)
         return ESP_ERR_INVALID_ARG;
     }
 
+    half_counts_per_rev = ENC_COUNTS_PER_REV / 2U;
+
     for (slice_index = 0; slice_index < store->slice_count; slice_index++) {
-        // Use proportional integer math instead of repeated addition so the
-        // rounding error is spread evenly across the whole revolution.
-        store->trigger_counts[slice_index] =
-            (int32_t)(((uint64_t)slice_index * (uint64_t)ENC_COUNTS_PER_REV) /
+        uint32_t first_half_index = slice_index;
+        uint32_t second_half_index = store->slice_count + slice_index;
+
+        // Use proportional integer math within each 180-degree window so
+        // rounding error is spread evenly across both playbacks.
+        store->trigger_counts[first_half_index] =
+            (int32_t)(((uint64_t)slice_index * (uint64_t)half_counts_per_rev) /
                       (uint64_t)store->slice_count);
+
+        store->trigger_counts[second_half_index] =
+            (int32_t)(half_counts_per_rev +
+                      (((uint64_t)slice_index * (uint64_t)half_counts_per_rev) /
+                       (uint64_t)store->slice_count));
     }
 
     return ESP_OK;
+}
+
+// Reverse the 16 bits of one display row so the 16 visible columns are
+// mirrored left-to-right for the second half of the revolution.
+static uint16_t display_store_reverse_16_bits(uint16_t value)
+{
+    value = (uint16_t)(((value & 0x5555U) << 1) | ((value >> 1) & 0x5555U));
+    value = (uint16_t)(((value & 0x3333U) << 2) | ((value >> 2) & 0x3333U));
+    value = (uint16_t)(((value & 0x0F0FU) << 4) | ((value >> 4) & 0x0F0FU));
+    value = (uint16_t)((value << 8) | (value >> 8));
+
+    return value;
+}
+
+// Build the mirrored slice buffer from the original payload data.
+//
+// The current slice format is assumed to be:
+// - 32 rows
+// - 2 bytes per row
+// - row bytes stored in big-endian order
+static void display_store_fill_mirrored_slices(display_store_t *store)
+{
+    size_t total_slices;
+    size_t slice_linear_index;
+
+    total_slices = display_store_total_slices(store);
+
+    for (slice_linear_index = 0; slice_linear_index < total_slices; slice_linear_index++) {
+        const uint8_t *src = (const uint8_t *)store->frame_data[slice_linear_index];
+        uint8_t *dst = (uint8_t *)store->mirrored_frame_data[slice_linear_index];
+        uint32_t row_index;
+
+        for (row_index = 0U; row_index < DISPLAY_SLICE_ROWS; row_index++) {
+            size_t row_offset = (size_t)row_index * DISPLAY_SLICE_BYTES_PER_ROW;
+            uint16_t row_value = (uint16_t)(((uint16_t)src[row_offset] << 8) |
+                                            (uint16_t)src[row_offset + 1U]);
+            uint16_t mirrored_row_value = display_store_reverse_16_bits(row_value);
+
+            dst[row_offset] = (uint8_t)(mirrored_row_value >> 8);
+            dst[row_offset + 1U] = (uint8_t)(mirrored_row_value & 0xFFU);
+        }
+    }
 }
 
 esp_err_t display_store_alloc(display_store_t *store, uint32_t frame_count, uint32_t slice_count)
@@ -122,9 +176,9 @@ esp_err_t display_store_alloc(display_store_t *store, uint32_t frame_count, uint
         return ESP_ERR_INVALID_STATE;
     }
 
-    // One trigger value exists per slice position, regardless of frame count.
+    // One trigger value exists per display step in the full revolution.
     store->trigger_counts = (int32_t *)heap_caps_calloc(
-        slice_count,
+        slice_count * DISPLAY_PLAYBACKS_PER_REV,
         sizeof(*store->trigger_counts),
         MALLOC_CAP_8BIT
     );
@@ -156,6 +210,29 @@ esp_err_t display_store_alloc(display_store_t *store, uint32_t frame_count, uint
         return ESP_ERR_NO_MEM;
     }
 
+    // Precompute a mirrored copy of every slice so the display task can pick
+    // the correct half-revolution view without mirroring bits in real time.
+    store->mirrored_frame_data = (display_slice_t *)heap_caps_calloc(
+        (size_t)frame_count * (size_t)slice_count,
+        sizeof(*store->mirrored_frame_data),
+        MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT
+    );
+    if (store->mirrored_frame_data == NULL) {
+        ESP_LOGW(TAG_display_store, "PSRAM alloc failed for mirrored_frame_data, falling back to internal RAM");
+        store->mirrored_frame_data = (display_slice_t *)heap_caps_calloc(
+            (size_t)frame_count * (size_t)slice_count,
+            sizeof(*store->mirrored_frame_data),
+            MALLOC_CAP_8BIT
+        );
+    }
+    if (store->mirrored_frame_data == NULL) {
+        heap_caps_free(store->frame_data);
+        heap_caps_free(store->trigger_counts);
+        store->frame_data = NULL;
+        store->trigger_counts = NULL;
+        return ESP_ERR_NO_MEM;
+    }
+
     store->frame_count = frame_count;
     store->slice_count = slice_count;
 
@@ -176,6 +253,10 @@ void display_store_free(display_store_t *store)
         heap_caps_free(store->frame_data);
     }
 
+    if (store->mirrored_frame_data != NULL) {
+        heap_caps_free(store->mirrored_frame_data);
+    }
+
     memset(store, 0, sizeof(*store));
 }
 
@@ -185,7 +266,9 @@ bool display_store_is_allocated(const display_store_t *store)
         return false;
     }
 
-    return (store->trigger_counts != NULL) && (store->frame_data != NULL);
+    return (store->trigger_counts != NULL) &&
+           (store->frame_data != NULL) &&
+           (store->mirrored_frame_data != NULL);
 }
 
 size_t display_store_total_slices(const display_store_t *store)
@@ -199,16 +282,25 @@ size_t display_store_total_slices(const display_store_t *store)
 
 size_t display_store_total_bytes(const display_store_t *store)
 {
-    return display_store_total_slices(store) * DISPLAY_SLICE_BYTES;
+    return display_store_total_slices(store) * DISPLAY_SLICE_BYTES * 2U;
 }
 
 int32_t *display_store_trigger_at(display_store_t *store, uint32_t slice_index)
 {
-    if (store == NULL || !display_store_is_allocated(store) || slice_index >= store->slice_count) {
+    if (store == NULL || !display_store_is_allocated(store) || slice_index >= display_store_step_count(store)) {
         return NULL;
     }
 
     return &store->trigger_counts[slice_index];
+}
+
+uint32_t display_store_step_count(const display_store_t *store)
+{
+    if (store == NULL || !display_store_is_allocated(store)) {
+        return 0U;
+    }
+
+    return store->slice_count * DISPLAY_PLAYBACKS_PER_REV;
 }
 
 
@@ -234,6 +326,33 @@ const display_slice_t *display_store_slice_at_const(const display_store_t *store
     }
 
     linear_index = ((size_t)frame_index * (size_t)store->slice_count) + (size_t)slice_index;
+    return &store->frame_data[linear_index];
+}
+
+const display_slice_t *display_store_slice_for_step_at_const(const display_store_t *store,
+                                                             uint32_t frame_index,
+                                                             uint32_t step_index)
+{
+    size_t linear_index;
+    uint32_t slice_index;
+    bool mirrored;
+
+    if (store == NULL || !display_store_is_allocated(store)) {
+        return NULL;
+    }
+
+    if (frame_index >= store->frame_count || step_index >= display_store_step_count(store)) {
+        return NULL;
+    }
+
+    mirrored = (step_index >= store->slice_count);
+    slice_index = step_index % store->slice_count;
+    linear_index = ((size_t)frame_index * (size_t)store->slice_count) + (size_t)slice_index;
+
+    if (mirrored) {
+        return &store->mirrored_frame_data[linear_index];
+    }
+
     return &store->frame_data[linear_index];
 }
 
@@ -323,6 +442,7 @@ esp_err_t display_store_stage_from_payload(const wifi_rx_header_t *header,
     }
 
     memcpy(s_staging_store->frame_data, payload, payload_len);
+    display_store_fill_mirrored_slices(s_staging_store);
 
     err = display_store_fill_update_triggers(s_staging_store);
     if (err != ESP_OK) {
@@ -408,7 +528,7 @@ esp_err_t display_store_clear_all(void)
 
 esp_err_t display_store_print_staging_triggers_console(void)
 {
-    uint32_t slice_index;
+    uint32_t step_index;
 
     if (!s_manager_initialized) {
         return ESP_ERR_INVALID_STATE;
@@ -419,15 +539,16 @@ esp_err_t display_store_print_staging_triggers_console(void)
     }
 
     ESP_LOGI(TAG_display_store,
-             "staged trigger list: slices=%u counts_per_rev=%u",
+             "staged trigger list: slices=%u steps=%u counts_per_rev=%u",
              (unsigned)s_staging_store->slice_count,
+             (unsigned)display_store_step_count(s_staging_store),
              (unsigned)ENC_COUNTS_PER_REV);
 
-    for (slice_index = 0; slice_index < s_staging_store->slice_count; slice_index++) {
+    for (step_index = 0; step_index < display_store_step_count(s_staging_store); step_index++) {
         ESP_LOGI(TAG_display_store,
                  "trigger[%u] = %ld",
-                 (unsigned)slice_index,
-                 (long)s_staging_store->trigger_counts[slice_index]);
+                 (unsigned)step_index,
+                 (long)s_staging_store->trigger_counts[step_index]);
     }
 
     return ESP_OK;

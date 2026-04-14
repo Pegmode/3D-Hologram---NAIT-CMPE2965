@@ -26,7 +26,9 @@ namespace TestUIProject {
             { "Teapot" , demoFrames.teapot },
             { "Arrow Wave", demoFrames.wave },
             { "Cube", demoFrames.wireCube},
-            { "Rando", demoFrames.Rando}
+            { "Rando", demoFrames.Rando},
+            { "testVertLines", demoFrames.testVertLines}
+
         };
         //Networking
         string espAddr = "192.168.4.1";

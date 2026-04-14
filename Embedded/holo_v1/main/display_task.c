@@ -23,13 +23,15 @@ static TaskHandle_t s_display_task_handle = NULL;
 
 // Runtime state owned by the display task.
 //
-// Slice 0 is displayed immediately after each accepted Z pulse. The remaining
-// slices are advanced one at a time using one active PCNT watch point.
+// The active frame is shown twice per revolution:
+// - first half-revolution: original slices
+// - second half-revolution: mirrored slices
 typedef struct
 {
     size_t current_frame_index;
     size_t current_slice_index;
-    size_t next_slice_index;
+    size_t current_step_index;
+    size_t next_step_index;
     bool frame_sequence_started;
     bool pending_immediate_update;
 } display_task_state_t;
@@ -50,10 +52,13 @@ static void display_task_print_event_console(const char *event_name,
              trigger_count);
 }
 
-// Push one slice from the active display store to the shift-register chain.
-static esp_err_t display_task_show_slice(const display_store_t *store,
-                                         size_t frame_index,
-                                         size_t slice_index)
+// Push one step from the active display store to the shift-register chain.
+//
+// A step maps to either the original or mirrored slice set depending on which
+// half of the revolution is currently being shown.
+static esp_err_t display_task_show_step(const display_store_t *store,
+                                        size_t frame_index,
+                                        size_t step_index)
 {
     const display_slice_t *slice_data;
 
@@ -61,7 +66,7 @@ static esp_err_t display_task_show_slice(const display_store_t *store,
         return ESP_ERR_INVALID_STATE;
     }
 
-    slice_data = display_store_slice_at_const(store, (uint32_t)frame_index, (uint32_t)slice_index);
+    slice_data = display_store_slice_for_step_at_const(store, (uint32_t)frame_index, (uint32_t)step_index);
     if (slice_data == NULL) {
         return ESP_ERR_INVALID_ARG;
     }
@@ -69,53 +74,17 @@ static esp_err_t display_task_show_slice(const display_store_t *store,
     return shiftreg_send_frame(*slice_data, DISPLAY_SLICE_BYTES);
 }
 
-// Arm the next slice trigger for the current revolution.
+
+// Handle one display-step update.
 //
-// Only one hardware watch point is used at a time. Once slice 0 has been shown
-// at Z, the task arms the trigger for slice 1. Each later count event re-arms
-// the following trigger in the same way.
-static esp_err_t display_task_arm_next_watch_point(const display_store_t *store,
-                                                   const display_task_state_t *state)
-{
-    int32_t *trigger_count;
-
-    if (store == NULL || state == NULL) {
-        return ESP_ERR_INVALID_ARG;
-    }
-
-    if (!display_store_is_allocated(store)) {
-        return ESP_ERR_INVALID_STATE;
-    }
-
-    if (state->next_slice_index >= store->slice_count) {
-        return encoder_clear_count_watch_point();
-    }
-
-    trigger_count = display_store_trigger_at(store, (uint32_t)state->next_slice_index);
-    if (trigger_count == NULL) {
-        return ESP_ERR_INVALID_STATE;
-    }
-
-    if (*trigger_count <= 0) {
-        ESP_LOGE(TAG_display_task,
-                 "Invalid trigger count %ld for slice %u",
-                 (long)*trigger_count,
-                 (unsigned)state->next_slice_index);
-        return ESP_ERR_INVALID_STATE;
-    }
-
-    return encoder_set_count_watch_point(*trigger_count);
-}
-
-
-// Handle one hardware-triggered slice update.
-//
-// Because only one watch point is armed at a time, next_slice_index is the
-// slice that should be shown when the current count event arrives.
+// The step index determines:
+// - which slice number is shown
+// - whether the original or mirrored slice data is used
 static esp_err_t display_task_handle_count_event(display_task_state_t *state,
                                                  int trigger_count, display_store_t *active_store)
 {
     int encoder_count = 0;
+    uint32_t step_count;
     esp_err_t err;
 
     if (state == NULL) {
@@ -127,11 +96,13 @@ static esp_err_t display_task_handle_count_event(display_task_state_t *state,
         return ESP_ERR_INVALID_STATE;
     }
 
-    if (state->next_slice_index >= active_store->slice_count) {
+    step_count = display_store_step_count(active_store);
+    if (state->next_step_index >= step_count) {
         return ESP_ERR_INVALID_STATE;
     }
 
-    state->current_slice_index = state->next_slice_index;
+    state->current_step_index = state->next_step_index;
+    state->current_slice_index = state->current_step_index % active_store->slice_count;
 
     err = encoder_get_count(&encoder_count);
     if (err != ESP_OK) {
@@ -139,7 +110,7 @@ static esp_err_t display_task_handle_count_event(display_task_state_t *state,
         encoder_count = trigger_count;
     }
 
-    err = display_task_show_slice(active_store, state->current_frame_index, state->current_slice_index);
+    err = display_task_show_step(active_store, state->current_frame_index, state->current_step_index);
     if (err != ESP_OK) {
         return err;
     }
@@ -156,7 +127,7 @@ static esp_err_t display_task_handle_count_event(display_task_state_t *state,
                                      encoder_count,
                                      trigger_count);
 
-    state->next_slice_index = state->current_slice_index + 1U;
+    state->next_step_index = state->current_step_index + 1U;
 
     return ESP_OK;
 }
@@ -167,7 +138,7 @@ static esp_err_t display_task_handle_count_event(display_task_state_t *state,
 // - promoting staged data to active at a safe boundary
 // - selecting the frame for this revolution
 // - clearing the encoder count back to zero
-// - clearing any old watch point from the previous revolution
+// - rewinding the display-step state to the start of the first half
 // - requesting the immediate slice-0 update
 static esp_err_t display_task_handle_z_event(display_task_state_t *state)
 {
@@ -201,7 +172,8 @@ static esp_err_t display_task_handle_z_event(display_task_state_t *state)
     if (active_store == NULL || !display_store_is_allocated(active_store)) {
         state->current_frame_index = 0U;
         state->current_slice_index = 0U;
-        state->next_slice_index = 0U;
+        state->current_step_index = 0U;
+        state->next_step_index = 0U;
         state->frame_sequence_started = false;
         state->pending_immediate_update = false;
         return ESP_OK;
@@ -216,7 +188,8 @@ static esp_err_t display_task_handle_z_event(display_task_state_t *state)
     }
 
     state->current_slice_index = 0U;
-    state->next_slice_index = 0U;
+    state->current_step_index = 0U;
+    state->next_step_index = 0U;
     state->frame_sequence_started = true;
     state->pending_immediate_update = true;
 
@@ -259,7 +232,8 @@ static esp_err_t display_task_handle_display_off(display_task_state_t *state)
 
     state->current_frame_index = 0U;
     state->current_slice_index = 0U;
-    state->next_slice_index = 0U;
+    state->current_step_index = 0U;
+    state->next_step_index = 0U;
     state->frame_sequence_started = false;
     state->pending_immediate_update = false;
 
@@ -278,7 +252,8 @@ static void display_task(void *arg)
     display_task_state_t state = {
         .current_frame_index = 0U,
         .current_slice_index = 0U,
-        .next_slice_index = 0U,
+        .current_step_index = 0U,
+        .next_step_index = 0U,
         .frame_sequence_started = false,
         .pending_immediate_update = false,
     };
@@ -318,13 +293,13 @@ static void display_task(void *arg)
 
             active_store = display_store_get_active();
 
-            // A Z pulse starts a new revolution. If a count bit arrived in the
-            // same notification, it belongs to the previous revolution and
-            // should not be processed after the counter reset.
+            // A Z pulse starts a new revolution. If a stale count bit arrived
+            // in the same notification word, it belongs to the previous
+            // revolution and should not be processed after the counter reset.
             notify_bits &= ~ENCODER_NOTIFY_EVENT_COUNT;
         }
 
-        // Z triggered slice 0 update.
+        // The first step of the revolution is displayed immediately after Z.
         if (state.pending_immediate_update) {
             state.pending_immediate_update = false;
 
@@ -346,16 +321,16 @@ static void display_task(void *arg)
         
         if(active_store == NULL)
             continue;
-        trigger_ptr = display_store_trigger_at(active_store, (uint32_t)state.next_slice_index);
+        if (state.next_step_index >= display_store_step_count(active_store)) {
+            taskYIELD();
+            continue;
+        }
+
+        trigger_ptr = display_store_trigger_at(active_store, (uint32_t)state.next_step_index);
         if (trigger_ptr == NULL) {
             continue;
         }
         trigger_count = *trigger_ptr;
-
-        if (state.next_slice_index >= active_store->slice_count) {
-            taskYIELD();
-            continue;
-        }
 
         if (encoder_count >= trigger_count) {
 
