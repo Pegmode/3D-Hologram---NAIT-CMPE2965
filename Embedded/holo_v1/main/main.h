@@ -32,7 +32,7 @@ extern "C" {
 //
 // The current PCNT setup counts both edges of channel A only, which gives x2
 // counting relative to the encoder's base pulses-per-revolution spec.
-#define ENC_COUNT_MULTIPLIER 1
+#define ENC_COUNT_MULTIPLIER 2
 #define ENC_COUNTS_PER_REV   (ENC_PPR * ENC_COUNT_MULTIPLIER)
 
 

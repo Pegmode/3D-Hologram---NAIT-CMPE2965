@@ -69,7 +69,7 @@ namespace TestUIProject
             Int32 payloadBytes = payload.Length;
             uint crc32 = Crc32.HashToUInt32(payload);
             MessageHeader messageHeader = new MessageHeader(
-                WifiTxDataType.Still3D,
+                messageType,
                 frameCount,
                 sliceCount,
                 payloadBytes,
