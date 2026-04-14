@@ -54,7 +54,7 @@ extern "C" {
 
 // Global display brightness PWM settings on OE.
 #define SR_PWM_HZ       (20 * 1000)        // 20 kHz global dimming PWM
-#define SR_PWM_STARTUP_BRIGHTNESS_PERCENT 20U
+#define SR_PWM_STARTUP_BRIGHTNESS_PERCENT 10U
 
 // Our frame is 512 LEDs -> 512 bits -> 64 bytes
 #define SR_FRAME_BYTES  64
