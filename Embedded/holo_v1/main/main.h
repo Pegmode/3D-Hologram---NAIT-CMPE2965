@@ -63,9 +63,9 @@ extern "C" {
 // revolution from the measured revolution period and active step count, then
 // clamped between the bounds below.
 #define DISPLAY_STROBE_ENABLED       1
-#define DISPLAY_STROBE_DUTY_PERCENT  20U
-#define DISPLAY_STROBE_MIN_ON_US     100U
-#define DISPLAY_STROBE_MAX_ON_US     500U
+#define DISPLAY_STROBE_DUTY_PERCENT  8U
+#define DISPLAY_STROBE_MIN_ON_US     20U
+#define DISPLAY_STROBE_MAX_ON_US     120U
 
 // Our frame is 512 LEDs -> 512 bits -> 64 bytes
 #define SR_FRAME_BYTES  64

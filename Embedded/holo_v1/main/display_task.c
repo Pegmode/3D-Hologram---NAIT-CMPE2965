@@ -25,6 +25,7 @@ static const char *TAG_display_task = "display_task";
 #define DISPLAY_TASK_NOTIFY_EVENT_DISPLAY_OFF (1UL << 2)
 
 static TaskHandle_t s_display_task_handle = NULL;
+static esp_timer_handle_t s_strobe_off_timer = NULL;
 
 // Runtime state owned by the display task.
 //
@@ -64,6 +65,31 @@ static void display_task_print_event_console(const char *event_name,
 
 // Clear all per-revolution strobe state so the display returns to continuous
 // mode until a new valid strobe timing is computed.
+static esp_err_t display_task_set_gate_enabled(bool enabled);
+
+// Timer callback used to close the OE gate at a precise microsecond deadline
+// after each slice becomes visible.
+static void display_task_strobe_off_timer_cb(void *arg)
+{
+    (void)arg;
+    (void)display_task_set_gate_enabled(false);
+}
+
+// Stop the pending one-shot blanking timer, if one is currently armed.
+static void display_task_stop_strobe_timer(void)
+{
+    esp_err_t err;
+
+    if (s_strobe_off_timer == NULL) {
+        return;
+    }
+
+    err = esp_timer_stop(s_strobe_off_timer);
+    if (err != ESP_OK && err != ESP_ERR_INVALID_STATE) {
+        ESP_LOGW(TAG_display_task, "esp_timer_stop failed: %s", esp_err_to_name(err));
+    }
+}
+
 static void display_task_reset_strobe_state(display_task_state_t *state)
 {
     if (state == NULL) {
@@ -71,9 +97,10 @@ static void display_task_reset_strobe_state(display_task_state_t *state)
     }
 
     state->strobe_enabled_for_rev = false;
+    state->strobe_on_time_us = 0U;
     state->strobe_gate_active = false;
     state->strobe_deadline_us = 0;
-    state->strobe_on_time_us = 0U;
+    display_task_stop_strobe_timer();
 }
 
 // Compute the hybrid slice visibility width from the current revolution period
@@ -188,35 +215,34 @@ static esp_err_t display_task_start_visibility_window(display_task_state_t *stat
         return display_task_set_gate_enabled(true);
     }
 
+    display_task_stop_strobe_timer();
+
     err = display_task_set_gate_enabled(true);
     if (err != ESP_OK) {
         return err;
     }
 
-    state->strobe_gate_active = true;
-    state->strobe_deadline_us = esp_timer_get_time() + (int64_t)state->strobe_on_time_us;
+    if (s_strobe_off_timer == NULL) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    err = esp_timer_start_once(s_strobe_off_timer, state->strobe_on_time_us);
+    if (err != ESP_OK) {
+        (void)display_task_set_gate_enabled(false);
+        return err;
+    }
+
+    state->strobe_gate_active = false;
+    state->strobe_deadline_us = 0;
 
     return ESP_OK;
 }
 
-// Close the OE gate once the current slice's visibility window has expired.
+// Poll-based blanking is no longer used once the one-shot strobe timer exists,
+// but this helper is kept as a no-op to preserve the task structure.
 static void display_task_service_strobe_gate(display_task_state_t *state)
 {
-    int64_t now_us;
-
-    if (state == NULL || !state->strobe_gate_active) {
-        return;
-    }
-
-    now_us = esp_timer_get_time();
-    if (now_us < state->strobe_deadline_us) {
-        return;
-    }
-
-    if (display_task_set_gate_enabled(false) == ESP_OK) {
-        state->strobe_gate_active = false;
-        state->strobe_deadline_us = 0;
-    }
+    (void)state;
 }
 
 // Push one step from the active display store to the shift-register chain.
@@ -401,6 +427,8 @@ static esp_err_t display_task_handle_display_off(display_task_state_t *state)
         return err;
     }
 
+    display_task_stop_strobe_timer();
+
     err = display_task_set_gate_enabled(false);
     if (err != ESP_OK) {
         return err;
@@ -543,9 +571,25 @@ static void display_task(void *arg)
 
 esp_err_t display_task_start(void)
 {
+    esp_timer_create_args_t strobe_timer_args;
+
     if (s_display_task_handle != NULL) {
         ESP_LOGW(TAG_display_task, "display_task_start called more than once");
         return ESP_OK;
+    }
+
+    if (s_strobe_off_timer == NULL) {
+        strobe_timer_args = (esp_timer_create_args_t) {
+            .callback = &display_task_strobe_off_timer_cb,
+            .arg = NULL,
+            .dispatch_method = ESP_TIMER_TASK,
+            .name = "disp_strobe_off",
+            .skip_unhandled_events = true,
+        };
+
+        if (esp_timer_create(&strobe_timer_args, &s_strobe_off_timer) != ESP_OK) {
+            return ESP_FAIL;
+        }
     }
 
     if (xTaskCreatePinnedToCore(
@@ -556,6 +600,10 @@ esp_err_t display_task_start(void)
             10,
             &s_display_task_handle,
             0) != pdPASS) {
+        if (s_strobe_off_timer != NULL) {
+            esp_timer_delete(s_strobe_off_timer);
+            s_strobe_off_timer = NULL;
+        }
         return ESP_ERR_NO_MEM;
     }
 
