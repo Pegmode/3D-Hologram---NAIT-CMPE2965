@@ -9,6 +9,7 @@ import os, subprocess
 import requests,sys
 from pathlib import Path
 import pdb
+from collections import deque
 
 
 DEFAULT_OBJ_FILEPATH = "tea.obj"
@@ -70,7 +71,7 @@ def downloadConversionProgram():
     print(f"downloaded {DEFAULT_OBJ2VOX_FILEPATH}!")
     sys.stdout.flush()
 
-def getVoxelsFromObj(objFilepath):
+def getVoxelsFromObj(objFilepath, fill=False):
     '''
     Convert a .obj file to voxels. Returns the voxel list.
     
@@ -84,5 +85,73 @@ def getVoxelsFromObj(objFilepath):
     downloadConversionProgram()
     externalConvertObj2Vl32(objFilepath, vl32Filepath)
     voxels = readVL32(vl32Filepath)
+    if fill:
+        print("filling interior voxels...")
+        sys.stdout.flush()
+        voxels = fillInteriorVoxels(voxels)
     sys.stdout.flush()
     return voxels
+
+def fillInteriorVoxels(voxels):
+    '''
+    Fill enclosed empty space inside a voxel shell.
+
+    Input:
+        voxels: list of (x, y, z) integer voxel coordinates
+
+    Returns:
+        list of (x, y, z) including original shell + filled interior
+    '''
+    if not voxels:
+        return []
+
+    solid = set(voxels)
+
+    min_x = min(x for x, _, _ in solid) - 1
+    max_x = max(x for x, _, _ in solid) + 1
+    min_y = min(y for _, y, _ in solid) - 1
+    max_y = max(y for _, y, _ in solid) + 1
+    min_z = min(z for _, _, z in solid) - 1
+    max_z = max(z for _, _, z in solid) + 1
+
+    def in_bounds(p):
+        x, y, z = p
+        return (
+            min_x <= x <= max_x and
+            min_y <= y <= max_y and
+            min_z <= z <= max_z
+        )
+
+    # Flood-fill reachable empty air from outside
+    start = (min_x, min_y, min_z)
+    outside = set()
+    q = deque([start])
+    outside.add(start)
+
+    neighbors = [
+        ( 1, 0, 0), (-1, 0, 0),
+        ( 0, 1, 0), ( 0,-1, 0),
+        ( 0, 0, 1), ( 0, 0,-1),
+    ]
+
+    while q:
+        x, y, z = q.popleft()
+        for dx, dy, dz in neighbors:
+            np = (x + dx, y + dy, z + dz)
+            if not in_bounds(np):
+                continue
+            if np in solid or np in outside:
+                continue
+            outside.add(np)
+            q.append(np)
+
+    # Any empty voxel in bounds that is NOT reachable from outside is interior
+    filled = set(solid)
+    for x in range(min_x + 1, max_x):
+        for y in range(min_y + 1, max_y):
+            for z in range(min_z + 1, max_z):
+                p = (x, y, z)
+                if p not in solid and p not in outside:
+                    filled.add(p)
+
+    return list(filled)

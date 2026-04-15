@@ -65,11 +65,14 @@ namespace TestUIProject
             this.MotorSpeedRpm = motorSpeed;
         }
 
+        //dan bottom left is 0. need to flip on vertical axis to accomodate first in first out
+        //kaden top left is 0. need to flip on vertical and horizontal axis to accomodate first in first out. 
+
         public static byte[] Build3DImageMessage(byte[] payload, Int32 frameCount, Int32 sliceCount, WifiTxDataType messageType) {
             Int32 payloadBytes = payload.Length;
             uint crc32 = Crc32.HashToUInt32(payload);
             MessageHeader messageHeader = new MessageHeader(
-                WifiTxDataType.Still3D,
+                messageType,
                 frameCount,
                 sliceCount,
                 payloadBytes,

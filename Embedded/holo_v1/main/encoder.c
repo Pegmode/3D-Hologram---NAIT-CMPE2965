@@ -212,7 +212,7 @@ esp_err_t encoder_init_pcnt(void)
         pcnt_channel_set_edge_action(
             g_pcnt_chan,
             PCNT_CHANNEL_EDGE_ACTION_INCREASE,   // rising edge of A
-            PCNT_CHANNEL_EDGE_ACTION_HOLD        // falling edge of A
+            PCNT_CHANNEL_EDGE_ACTION_INCREASE        // falling edge of A
         ),
         TAG_encoder,
         "pcnt_channel_set_edge_action failed"
@@ -225,7 +225,7 @@ esp_err_t encoder_init_pcnt(void)
     ESP_RETURN_ON_ERROR(
         pcnt_channel_set_level_action(
             g_pcnt_chan,
-            PCNT_CHANNEL_LEVEL_ACTION_INVERSE,      // B high
+            PCNT_CHANNEL_LEVEL_ACTION_KEEP,      // B high
             PCNT_CHANNEL_LEVEL_ACTION_KEEP    // B low
         ),
         TAG_encoder,

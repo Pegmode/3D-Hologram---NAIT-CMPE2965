@@ -63,7 +63,7 @@ def convertFullToPackedBytes():
     #load the obj and convert the coords to quantized cylindrical
     print(f"converting {objFilepath} to cartesian voxels...")
     sys.stdout.flush()
-    cartesianVoxels = getVoxelsFromObj(objFilepath)
+    cartesianVoxels = getVoxelsFromObj(objFilepath, args.fillVoxels)
     print(f"converting cartesian to cylindrical...")
     sys.stdout.flush()
     cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)
@@ -77,6 +77,7 @@ def convertFullToPackedBytes():
     packedBytes = packFlattenedVoxelsToBytes(flatBits)
     return packedBytes, objFilepath, quantizedVoxels, len(flatBits)
 
+
 #arg actions
 ##########################################################
 def actionDebugVisualize():
@@ -84,7 +85,7 @@ def actionDebugVisualize():
     visualize .obj in matplotlib as 3d plot
     '''
     objFilepath = argsGetFilepath()
-    voxels = getVoxelsFromObj(objFilepath)#get the voxels from file
+    voxels = getVoxelsFromObj(objFilepath, args.fillVoxels)#get the voxels from file
     print(f"plotting voxels...")
     sys.stdout.flush()
     plotVoxels(voxels)#visualize the voxels for debug
@@ -170,7 +171,7 @@ def actionConvertToAnimatedPipe():
     #load the obj and convert the coords to quantized cylindrical
     print(f"converting {objFilepath} to cartesian voxels...")
     sys.stdout.flush()
-    cartesianVoxels = getVoxelsFromObj(objFilepath)
+    cartesianVoxels = getVoxelsFromObj(objFilepath, args.fillVoxels)
     print(f"converting cartesian to cylindrical...")
     sys.stdout.flush()
     cylindricalVoxels = cartesianList2Cylindrical(cartesianVoxels)
@@ -248,6 +249,7 @@ def argsInit():
     parser.add_argument("-sc", "--sliceCount", type=int, help=f"override the default slicecount, default:{SLICE_COUNT}")
     parser.add_argument("-cpa","--convertPipeAnimated", action="store_true", help="convert .obj file to a byte array, formatted as an animation returned in a windows pipe. The UI pipe server MUST be running with named pipe VoxelPipe")
     parser.add_argument("-as", "--animationSpeed", type=int, help=f"Set the animation speed, default:{bounceMultiplier}")
+    parser.add_argument("-fv", "--fillVoxels", action="store_true", help="Enable fill when converting voxels (takes a longer time)")
     args = parser.parse_args()
 
 def argsParseAndRunFlags():

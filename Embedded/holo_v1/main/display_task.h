@@ -10,10 +10,13 @@ extern "C" {
 // Create and start the display task on core 0.
 //
 // The task waits for encoder notifications, swaps in newly staged frame data at
-// each Z pulse, and advances through the active trigger table one slice at a
-// time using a single active PCNT watch point.
-// Slice 0 is shown immediately after Z in software. Later slices are re-armed
-// one-by-one as each count event is handled.
+// each Z pulse, and advances through a full-revolution trigger table using the
+// current encoder count.
+//
+// In the current display mode, the active slice set is shown twice per
+// revolution:
+// - once normally in the first 180 degrees
+// - once mirrored in the second 180 degrees
 esp_err_t display_task_start(void);
 
 // Request that the display task blank the LEDs and drop any loaded image data.

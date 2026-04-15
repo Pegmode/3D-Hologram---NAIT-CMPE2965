@@ -19,14 +19,18 @@ typedef uint8_t display_slice_t[DISPLAY_SLICE_BYTES];
 
 // Storage for a full animation set.
 //
-// trigger_counts[slice] stores the PCNT threshold for each slice position.
-// frame_data stores all frame/slice payloads as a contiguous block of
-// display_slice_t elements:
+// trigger_counts[step] stores the encoder threshold for each display step in a
+// full revolution. In the current dual-view mode, one full revolution contains
+// two playbacks of the slice set:
+// - first 180 degrees: original slice data
+// - second 180 degrees: mirrored slice data
+//
+// frame_data stores the original frame/slice payloads as a contiguous block:
 //
 //     frame_data[(frame_index * slice_count) + slice_index]
 //
-// The helper accessors in this module hide that indexing so the caller can
-// treat it like runtime-sized frame_data[frame][slice][64].
+// mirrored_frame_data stores the same layout after mirroring each 16-column
+// row left-to-right. The helper accessors hide that indexing from callers.
 typedef struct
 {
     uint32_t frame_count;
@@ -34,6 +38,7 @@ typedef struct
 
     int32_t *trigger_counts;
     display_slice_t *frame_data;
+    display_slice_t *mirrored_frame_data;
 } display_store_t;
 
 // Allocate storage for trigger counts and frame payloads.
@@ -51,16 +56,24 @@ bool display_store_is_allocated(const display_store_t *store);
 // Total number of slices stored across all animation frames.
 size_t display_store_total_slices(const display_store_t *store);
 
-// Total bytes used by frame_data only.
+// Total bytes used by both original and mirrored frame buffers.
 size_t display_store_total_bytes(const display_store_t *store);
 
-// Returns a pointer to the trigger threshold for one slice index.
+// Returns a pointer to the trigger threshold for one display step.
 int32_t *display_store_trigger_at(display_store_t *store, uint32_t slice_index);
 
+// Total number of display steps in one full revolution.
+uint32_t display_store_step_count(const display_store_t *store);
 
 // Returns a pointer to one 64-byte slice payload for the given frame/slice.
 display_slice_t *display_store_slice_at(display_store_t *store, uint32_t frame_index, uint32_t slice_index);
 const display_slice_t *display_store_slice_at_const(const display_store_t *store, uint32_t frame_index, uint32_t slice_index);
+
+// Returns either the original or mirrored slice that should be shown for one
+// full-revolution display step.
+const display_slice_t *display_store_slice_for_step_at_const(const display_store_t *store,
+                                                             uint32_t frame_index,
+                                                             uint32_t step_index);
 
 // Initialize the dual-buffered display-store manager.
 esp_err_t display_store_manager_init(void);
