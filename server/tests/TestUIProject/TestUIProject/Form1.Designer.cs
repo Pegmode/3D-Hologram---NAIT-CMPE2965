@@ -26,8 +26,7 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             UI_Textbox_Output = new TextBox();
             UI_Button_RUN = new Button();
@@ -51,6 +50,7 @@
             UI_Button_LoadAnimationObj = new Button();
             UI_Button_StopMotor = new Button();
             UI_TextBox_Stats = new TextBox();
+            UI_CheckBox_FillVoxels = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)UI_TrackBar_EscPulseWidth).BeginInit();
             SuspendLayout();
             // 
@@ -272,11 +272,22 @@
             UI_TextBox_Stats.Size = new Size(141, 104);
             UI_TextBox_Stats.TabIndex = 23;
             // 
+            // UI_CheckBox_FillVoxels
+            // 
+            UI_CheckBox_FillVoxels.AutoSize = true;
+            UI_CheckBox_FillVoxels.Location = new Point(30, 218);
+            UI_CheckBox_FillVoxels.Name = "UI_CheckBox_FillVoxels";
+            UI_CheckBox_FillVoxels.Size = new Size(110, 34);
+            UI_CheckBox_FillVoxels.TabIndex = 24;
+            UI_CheckBox_FillVoxels.Text = "Fill model when\r\nloading .obj";
+            UI_CheckBox_FillVoxels.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(478, 550);
+            Controls.Add(UI_CheckBox_FillVoxels);
             Controls.Add(UI_TextBox_Stats);
             Controls.Add(UI_Button_StopMotor);
             Controls.Add(UI_Button_LoadAnimationObj);
@@ -332,5 +343,6 @@
         private Button UI_Button_LoadAnimationObj;
         private Button UI_Button_StopMotor;
         private TextBox UI_TextBox_Stats;
+        private CheckBox UI_CheckBox_FillVoxels;
     }
 }

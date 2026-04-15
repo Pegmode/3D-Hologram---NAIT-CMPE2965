@@ -269,6 +269,9 @@ namespace TestUIProject {
             voxelConverterProcess.StartInfo.ArgumentList.Clear();
             voxelConverterProcess.StartInfo.ArgumentList.Add(objFilepath);
             voxelConverterProcess.StartInfo.ArgumentList.Add(arg);
+            if (UI_CheckBox_FillVoxels.Checked) {
+                voxelConverterProcess.StartInfo.ArgumentList.Add("-fv");//fill the inside
+            }
             voxelConverterProcess.StartInfo.UseShellExecute = false;
             voxelConverterProcess.OutputDataReceived += Process_OutputDataReceived;
             voxelConverterProcess.EnableRaisingEvents = true;
@@ -306,6 +309,9 @@ namespace TestUIProject {
             process.StartInfo.ArgumentList.Clear();
             process.StartInfo.ArgumentList.Add(objFilepath);
             process.StartInfo.ArgumentList.Add("-dv");
+            if (UI_CheckBox_FillVoxels.Checked) {
+                process.StartInfo.ArgumentList.Add("-fv");//fill the inside
+            }
             process.StartInfo.UseShellExecute = false;
             process.OutputDataReceived += Process_OutputDataReceived;
             process.EnableRaisingEvents = true;
