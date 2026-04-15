@@ -64,7 +64,7 @@ extern "C" {
 // clamped between the bounds below.
 #define DISPLAY_STROBE_ENABLED       1
 #define DISPLAY_STROBE_DUTY_PERCENT  8U
-#define DISPLAY_STROBE_MIN_ON_US     20U
+#define DISPLAY_STROBE_MIN_ON_US     40U
 #define DISPLAY_STROBE_MAX_ON_US     120U
 
 // Our frame is 512 LEDs -> 512 bits -> 64 bytes

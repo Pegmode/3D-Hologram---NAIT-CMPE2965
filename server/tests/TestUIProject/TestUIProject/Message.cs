@@ -27,17 +27,24 @@ namespace TestUIProject
         Same = 0
     }
 
+    public enum WifiTxBrightness
+    {
+        Off = -1,
+        Same = 0
+    }
+
     public class MessageHeader
     {
-        public const int CURRENT_VERSION = 3;
+        public const int CURRENT_VERSION = 4;
         public const UInt32 Magic = 0x484F4C4FU; //HOLO
         public byte Version { get; set; }
-        public byte HeaderSizeBytes { get { return 25; } }
+        public byte HeaderSizeBytes { get { return 26; } }
         public sbyte DataType { get; set; }
         public Int32 FrameCount { get; set; }
         public Int32 SliceCount { get; set; }
         public Int32 PayloadBytes { get; set; }
         public Int16 MotorSpeedRpm { get; set; }
+        public sbyte Brightness { get; set; }
         public UInt32 PayloadCrc32 { get; set; }
 
         public MessageHeader() {// lagacy empty constructor
@@ -50,6 +57,7 @@ namespace TestUIProject
             this.SliceCount = sliceCount;
             this.PayloadBytes = payloadBytes;
             this.MotorSpeedRpm = (short)WifiTxMotor.Same;
+            this.Brightness = (sbyte)WifiTxBrightness.Same;
             this.PayloadCrc32 = payloadCrc32;
             this.Version = CURRENT_VERSION;//this ctr does not contain the override for version
         }
@@ -99,6 +107,7 @@ namespace TestUIProject
             WriteInt32BE(bytes, ref offset, SliceCount);
             WriteInt32BE(bytes, ref offset, PayloadBytes);
             WriteInt16BE(bytes, ref offset, MotorSpeedRpm);
+            WriteSByte(bytes, ref offset, Brightness);
             WriteUInt32BE(bytes, ref offset, PayloadCrc32);
 
             return bytes;
@@ -145,6 +154,7 @@ namespace TestUIProject
                 $"SliceCount: {SliceCount}, " +
                 $"PayloadBytes: {PayloadBytes}, " +
                 $"MotorSpeedRpm: {MotorSpeedRpm}, " +
+                $"Brightness: {Brightness}, " +
                 $"PayloadCrc32: 0x{PayloadCrc32:X8}";
         }
 

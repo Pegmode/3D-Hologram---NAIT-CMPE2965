@@ -28,6 +28,7 @@
 #include "display_store.h"
 #include "main.h"
 #include "pwm.h"
+#include "shiftreg_pwm.h"
 #include "speed_telemetry.h"
 
 // Default runtime values used when the caller does not override them.
@@ -176,6 +177,33 @@ static esp_err_t wifi_rx_apply_motor_command(const wifi_rx_header_t *header)
     }
 
     return pwm_set_pulse_us(pulse_us);
+}
+
+// Apply the brightness-control field from the received header.
+//
+// Brightness uses simple command semantics:
+// -1 = force the base brightness to 0%
+//  0 = leave the current brightness unchanged
+// 1..100 = set the base brightness percentage directly
+static esp_err_t wifi_rx_apply_brightness_command(const wifi_rx_header_t *header)
+{
+    if (header == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    if (header->brightness == WIFI_RX_BRIGHTNESS_SAME) {
+        return ESP_OK;
+    }
+
+    if (header->brightness == WIFI_RX_BRIGHTNESS_OFF) {
+        return shiftreg_pwm_set_brightness_percent(0U);
+    }
+
+    if (header->brightness < 1 || header->brightness > 100) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    return shiftreg_pwm_set_brightness_percent((uint32_t)header->brightness);
 }
 
 // Return how many frames should be used when interpreting the payload.
@@ -507,6 +535,7 @@ static esp_err_t wifi_rx_parse_header(const wifi_rx_wire_header_t *wire_header,
     parsed_header->slice_count = (int32_t)ntohl((uint32_t)wire_header->slice_count);
     parsed_header->payload_bytes = (int32_t)ntohl((uint32_t)wire_header->payload_bytes);
     parsed_header->motor_speed_rpm = (int16_t)ntohs((uint16_t)wire_header->motor_speed_rpm);
+    parsed_header->brightness = wire_header->brightness;
     parsed_header->payload_crc32 = ntohl(wire_header->payload_crc32);
 
     // Validate the header before any payload processing starts.
@@ -535,6 +564,11 @@ static esp_err_t wifi_rx_parse_header(const wifi_rx_wire_header_t *wire_header,
 
     if (parsed_header->motor_speed_rpm < -1) {
         ESP_LOGE(TAG_wifi_rx, "Invalid motor speed command: %" PRId16, parsed_header->motor_speed_rpm);
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    if (parsed_header->brightness < -1 || parsed_header->brightness > 100) {
+        ESP_LOGE(TAG_wifi_rx, "Invalid brightness command: %" PRId8, parsed_header->brightness);
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -635,6 +669,19 @@ static esp_err_t wifi_rx_process_client(int client_sock)
                      "Motor command applied: field=%" PRId16 " pulse=%lu us",
                      header.motor_speed_rpm,
                      (unsigned long)pwm_get_pulse_us());
+        }
+
+        err = wifi_rx_apply_brightness_command(&header);
+        if (err != ESP_OK) {
+            ESP_LOGW(TAG_wifi_rx,
+                     "wifi_rx_apply_brightness_command failed for command %" PRId8 ": %s",
+                     header.brightness,
+                     esp_err_to_name(err));
+        } else if (header.brightness != WIFI_RX_BRIGHTNESS_SAME) {
+            ESP_LOGI(TAG_wifi_rx,
+                     "Brightness command applied: field=%" PRId8 " brightness=%lu%%",
+                     header.brightness,
+                     (unsigned long)shiftreg_pwm_get_brightness_percent());
         }
 
         // Receive the payload and prepare it for the staging display store.
@@ -952,6 +999,10 @@ esp_err_t wifi_rx_print_header_console(const wifi_rx_header_t *header)
     ESP_LOGI(TAG_wifi_rx,
              "wifi header: motor_cmd=%" PRId16 " (-1=off 0=same >0=set_rpm)",
              header->motor_speed_rpm);
+
+    ESP_LOGI(TAG_wifi_rx,
+             "wifi header: brightness=%" PRId8 " (-1=off 0=same 1..100=set_percent)",
+             header->brightness);
 
     ESP_LOGI(TAG_wifi_rx,
              "wifi header: magic=0x%08" PRIX32 " version=%u header_size=%u crc32=0x%08" PRIX32,

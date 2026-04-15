@@ -26,7 +26,8 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             UI_Textbox_Output = new TextBox();
             UI_Button_Visualize = new Button();
@@ -53,8 +54,12 @@
             UI_NumericUpDown_AnimationSpeed = new NumericUpDown();
             label4 = new Label();
             label5 = new Label();
+            label6 = new Label();
+            UI_Num_Brightness = new NumericUpDown();
+            UI_Button_UpdateBrightness = new Button();
             ((System.ComponentModel.ISupportInitialize)UI_TrackBar_EscPulseWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)UI_NumericUpDown_AnimationSpeed).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)UI_Num_Brightness).BeginInit();
             SuspendLayout();
             // 
             // UI_Textbox_Output
@@ -316,12 +321,45 @@
             label5.TabIndex = 27;
             label5.Text = "By: Kaden Sparrow\r\nDaniel Chu";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.ForeColor = Color.FromArgb(222, 93, 31);
+            label6.Location = new Point(191, 529);
+            label6.Name = "label6";
+            label6.Size = new Size(86, 15);
+            label6.TabIndex = 29;
+            label6.Text = "Brightness (%):";
+            // 
+            // UI_Num_Brightness
+            // 
+            UI_Num_Brightness.Increment = new decimal(new int[] { 5, 0, 0, 0 });
+            UI_Num_Brightness.Location = new Point(283, 527);
+            UI_Num_Brightness.Name = "UI_Num_Brightness";
+            UI_Num_Brightness.Size = new Size(49, 23);
+            UI_Num_Brightness.TabIndex = 28;
+            UI_Num_Brightness.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            // 
+            // UI_Button_UpdateBrightness
+            // 
+            UI_Button_UpdateBrightness.Enabled = false;
+            UI_Button_UpdateBrightness.Location = new Point(347, 527);
+            UI_Button_UpdateBrightness.Name = "UI_Button_UpdateBrightness";
+            UI_Button_UpdateBrightness.Size = new Size(119, 23);
+            UI_Button_UpdateBrightness.TabIndex = 30;
+            UI_Button_UpdateBrightness.Text = "Update Brightness";
+            UI_Button_UpdateBrightness.UseVisualStyleBackColor = true;
+            UI_Button_UpdateBrightness.Click += UI_Button_UpdateBrightness_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(6, 22, 35);
             ClientSize = new Size(487, 563);
+            Controls.Add(UI_Button_UpdateBrightness);
+            Controls.Add(label6);
+            Controls.Add(UI_Num_Brightness);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(UI_NumericUpDown_AnimationSpeed);
@@ -354,6 +392,7 @@
             Text = "3D Hologram Server";
             ((System.ComponentModel.ISupportInitialize)UI_TrackBar_EscPulseWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)UI_NumericUpDown_AnimationSpeed).EndInit();
+            ((System.ComponentModel.ISupportInitialize)UI_Num_Brightness).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -385,5 +424,8 @@
         private NumericUpDown UI_NumericUpDown_AnimationSpeed;
         private Label label4;
         private Label label5;
+        private Label label6;
+        private NumericUpDown UI_Num_Brightness;
+        private Button UI_Button_UpdateBrightness;
     }
 }

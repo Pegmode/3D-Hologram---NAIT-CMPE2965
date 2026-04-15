@@ -18,7 +18,7 @@ extern "C" {
 // Current packet-header version.
 //
 // Bump this if the wire format changes in an incompatible way.
-#define WIFI_RX_HEADER_VERSION 3U
+#define WIFI_RX_HEADER_VERSION 4U
 
 // Types of display payloads that may arrive over TCP.
 //
@@ -40,6 +40,12 @@ typedef enum
     WIFI_RX_MOTOR_SAME = 0,
 } wifi_rx_motor_t;
 
+typedef enum
+{
+    WIFI_RX_BRIGHTNESS_OFF = -1,
+    WIFI_RX_BRIGHTNESS_SAME = 0,
+} wifi_rx_brightness_t;
+
 // On-wire packet header. All multibyte fields are sent in network byte order.
 //
 // This struct is only used at the network boundary. After reception it is
@@ -55,6 +61,7 @@ typedef struct __attribute__((packed))
     int32_t slice_count;
     int32_t payload_bytes;
     int16_t motor_speed_rpm;
+    int8_t brightness;
     uint32_t payload_crc32;
 } wifi_rx_wire_header_t;
 
@@ -84,6 +91,7 @@ typedef struct
     // The field name is kept for protocol compatibility even though the
     // implementation is temporarily pulse-width based rather than true RPM.
     int16_t motor_speed_rpm;
+    int8_t brightness;           // -1 = off, 0 = same, 1..100 = brightness percent
     uint32_t payload_crc32;       // CRC32 of the payload bytes, or 0 when no payload is sent.
 } wifi_rx_header_t;
 
