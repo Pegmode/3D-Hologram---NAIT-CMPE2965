@@ -29,7 +29,6 @@
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             UI_Textbox_Output = new TextBox();
-            UI_Button_RUN = new Button();
             UI_Button_Visualize = new Button();
             UI_Button_LoadObj = new Button();
             UI_Button_Connect = new Button();
@@ -53,6 +52,7 @@
             UI_CheckBox_FillVoxels = new CheckBox();
             UI_NumericUpDown_AnimationSpeed = new NumericUpDown();
             label4 = new Label();
+            label5 = new Label();
             ((System.ComponentModel.ISupportInitialize)UI_TrackBar_EscPulseWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)UI_NumericUpDown_AnimationSpeed).BeginInit();
             SuspendLayout();
@@ -66,16 +66,6 @@
             UI_Textbox_Output.ScrollBars = ScrollBars.Vertical;
             UI_Textbox_Output.Size = new Size(282, 276);
             UI_Textbox_Output.TabIndex = 0;
-            // 
-            // UI_Button_RUN
-            // 
-            UI_Button_RUN.Location = new Point(30, 15);
-            UI_Button_RUN.Name = "UI_Button_RUN";
-            UI_Button_RUN.Size = new Size(128, 23);
-            UI_Button_RUN.TabIndex = 1;
-            UI_Button_RUN.Text = "Run Hologram";
-            UI_Button_RUN.UseVisualStyleBackColor = true;
-            UI_Button_RUN.Click += UI_Button_RUN_Click;
             // 
             // UI_Button_Visualize
             // 
@@ -304,11 +294,21 @@
             label4.TabIndex = 26;
             label4.Text = "Animation Speed:";
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 9);
+            label5.Name = "label5";
+            label5.Size = new Size(105, 30);
+            label5.TabIndex = 27;
+            label5.Text = "By: Kaden Sparrow\r\nDaniel Chu";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(487, 563);
+            Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(UI_NumericUpDown_AnimationSpeed);
             Controls.Add(UI_CheckBox_FillVoxels);
@@ -332,7 +332,6 @@
             Controls.Add(UI_Button_Connect);
             Controls.Add(UI_Button_LoadObj);
             Controls.Add(UI_Button_Visualize);
-            Controls.Add(UI_Button_RUN);
             Controls.Add(UI_Textbox_Output);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -347,7 +346,6 @@
         #endregion
 
         private TextBox UI_Textbox_Output;
-        private Button UI_Button_RUN;
         private Button UI_Button_Visualize;
         private Button UI_Button_LoadObj;
         private Button UI_Button_Connect;
@@ -371,5 +369,6 @@
         private CheckBox UI_CheckBox_FillVoxels;
         private NumericUpDown UI_NumericUpDown_AnimationSpeed;
         private Label label4;
+        private Label label5;
     }
 }
