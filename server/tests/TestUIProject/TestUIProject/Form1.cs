@@ -22,6 +22,7 @@ namespace TestUIProject {
         const int PIPE_BUFFER_SIZE = 0xFFFFFFF;
         const string VOXEL_CONVERTER_DEFAULT_FILEPATH = "voxelConversion.exe";
         const string VOXEL_PIPE_NAME = "VoxelPipe";
+        const int DEFAULT_ANIMATION_SPEED = 3;//this is set in the voxel conversion tool as bounceMultiplier. Set this value to match that found in the voxel conversiont tool
         readonly Dictionary<string, (Int32, Int32, byte[])> testBakedDataDict = new Dictionary<string, (Int32, Int32, byte[])>{
             { "", (0,0,[0]) },
             { "Teapot" , demoFrames.teapot },
@@ -271,6 +272,12 @@ namespace TestUIProject {
             voxelConverterProcess.StartInfo.ArgumentList.Add(arg);
             if (UI_CheckBox_FillVoxels.Checked) {
                 voxelConverterProcess.StartInfo.ArgumentList.Add("-fv");//fill the inside
+            }
+            if (UI_NumericUpDown_AnimationSpeed.Value != 3) {
+                //arg -as [speed] to change animation speed. Only used by converter when animation arg is selected
+                voxelConverterProcess.StartInfo.ArgumentList.Add("-as");
+                voxelConverterProcess.StartInfo.ArgumentList.Add(UI_NumericUpDown_AnimationSpeed.Value.ToString());
+
             }
             voxelConverterProcess.StartInfo.UseShellExecute = false;
             voxelConverterProcess.OutputDataReceived += Process_OutputDataReceived;
