@@ -83,7 +83,7 @@ def cylindricalList2Quantized(cylindricalList, sliceCount, width, height):
         if thetaDegree >= 180.0:#If the voxel is in the "other right half" of the board normalize it to our board
             rNormalized = rQuantized + halfWidth
         else:
-            rNormalized = rQuantized
+            rNormalized =  7 -  rQuantized#min + max - value = mirrored about midway between min,max
         hNormalized = int(numpy.floor(h))
         #cleanup values for C array so that the microcontroller doesn't explode
         if rNormalized < 0 or rNormalized >= width:

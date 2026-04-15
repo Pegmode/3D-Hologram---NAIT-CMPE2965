@@ -113,7 +113,7 @@ def actionConvertToHeader():
 #define MVOX_VOXEL_HEIGHT {BOARD_HEIGHT}
 #define MVOX_VOXEL_WIDTH {BOARD_WIDTH}
 #define MVOX_VOXEL_COUNT {len(quantizedVoxels)}//The number of bits = 1
-#define MVOX_VOXEL_BIT_COUNT {len(flatBitCount)}
+#define MVOX_VOXEL_BIT_COUNT {flatBitCount}
 #define MVOX_VOXEL_BYTE_COUNT {len(packedBytes)}
 
 const uint8_t debugMvox_voxelData[MVOX_VOXEL_BYTE_COUNT] = {{
