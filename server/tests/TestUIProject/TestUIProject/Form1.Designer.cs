@@ -61,6 +61,7 @@
             // 
             UI_Textbox_Output.BackColor = Color.FromArgb(11, 42, 66);
             UI_Textbox_Output.BorderStyle = BorderStyle.FixedSingle;
+            UI_Textbox_Output.ForeColor = Color.FromArgb(222, 93, 31);
             UI_Textbox_Output.Location = new Point(164, 27);
             UI_Textbox_Output.Multiline = true;
             UI_Textbox_Output.Name = "UI_Textbox_Output";
@@ -266,6 +267,7 @@
             // 
             UI_TextBox_Stats.BackColor = Color.FromArgb(11, 42, 66);
             UI_TextBox_Stats.BorderStyle = BorderStyle.FixedSingle;
+            UI_TextBox_Stats.ForeColor = Color.FromArgb(222, 93, 31);
             UI_TextBox_Stats.Location = new Point(12, 309);
             UI_TextBox_Stats.Multiline = true;
             UI_TextBox_Stats.Name = "UI_TextBox_Stats";
