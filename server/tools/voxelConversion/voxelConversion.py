@@ -34,7 +34,7 @@ HEADER_OUTPUT_FILENAME = "voxelData.h"
 ##########################################################
 args = None
 parser = None
-bounceMultiplier = 5
+bounceMultiplier = 3
 #Utility/General
 ##########################################################
 
