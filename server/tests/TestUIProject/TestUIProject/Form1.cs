@@ -463,9 +463,9 @@ namespace TestUIProject {
         }
 
         private void UI_TrackBar_EscPulseWidth_ValueChanged(object sender, EventArgs e) {
-            UI_TextBox_Esc_Low.Text = UI_TrackBar_EscPulseWidth.Minimum.ToString();
-            UI_TextBox_Esc_Value.Text = UI_TrackBar_EscPulseWidth.Value.ToString();
-            UI_TextBox_Esc_High.Text = UI_TrackBar_EscPulseWidth.Maximum.ToString();
+            UI_TextBox_Esc_Low.Text = UI_TrackBar_EscPulseWidth.Minimum.ToString() + "us";
+            UI_TextBox_Esc_Value.Text = UI_TrackBar_EscPulseWidth.Value.ToString() + "us";
+            UI_TextBox_Esc_High.Text = UI_TrackBar_EscPulseWidth.Maximum.ToString() + "us";
         }
 
         private async void UI_Button_UpdateSpeed_Click(object sender, EventArgs e) {
@@ -561,7 +561,6 @@ namespace TestUIProject {
             UI_TrackBar_EscPulseWidth.Value = 870;
             UI_Button_UpdateSpeed_Click(sender, e);
         }
-
 
     }
 

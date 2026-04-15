@@ -59,6 +59,8 @@
             // 
             // UI_Textbox_Output
             // 
+            UI_Textbox_Output.BackColor = Color.FromArgb(11, 42, 66);
+            UI_Textbox_Output.BorderStyle = BorderStyle.FixedSingle;
             UI_Textbox_Output.Location = new Point(164, 27);
             UI_Textbox_Output.Multiline = true;
             UI_Textbox_Output.Name = "UI_Textbox_Output";
@@ -100,6 +102,7 @@
             // d
             // 
             d.AutoSize = true;
+            d.ForeColor = Color.FromArgb(222, 93, 31);
             d.Location = new Point(164, 9);
             d.Name = "d";
             d.Size = new Size(30, 15);
@@ -128,6 +131,7 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.ForeColor = Color.FromArgb(222, 93, 31);
             label1.Location = new Point(159, 370);
             label1.Name = "label1";
             label1.Size = new Size(85, 15);
@@ -157,6 +161,7 @@
             // label2
             // 
             label2.AutoSize = true;
+            label2.ForeColor = Color.FromArgb(222, 93, 31);
             label2.Location = new Point(159, 338);
             label2.Name = "label2";
             label2.Size = new Size(88, 15);
@@ -191,11 +196,12 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(164, 529);
+            label3.ForeColor = Color.FromArgb(222, 93, 31);
+            label3.Location = new Point(191, 439);
             label3.Name = "label3";
-            label3.Size = new Size(153, 15);
+            label3.Size = new Size(96, 15);
             label3.TabIndex = 16;
-            label3.Text = "esc pulse width (for testing)";
+            label3.Text = "ESC Pulse Width ";
             // 
             // UI_TextBox_Esc_Low
             // 
@@ -258,6 +264,8 @@
             // 
             // UI_TextBox_Stats
             // 
+            UI_TextBox_Stats.BackColor = Color.FromArgb(11, 42, 66);
+            UI_TextBox_Stats.BorderStyle = BorderStyle.FixedSingle;
             UI_TextBox_Stats.Location = new Point(12, 309);
             UI_TextBox_Stats.Multiline = true;
             UI_TextBox_Stats.Name = "UI_TextBox_Stats";
@@ -268,6 +276,7 @@
             // UI_CheckBox_FillVoxels
             // 
             UI_CheckBox_FillVoxels.AutoSize = true;
+            UI_CheckBox_FillVoxels.ForeColor = Color.FromArgb(222, 93, 31);
             UI_CheckBox_FillVoxels.Location = new Point(30, 218);
             UI_CheckBox_FillVoxels.Name = "UI_CheckBox_FillVoxels";
             UI_CheckBox_FillVoxels.Size = new Size(110, 34);
@@ -288,6 +297,7 @@
             // label4
             // 
             label4.AutoSize = true;
+            label4.ForeColor = Color.FromArgb(222, 93, 31);
             label4.Location = new Point(30, 262);
             label4.Name = "label4";
             label4.Size = new Size(101, 15);
@@ -297,6 +307,7 @@
             // label5
             // 
             label5.AutoSize = true;
+            label5.ForeColor = Color.FromArgb(222, 93, 31);
             label5.Location = new Point(12, 9);
             label5.Name = "label5";
             label5.Size = new Size(105, 30);
@@ -307,6 +318,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(6, 22, 35);
             ClientSize = new Size(487, 563);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -333,8 +345,9 @@
             Controls.Add(UI_Button_LoadObj);
             Controls.Add(UI_Button_Visualize);
             Controls.Add(UI_Textbox_Output);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Form1";
             Text = "3D Hologram Server";
             ((System.ComponentModel.ISupportInitialize)UI_TrackBar_EscPulseWidth).EndInit();
