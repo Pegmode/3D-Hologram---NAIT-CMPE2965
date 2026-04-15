@@ -28,6 +28,7 @@
 #include "display_store.h"
 #include "main.h"
 #include "pwm.h"
+#include "speed_telemetry.h"
 
 // Default runtime values used when the caller does not override them.
 //
@@ -63,12 +64,93 @@ wifi_rx_config_t wifi_rx_config = {
 
 static EventGroupHandle_t s_wifi_event_group = NULL;
 static TaskHandle_t s_wifi_rx_task_handle = NULL;
+static TaskHandle_t s_wifi_telemetry_task_handle = NULL;
 static bool s_initialized = false;
 static wifi_rx_header_t s_last_header = { 0 };
 static esp_event_handler_instance_t s_wifi_event_instance = NULL;
 static esp_netif_t *s_wifi_ap_netif = NULL;
+static portMUX_TYPE s_client_socket_lock = portMUX_INITIALIZER_UNLOCKED;
+static int s_active_client_sock = -1;
 
 static void wifi_rx_task(void *arg);
+static void wifi_rx_telemetry_task(void *arg);
+
+// Publish the currently connected client socket so the telemetry task can send
+// JSON updates without taking ownership of the rest of the TCP session.
+static void wifi_rx_set_active_client_socket(int client_sock)
+{
+    portENTER_CRITICAL(&s_client_socket_lock);
+    s_active_client_sock = client_sock;
+    portEXIT_CRITICAL(&s_client_socket_lock);
+}
+
+// Clear the shared client-socket pointer after disconnect so the telemetry task
+// immediately stops trying to send updates.
+static void wifi_rx_clear_active_client_socket(void)
+{
+    portENTER_CRITICAL(&s_client_socket_lock);
+    s_active_client_sock = -1;
+    portEXIT_CRITICAL(&s_client_socket_lock);
+}
+
+// Read the current client socket atomically because the receive task and the
+// telemetry task run independently on the same core.
+static int wifi_rx_get_active_client_socket(void)
+{
+    int client_sock;
+
+    portENTER_CRITICAL(&s_client_socket_lock);
+    client_sock = s_active_client_sock;
+    portEXIT_CRITICAL(&s_client_socket_lock);
+
+    return client_sock;
+}
+
+// Periodically push the latest speed telemetry to the connected PC as one
+// newline-delimited JSON object, if a client is currently active.
+static void wifi_rx_telemetry_task(void *arg)
+{
+    char json_buf[96];
+
+    (void)arg;
+
+    while (1) {
+        int client_sock = wifi_rx_get_active_client_socket();
+
+        if (client_sock >= 0) {
+            speed_telemetry_snapshot_t snapshot = { 0 };
+            esp_err_t err = speed_telemetry_get_snapshot(&snapshot);
+
+            if (err == ESP_OK) {
+                int json_len = snprintf(
+                    json_buf,
+                    sizeof(json_buf),
+                    "{\"rpm\":%" PRId32 ",\"rpmF\":%" PRId32 ",\"period\":%" PRId32 ",\"revcount\":%" PRId32 "}\n",
+                    snapshot.rpm,
+                    snapshot.rpmF,
+                    snapshot.period,
+                    snapshot.revcount
+                );
+
+                if (json_len > 0 && (size_t)json_len < sizeof(json_buf)) {
+                    int sent = send(client_sock, json_buf, (size_t)json_len, 0);
+
+                    if (sent != json_len) {
+                        if (sent < 0) {
+                            ESP_LOGW(TAG_wifi_rx, "Telemetry send failed: errno %d", errno);
+                        } else {
+                            ESP_LOGW(TAG_wifi_rx, "Telemetry send incomplete: sent=%d expected=%d", sent, json_len);
+                        }
+
+                        shutdown(client_sock, 0);
+                    }
+                }
+            }
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(SPEED_TELEMETRY_SEND_INTERVAL_MS));
+    }
+}
 
 // Apply the motor-control field from the received header.
 //
@@ -653,12 +735,14 @@ static void wifi_rx_task(void *arg)
             }
 
             ESP_LOGI(TAG_wifi_rx, "TCP client connected");
+            wifi_rx_set_active_client_socket(client_sock);
 
             // Process packets until the client disconnects or a stream error occurs.
             if (wifi_rx_process_client(client_sock) != ESP_OK) {
                 ESP_LOGW(TAG_wifi_rx, "Client disconnected or packet processing failed");
             }
 
+            wifi_rx_clear_active_client_socket();
             shutdown(client_sock, 0);
             close(client_sock);
         }
@@ -786,6 +870,19 @@ esp_err_t wifi_rx_start(void)
         return ESP_OK;
     }
 
+    if (s_wifi_telemetry_task_handle == NULL) {
+        if (xTaskCreatePinnedToCore(
+                wifi_rx_telemetry_task,
+                "wifi_rx_telemetry",
+                3072,
+                NULL,
+                (UBaseType_t)wifi_rx_config.task_priority,
+                &s_wifi_telemetry_task_handle,
+                1) != pdPASS) {
+            return ESP_ERR_NO_MEM;
+        }
+    }
+
     // Pin network receive work to core 1 so it stays away from the encoder and
     // display timing path that is intended to live on core 0.
     if (xTaskCreatePinnedToCore(
@@ -796,6 +893,8 @@ esp_err_t wifi_rx_start(void)
             (UBaseType_t)wifi_rx_config.task_priority,
             &s_wifi_rx_task_handle,
             1) != pdPASS) {
+        vTaskDelete(s_wifi_telemetry_task_handle);
+        s_wifi_telemetry_task_handle = NULL;
         return ESP_ERR_NO_MEM;
     }
 

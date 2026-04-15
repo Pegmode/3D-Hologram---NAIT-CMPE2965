@@ -40,6 +40,7 @@ static bool s_initialized = false;
 static uint32_t s_current_brightness_percent = 0U;
 static size_t s_current_level_index = 0U;
 static TaskHandle_t s_control_task_handle = NULL;
+static bool s_gate_enabled = true;
 
 // Discrete brightness levels used by the two option switches.
 static const uint32_t s_brightness_levels[SHIFTREG_PWM_LEVEL_COUNT] = {
@@ -172,7 +173,9 @@ static uint32_t shiftreg_pwm_brightness_to_duty(uint32_t brightness_percent)
     return (uint32_t)duty;
 }
 
-static esp_err_t shiftreg_pwm_apply_brightness(uint32_t brightness_percent)
+// Program the LEDC channel with the exact visible brightness that should be
+// applied to the OE pin right now.
+static esp_err_t shiftreg_pwm_apply_effective_brightness(uint32_t brightness_percent)
 {
     uint32_t duty;
 
@@ -190,11 +193,26 @@ static esp_err_t shiftreg_pwm_apply_brightness(uint32_t brightness_percent)
         "ledc_update_duty failed"
     );
 
+    return ESP_OK;
+}
+
+// Reapply the saved base brightness after combining it with the current gate
+// state. This lets the display task blank the output without losing the user's
+// chosen brightness.
+static esp_err_t shiftreg_pwm_apply_current_output(void)
+{
+    return shiftreg_pwm_apply_effective_brightness(s_gate_enabled ? s_current_brightness_percent : 0U);
+}
+
+// Update the saved base brightness and immediately refresh the effective output
+// seen on the OE pin.
+static esp_err_t shiftreg_pwm_set_base_brightness(uint32_t brightness_percent)
+{
     s_current_brightness_percent = brightness_percent;
     s_current_level_index = shiftreg_pwm_find_level_index(brightness_percent);
     shiftreg_pwm_update_debug_leds(s_current_level_index);
 
-    return ESP_OK;
+    return shiftreg_pwm_apply_current_output();
 }
 
 // Apply one of the fixed switch-selected brightness steps.
@@ -204,7 +222,7 @@ static esp_err_t shiftreg_pwm_apply_level_index(size_t level_index)
         return ESP_ERR_INVALID_ARG;
     }
 
-    return shiftreg_pwm_apply_brightness(s_brightness_levels[level_index]);
+    return shiftreg_pwm_set_base_brightness(s_brightness_levels[level_index]);
 }
 
 // Poll the two brightness switches and step the global brightness on press.
@@ -330,6 +348,7 @@ esp_err_t shiftreg_pwm_init(void)
     );
 
     s_initialized = true;
+    s_gate_enabled = true;
     s_current_brightness_percent = shiftreg_pwm_config.startup_brightness_percent;
     s_current_level_index = shiftreg_pwm_find_level_index(s_current_brightness_percent);
     shiftreg_pwm_update_debug_leds(s_current_level_index);
@@ -370,12 +389,29 @@ esp_err_t shiftreg_pwm_set_brightness_percent(uint32_t brightness_percent)
         return ESP_ERR_INVALID_ARG;
     }
 
-    return shiftreg_pwm_apply_brightness(brightness_percent);
+    return shiftreg_pwm_set_base_brightness(brightness_percent);
 }
 
 uint32_t shiftreg_pwm_get_brightness_percent(void)
 {
     return s_current_brightness_percent;
+}
+
+// Open or close the OE gate while preserving the stored base brightness level.
+esp_err_t shiftreg_pwm_set_gate_enabled(bool enabled)
+{
+    if (!s_initialized) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    s_gate_enabled = enabled;
+    return shiftreg_pwm_apply_current_output();
+}
+
+// Report whether the display gate is currently open.
+bool shiftreg_pwm_get_gate_enabled(void)
+{
+    return s_gate_enabled;
 }
 
 bool shiftreg_pwm_is_initialized(void)
@@ -408,6 +444,7 @@ esp_err_t shiftreg_pwm_deinit(void)
 
     shiftreg_pwm_config.init = 0;
     s_initialized = false;
+    s_gate_enabled = true;
     s_current_brightness_percent = 0U;
     s_current_level_index = 0U;
     shiftreg_pwm_update_debug_leds(0U);

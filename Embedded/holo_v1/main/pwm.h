@@ -22,7 +22,7 @@ extern "C" {
 
 // Normal command range for throttle
 #define PWM_ESC_MIN_US           870U
-#define PWM_ESC_MAX_US           2000U
+#define PWM_ESC_MAX_US           1200U
 
 // Configuration structure for the PWM output
 typedef struct

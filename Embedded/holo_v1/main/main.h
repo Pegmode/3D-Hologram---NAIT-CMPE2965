@@ -50,11 +50,22 @@ extern "C" {
 #define SR_SPI_HOST     SPI2_HOST
 
 // SPI clock rate (start lower for clean waveforms; increase later)
-#define SR_SPI_HZ       (4 * 1000 * 1000)  // 4 MHz
+#define SR_SPI_HZ       (8 * 1000 * 1000)  // 8 MHz
 
 // Global display brightness PWM settings on OE.
 #define SR_PWM_HZ       (20 * 1000)        // 20 kHz global dimming PWM
 #define SR_PWM_STARTUP_BRIGHTNESS_PERCENT 10U
+
+// Display strobe settings.
+//
+// Each slice can be shown for only a fraction of its angular interval by
+// gating the OE PWM output. The hybrid pulse width is recomputed once per
+// revolution from the measured revolution period and active step count, then
+// clamped between the bounds below.
+#define DISPLAY_STROBE_ENABLED       1
+#define DISPLAY_STROBE_DUTY_PERCENT  20U
+#define DISPLAY_STROBE_MIN_ON_US     100U
+#define DISPLAY_STROBE_MAX_ON_US     500U
 
 // Our frame is 512 LEDs -> 512 bits -> 64 bytes
 #define SR_FRAME_BYTES  64

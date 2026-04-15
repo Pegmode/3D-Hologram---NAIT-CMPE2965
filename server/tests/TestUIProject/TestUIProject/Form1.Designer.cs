@@ -26,7 +26,8 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             UI_Textbox_Output = new TextBox();
             UI_Button_RUN = new Button();
@@ -48,6 +49,8 @@
             UI_TextBox_Esc_High = new TextBox();
             UI_Button_UpdateSpeed = new Button();
             UI_Button_LoadAnimationObj = new Button();
+            UI_Button_StopMotor = new Button();
+            UI_TextBox_Stats = new TextBox();
             ((System.ComponentModel.ISupportInitialize)UI_TrackBar_EscPulseWidth).BeginInit();
             SuspendLayout();
             // 
@@ -249,11 +252,33 @@
             UI_Button_LoadAnimationObj.UseVisualStyleBackColor = true;
             UI_Button_LoadAnimationObj.Click += UI_Button_LoadAnimationObj_Click;
             // 
+            // UI_Button_StopMotor
+            // 
+            UI_Button_StopMotor.Enabled = false;
+            UI_Button_StopMotor.Location = new Point(12, 394);
+            UI_Button_StopMotor.Name = "UI_Button_StopMotor";
+            UI_Button_StopMotor.Size = new Size(113, 23);
+            UI_Button_StopMotor.TabIndex = 22;
+            UI_Button_StopMotor.Text = "Stop Motor";
+            UI_Button_StopMotor.UseVisualStyleBackColor = true;
+            UI_Button_StopMotor.Click += UI_Button_StopMotor_Click;
+            // 
+            // UI_TextBox_Stats
+            // 
+            UI_TextBox_Stats.Location = new Point(12, 284);
+            UI_TextBox_Stats.Multiline = true;
+            UI_TextBox_Stats.Name = "UI_TextBox_Stats";
+            UI_TextBox_Stats.ReadOnly = true;
+            UI_TextBox_Stats.Size = new Size(141, 104);
+            UI_TextBox_Stats.TabIndex = 23;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(478, 550);
+            Controls.Add(UI_TextBox_Stats);
+            Controls.Add(UI_Button_StopMotor);
             Controls.Add(UI_Button_LoadAnimationObj);
             Controls.Add(UI_Button_UpdateSpeed);
             Controls.Add(UI_TextBox_Esc_High);
@@ -305,5 +330,7 @@
         private TextBox UI_TextBox_Esc_High;
         private Button UI_Button_UpdateSpeed;
         private Button UI_Button_LoadAnimationObj;
+        private Button UI_Button_StopMotor;
+        private TextBox UI_TextBox_Stats;
     }
 }

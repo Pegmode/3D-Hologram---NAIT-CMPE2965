@@ -35,6 +35,12 @@ esp_err_t shiftreg_pwm_set_brightness_percent(uint32_t brightness_percent);
 // Get the last brightness percent that was applied.
 uint32_t shiftreg_pwm_get_brightness_percent(void);
 
+// Gate the visible output without changing the saved base brightness.
+esp_err_t shiftreg_pwm_set_gate_enabled(bool enabled);
+
+// Returns true when the display gate is open.
+bool shiftreg_pwm_get_gate_enabled(void);
+
 // Returns true if the PWM module has been initialized.
 bool shiftreg_pwm_is_initialized(void);
 

@@ -16,7 +16,8 @@ using System.Xml.Linq;
 
 
 namespace TestUIProject {
-    public partial class Form1 : Form {
+    public partial class Form1 : Form
+    {
         //constants
         const int PIPE_BUFFER_SIZE = 0xFFFFFFF;
         const string VOXEL_CONVERTER_DEFAULT_FILEPATH = "voxelConversion.exe";
@@ -43,7 +44,8 @@ namespace TestUIProject {
         bool showDataFromPipe = false;
 
 
-        public Form1() {
+        public Form1()
+        {
             InitializeComponent();
             UI_Textbox_Output.TextChanged += UI_Textbox_Output_TextChangedHandler;
             //List<string> testBakedDataTitles = ["", "Teapot"];
@@ -54,26 +56,32 @@ namespace TestUIProject {
         ///////////////////////////////////////////////////////////////////
         //UI Event handlers
         ///////////////////////////////////////////////////////////////////
-        private void UI_Textbox_Output_TextChangedHandler(object? sender, EventArgs e) {//perform auto scrolling
+        private void UI_Textbox_Output_TextChangedHandler(object? sender, EventArgs e)
+        {//perform auto scrolling
             UI_Textbox_Output.SelectionStart = UI_Textbox_Output.Text.Length;
             UI_Textbox_Output.ScrollToCaret();
         }
 
-        private void UI_Button_RUN_Click(object sender, EventArgs e) {
+        private void UI_Button_RUN_Click(object sender, EventArgs e)
+        {
             //TODO
 
         }
 
-        private void UI_Button_Visualize_Click(object sender, EventArgs e) {
-            if (!converterExecutableExists()) {//the the converter is not present, we can't run things that rely on it...
+        private void UI_Button_Visualize_Click(object sender, EventArgs e)
+        {
+            if (!converterExecutableExists())
+            {//the the converter is not present, we can't run things that rely on it...
                 return;
             }
             string objFilepath;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Obj files (*.obj) | *.obj";
-            if (openFileDialog.ShowDialog() == DialogResult.OK) {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
                 objFilepath = openFileDialog.FileName;
-                if (!File.Exists(objFilepath)) {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
+                if (!File.Exists(objFilepath))
+                {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
                     MessageBox.Show($"File {objFilepath} not found."); ;
                     return;
                 }
@@ -83,16 +91,20 @@ namespace TestUIProject {
 
         }
 
-        private async void UI_Button_LoadObj_Click(object sender, EventArgs e) {
-            if (!converterExecutableExists()) {//the the converter is not present, we can't run things that rely on it...
+        private async void UI_Button_LoadObj_Click(object sender, EventArgs e)
+        {
+            if (!converterExecutableExists())
+            {//the the converter is not present, we can't run things that rely on it...
                 return;
             }
             string objFilepath;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Obj files (*.obj) | *.obj";
-            if (openFileDialog.ShowDialog() == DialogResult.OK) {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
                 objFilepath = openFileDialog.FileName;
-                if (!File.Exists(objFilepath)) {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
+                if (!File.Exists(objFilepath))
+                {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
                     MessageBox.Show($"File {objFilepath} not found."); ;
                     return;
                 }
@@ -107,37 +119,45 @@ namespace TestUIProject {
 
             }
         }
-        private async void UI_Button_LoadAnimationObj_Click(object sender, EventArgs e) {
-            if (!converterExecutableExists()) {//the the converter is not present, we can't run things that rely on it...
+        private async void UI_Button_LoadAnimationObj_Click(object sender, EventArgs e)
+        {
+            if (!converterExecutableExists())
+            {//the the converter is not present, we can't run things that rely on it...
                 return;
             }
             string objFilepath;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Obj files (*.obj) | *.obj";
-            if (openFileDialog.ShowDialog() == DialogResult.OK) {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
                 objFilepath = openFileDialog.FileName;
-                if (!File.Exists(objFilepath)) {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
+                if (!File.Exists(objFilepath))
+                {//this should never trigger because of the fileDialog but we will check anyways. Throw a messagebox since this is a really rare edge issue.
                     MessageBox.Show($"File {objFilepath} not found."); ;
                     return;
                 }
                 //Run the converter to get data from an OBJ
                 byte[] voxelBytes = await callVoxelConverterToConvert(objFilepath, "-cpa");
-                if (buildStoredTxDataFromPipeData(voxelBytes)) {
+                if (buildStoredTxDataFromPipeData(voxelBytes))
+                {
                     UI_Button_SendLoaded.Enabled = true;
                     UI_Textbox_LoadedImageName.Text = objFilepath;
                     UI_Textbox_Output.Text += "obj animation ready to send to hologram!\r\n";
                 }
-                else {
+                else
+                {
                     UI_Textbox_Output.Text += "Could not parse data from pipe...";
                 }
 
             }
         }
 
-        private void UI_Button_Connect_Click(object sender, EventArgs e) {
+        private void UI_Button_Connect_Click(object sender, EventArgs e)
+        {
             //use Kaden's dialog dll for connection
             ConnDlg dlg = new(espAddr, espPort);
-            if (dlg.ShowDialog() == DialogResult.OK) {
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
                 socket = dlg.ConnClient;
                 espAddr = dlg.Address;
                 espPort = dlg.Port;
@@ -146,27 +166,33 @@ namespace TestUIProject {
                 UI_Button_DisplayOff.Enabled = true;
                 UI_Button_Disconnect.Enabled = true;
                 UI_Button_UpdateSpeed.Enabled = true;
-                //clientRx();
+                UI_Button_StopMotor.Enabled = true;
+                clientRx();
             }
         }
 
-        private async void UI_Button_SendLoaded_Click(object sender, EventArgs e) {
+        private async void UI_Button_SendLoaded_Click(object sender, EventArgs e)
+        {
             //check if connection is alive
-            if (socket == null || !socket.Connected) {
+            if (socket == null || !socket.Connected)
+            {
                 HandleDisconnect();
                 return;
             }
-            try {
+            try
+            {
                 await SendAllAsync(socket, storedTxMessage);
 
                 Trace.WriteLine($"sent {storedTxMessage.Length}");
             }
-            catch (SocketException exc) {
+            catch (SocketException exc)
+            {
                 Trace.WriteLine("Send:SocketException : " + exc.Message);
                 HandleDisconnect();
                 return;
             }
-            catch (Exception exc) {
+            catch (Exception exc)
+            {
                 Trace.WriteLine("Send:Exception : " + exc.Message);
                 HandleDisconnect();
                 return;
@@ -174,50 +200,61 @@ namespace TestUIProject {
 
         }
 
-        private void UI_Button_Disconnect_Click(object sender, EventArgs e) {
+        private void UI_Button_Disconnect_Click(object sender, EventArgs e)
+        {
             HandleDisconnect();
         }
 
-        private void UI_ComboBox_TestBakedData_SelectedIndexChanged(object sender, EventArgs e) {
+        private void UI_ComboBox_TestBakedData_SelectedIndexChanged(object sender, EventArgs e)
+        {
             ComboBox thisCombobox = (ComboBox)sender;
-            if (!(sender is ComboBox)) {
+            if (!(sender is ComboBox))
+            {
                 return;
             }
-            if (thisCombobox.SelectedIndex == 0) {//if we unselect a preloaded images, reset the loaded image to be blank
+            if (thisCombobox.SelectedIndex == 0)
+            {//if we unselect a preloaded images, reset the loaded image to be blank
                 UI_Textbox_LoadedImageName.Text = "";
                 storedTxMessage = null;
                 UI_Button_SendLoaded.Enabled = false;
                 return;
             }
             (Int32, Int32, byte[]) backedData;
-            try {
+            try
+            {
                 backedData = testBakedDataDict[thisCombobox.Text];
             }
-            catch {
+            catch
+            {
                 return;//this shouldn't run but just in case give a somewhat gracefull way to not crash
             }
             //Int32 currentFramecount = 1;//debug const
             //Int32 currentSliceCount = 16;//standard...
             //Int16 currentRPM = 100;//debug const
-            if (backedData.Item1 == 1) {
+            if (backedData.Item1 == 1)
+            {
                 storedTxMessage = MessageHeader.Build3DImageMessage(backedData.Item3, backedData.Item1, backedData.Item2, WifiTxDataType.Still3D);
             }
-            else if (backedData.Item1 > 1) {
+            else if (backedData.Item1 > 1)
+            {
                 storedTxMessage = MessageHeader.Build3DImageMessage(backedData.Item3, backedData.Item1, backedData.Item2, WifiTxDataType.Animation3D);
             }
-            else {
+            else
+            {
                 UI_Textbox_Output.Text += "ERROR: could not build tx message. Bad frame size";
                 return;///shouldn't happen but gives a graceful way to exit
             }
-                UI_Textbox_LoadedImageName.Text = thisCombobox.Text;
+            UI_Textbox_LoadedImageName.Text = thisCombobox.Text;
             UI_Button_SendLoaded.Enabled = true;
         }
 
         ///////////////////////////////////////////////////////////////////
         //Process Utils
         ///////////////////////////////////////////////////////////////////
-        private async Task<byte[]> callVoxelConverterToConvert(string objFilepath, string arg) {
-            if (voxelConverterProcess != null && !voxelConverterProcess.HasExited) { //Check if the process is running. Kill the process if its still running
+        private async Task<byte[]> callVoxelConverterToConvert(string objFilepath, string arg)
+        {
+            if (voxelConverterProcess != null && !voxelConverterProcess.HasExited)
+            { //Check if the process is running. Kill the process if its still running
                 voxelConverterProcess.Kill();
                 voxelConverterProcess.WaitForExit();
             }
@@ -246,9 +283,11 @@ namespace TestUIProject {
             await voxelPipe.WaitForConnectionAsync();//wait for the pipe to be populated but dont hang the UI thread
             UI_Textbox_Output.Text += "UI got pipe connection from converter!\r\n";
             byte[] voxelBytes = await readAllDataInFromPipe(voxelPipe);
-            if (showDataFromPipe) {//conditional data readout as debug
+            if (showDataFromPipe)
+            {//conditional data readout as debug
                 UI_Textbox_Output.Text += $"Data from pipe:";
-                foreach (int val in voxelBytes) {
+                foreach (int val in voxelBytes)
+                {
                     UI_Textbox_Output.Text += $" {val},";
                 }
             }
@@ -260,7 +299,8 @@ namespace TestUIProject {
             return voxelBytes;
         }
 
-        private async Task callVoxelConverterToVisualize(string objFilepath) {
+        private async Task callVoxelConverterToVisualize(string objFilepath)
+        {
             Process process = new Process();
             process.StartInfo.FileName = voxelConverterProcessFilepath;
             process.StartInfo.ArgumentList.Clear();
@@ -283,16 +323,20 @@ namespace TestUIProject {
             process.WaitForExit();
         }
 
-        private bool converterExecutableExists() {
+        private bool converterExecutableExists()
+        {
             string converterPath = voxelConverterProcessFilepath;
-            if (!File.Exists(converterPath)) {
+            if (!File.Exists(converterPath))
+            {
                 MessageBox.Show($"WARNING: Converter .exe file not found. Please select the voxelConverter");
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Filter = "executable files (*.exe) | *.exe";
-                if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
                     converterPath = openFileDialog.FileName;
                 }
-                else {//close the program if the user doesn't want to provide an executable
+                else
+                {//close the program if the user doesn't want to provide an executable
                     MessageBox.Show($"WARNING: Hologram server requires the converter executable to run");
                     return false;
                 }
@@ -301,22 +345,26 @@ namespace TestUIProject {
             return true;
         }
 
-        private bool buildStoredTxDataFromPipeData(byte[] pipeData) {//build tx data with pipe header handling
+        private bool buildStoredTxDataFromPipeData(byte[] pipeData)
+        {//build tx data with pipe header handling
             //validate the header
             const int HEADER_SIZE = 15;// VOX + 8 + 4
-            if (pipeData == null || pipeData.Length < HEADER_SIZE) {
+            if (pipeData == null || pipeData.Length < HEADER_SIZE)
+            {
                 UI_Textbox_Output.Text += "Pipe data too short to contain header.\r\n";
                 return false;
             }
 
-            if (pipeData[0] != 'V' || pipeData[1] != 'O' || pipeData[2] != 'X') {
+            if (pipeData[0] != 'V' || pipeData[1] != 'O' || pipeData[2] != 'X')
+            {
                 UI_Textbox_Output.Text += "Invalid pipe header identifier.\r\n";
                 return false;
             }
             ulong totalSize = BitConverter.ToUInt64(pipeData, 3);
             uint frameCount = BitConverter.ToUInt32(pipeData, 11);
             // Validate declared size against actual received size
-            if (totalSize != (ulong)pipeData.Length) {
+            if (totalSize != (ulong)pipeData.Length)
+            {
                 UI_Textbox_Output.Text += $"Pipe size mismatch. Header says {totalSize} bytes, received {pipeData.Length} bytes.\r\n";
                 return false;
             }
@@ -329,10 +377,12 @@ namespace TestUIProject {
             Int32 currentFramecount = (Int32)frameCount;
             Int32 currentSliceCount = 16; // standard
             WifiTxDataType dataType;
-            if (frameCount == 1) {
+            if (frameCount == 1)
+            {
                 dataType = WifiTxDataType.Still3D;
             }
-            else {
+            else
+            {
                 dataType = WifiTxDataType.Animation3D;
             }
 
@@ -351,10 +401,12 @@ namespace TestUIProject {
         ///////////////////////////////////////////////////////////////////
         //Process Async/Events
         ///////////////////////////////////////////////////////////////////
-        private async Task<byte[]> readAllDataInFromPipe(NamedPipeServerStream pipe) {
+        private async Task<byte[]> readAllDataInFromPipe(NamedPipeServerStream pipe)
+        {
             using MemoryStream ms = new MemoryStream();
             byte[] buffer = new byte[PIPE_BUFFER_SIZE];
-            while (true) {
+            while (true)
+            {
                 int bytesRead = await pipe.ReadAsync(buffer, 0, buffer.Length);
                 if (bytesRead == 0) break;//pipe closed, exit the 
                 ms.Write(buffer, 0, bytesRead);
@@ -362,9 +414,12 @@ namespace TestUIProject {
             return ms.ToArray();
         }
 
-        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e) {
-            if (e.Data != null) {
-                UI_Textbox_Output.BeginInvoke(new Action(() => {
+        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != null)
+            {
+                UI_Textbox_Output.BeginInvoke(new Action(() =>
+                {
                     UI_Textbox_Output.AppendText($"{e.Data}\r\n");
                 }));
             }
@@ -375,16 +430,19 @@ namespace TestUIProject {
         ///////////////////////////////////////////////////////////////////
 
 
-        private static async Task SendAllAsync(Socket socket, byte[] data, CancellationToken cancellationToken = default) {
+        private static async Task SendAllAsync(Socket socket, byte[] data, CancellationToken cancellationToken = default)
+        {
             int totalSent = 0;
 
-            while (totalSent < data.Length) {
+            while (totalSent < data.Length)
+            {
                 int sent = await socket.SendAsync(
                     data.AsMemory(totalSent, data.Length - totalSent),
                     SocketFlags.None,
                     cancellationToken);
 
-                if (sent <= 0) {
+                if (sent <= 0)
+                {
                     throw new SocketException((int)SocketError.ConnectionReset);
                 }
 
@@ -394,9 +452,12 @@ namespace TestUIProject {
 
 
         //deal with loss of connection event
-        private void HandleDisconnect() {
-            try {
-                if (socket != null && socket.Connected) {
+        private void HandleDisconnect()
+        {
+            try
+            {
+                if (socket != null && socket.Connected)
+                {
                     socket.Shutdown(SocketShutdown.Both);
                 }
                 socket?.Close();
@@ -408,18 +469,22 @@ namespace TestUIProject {
             UI_Button_Disconnect.Enabled = false;
             UI_Button_DisplayOff.Enabled = false;
             UI_Button_UpdateSpeed.Enabled = false;
+            UI_Button_StopMotor.Enabled = false;
             UI_Textbox_Output.Text += "\r\nNot Connected";
         }
 
-        private async void UI_Button_DisplayOff_Click(object sender, EventArgs e) {
+        private async void UI_Button_DisplayOff_Click(object sender, EventArgs e)
+        {
             //check if connection is alive
-            if (socket == null || !socket.Connected) {
+            if (socket == null || !socket.Connected)
+            {
                 HandleDisconnect();
                 return;
             }
 
             //serialize, encode and send message
-            try {
+            try
+            {
                 MessageHeader msgHead = new MessageHeader();
                 msgHead.Version = MessageHeader.CURRENT_VERSION;
                 msgHead.DataType = (sbyte)WifiTxDataType.DisplayOff;
@@ -435,33 +500,39 @@ namespace TestUIProject {
 
                 Trace.WriteLine($"sent {header.Length} bytes:\n{msgHead}");
             }
-            catch (SocketException exc) {
+            catch (SocketException exc)
+            {
                 Trace.WriteLine("Send:SocketException : " + exc.Message);
                 HandleDisconnect();
                 return;
             }
-            catch (Exception exc) {
+            catch (Exception exc)
+            {
                 Trace.WriteLine("Send:Exception : " + exc.Message);
                 HandleDisconnect();
                 return;
             }
         }
 
-        private void UI_TrackBar_EscPulseWidth_ValueChanged(object sender, EventArgs e) {
+        private void UI_TrackBar_EscPulseWidth_ValueChanged(object sender, EventArgs e)
+        {
             UI_TextBox_Esc_Low.Text = UI_TrackBar_EscPulseWidth.Minimum.ToString();
             UI_TextBox_Esc_Value.Text = UI_TrackBar_EscPulseWidth.Value.ToString();
             UI_TextBox_Esc_High.Text = UI_TrackBar_EscPulseWidth.Maximum.ToString();
         }
 
-        private async void UI_Button_UpdateSpeed_Click(object sender, EventArgs e) {
+        private async void UI_Button_UpdateSpeed_Click(object sender, EventArgs e)
+        {
             //check if connection is alive
-            if (socket == null || !socket.Connected) {
+            if (socket == null || !socket.Connected)
+            {
                 HandleDisconnect();
                 return;
             }
 
             //serialize, encode and send message
-            try {
+            try
+            {
                 MessageHeader msgHead = new MessageHeader();
                 msgHead.Version = MessageHeader.CURRENT_VERSION;
                 msgHead.DataType = (sbyte)WifiTxDataType.None;
@@ -477,18 +548,87 @@ namespace TestUIProject {
 
                 Trace.WriteLine($"sent {header.Length} bytes:\n{msgHead}");
             }
-            catch (SocketException exc) {
+            catch (SocketException exc)
+            {
                 Trace.WriteLine("Send:SocketException : " + exc.Message);
                 HandleDisconnect();
                 return;
             }
-            catch (Exception exc) {
+            catch (Exception exc)
+            {
                 Trace.WriteLine("Send:Exception : " + exc.Message);
                 HandleDisconnect();
                 return;
             }
         }
 
+        private async void clientRx()
+        {
+            byte[] rxBuff = new byte[4096];
+
+            while (true)
+            {
+                //check if connection is alive
+                if (socket == null || !socket.Connected)
+                {
+                    HandleDisconnect();
+                    return;
+                }
+
+                int rxBytes = 0;
+                try
+                {
+                    rxBytes = await socket.ReceiveAsync(rxBuff, SocketFlags.None);
+                    Trace.WriteLine("received something");
+                }
+                catch (SocketException ex)
+                {
+                    Trace.WriteLine("RxThread:SocketException : " + ex.Message);
+                    HandleDisconnect();
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("RxThread:GenericException : " + ex.Message);
+                    HandleDisconnect();
+                    return;
+                }
+
+                if (rxBytes == 0)
+                {
+                    HandleDisconnect();
+                    return;
+                }
+
+                //decode ande deserialize the received message
+                EspStats? stats = null;
+                try
+                {
+                    string json = Encoding.UTF8.GetString(rxBuff, 0, rxBytes);
+                    stats = JsonSerializer.Deserialize<EspStats>(json);
+
+                    
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("ClientRx: Decode: " + ex.Message);
+                    continue;
+                }
+
+                if (stats != null) { 
+                    UI_TextBox_Stats.Text = $"RPM: {stats.rpm}\r\n";
+                    UI_TextBox_Stats.Text += $"RPM Filtered: {stats.rpmF}\r\n";
+                    UI_TextBox_Stats.Text += $"Period (us): {stats.period}\r\n";
+                    UI_TextBox_Stats.Text += $"Rev Count: {stats.revcount}\r\n";
+                }
+            }
+        }
+
+        private void UI_Button_StopMotor_Click(object sender, EventArgs e)
+        {
+            UI_TrackBar_EscPulseWidth.Value = 870;
+            UI_Button_UpdateSpeed_Click(sender, e);
+        }
     }
 
 }

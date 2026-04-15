@@ -4773,12 +4773,16 @@ namespace TestUIProject
         {
             byte[] data = new byte[256];
 
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i < 64; i+=2)
             {
-                data[i] = 0x01;
-                data[i + 64] = 0x04;
-                data[i + 128] = 0x10;
-                data[i + 192] = 0x40;
+                data[i] = 0x10;
+                data[i+1] = 0x00;
+                data[i + 64] = 0x01;
+                data[i + 65] = 0x00;
+                data[i + 128] = 0x00;
+                data[i + 129] = 0x10;
+                data[i + 192] = 0x00;
+                data[i + 193] = 0x01;
             }
 
             return data;

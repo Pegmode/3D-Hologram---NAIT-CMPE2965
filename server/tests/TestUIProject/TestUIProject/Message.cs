@@ -149,4 +149,17 @@ namespace TestUIProject
         }
 
     }
+
+    public class EspStats {
+        public int rpm { get; set; }
+        public int rpmF { get; set; }
+        public int period { get; set; }
+        public int revcount { get; set; }
+        public EspStats(int rpm, int rpmF, int period, int revcount) { 
+            this.rpm = rpm;
+            this.rpmF = rpmF;
+            this.period = period;
+            this.revcount = revcount;
+        }
+    }
 }

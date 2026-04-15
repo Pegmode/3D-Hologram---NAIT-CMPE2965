@@ -16,6 +16,7 @@
 #include "console_io.h"
 #include "display_store.h"
 #include "display_task.h"
+#include "speed_telemetry.h"
 #include "main.h"
 #include "wifi_rx.h"
 
@@ -129,6 +130,12 @@ void app_main(void)
     err = display_store_manager_init();
     if (err != ESP_OK) {
         ESP_LOGE(TAG_main, "display_store_manager_init failed: %s", esp_err_to_name(err));
+        return;
+    }
+
+    err = speed_telemetry_init();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG_main, "speed_telemetry_init failed: %s", esp_err_to_name(err));
         return;
     }
 
