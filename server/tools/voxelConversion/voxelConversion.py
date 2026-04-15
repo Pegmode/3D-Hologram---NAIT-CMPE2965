@@ -49,6 +49,9 @@ def plotVoxels(voxels):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
     ax.scatter(xList, yList, zList, marker='s', s=20)
+    ax.set_xlabel("X axis")
+    ax.set_ylabel("Y axis")
+    ax.set_zlabel("Z axis")
     plt.show()
 
 def convertFullToPackedBytes():
