@@ -12,6 +12,8 @@ from coordinateConversionMath import * #
 from fileConversionFunctions import *
 from cConversionFunctions import *
 import win32pipe, win32file, struct
+from PIL import Image, ImageDraw
+from io import BytesIO
 
 
 #defines
@@ -54,6 +56,33 @@ def plotVoxels(voxels):
     ax.set_zlabel("Z axis")
     plt.show()
 
+def plotPolarSlice(cylindrical, height):
+    '''
+    Plot a horizontal slice of polar coord
+    :param height: the height to make the slice at
+    '''
+    filteredVoxels = [(theta, r) for theta, r, h in cylindrical if h == height]
+    theta, r = zip(*filteredVoxels)
+    fig, ax = plt.subplots(subplot_kw={'projection' : 'polar'})
+    ax.scatter(theta, r, color="blue", linewidth=2)
+    plt.show()
+
+def addCylindricalToImage(image, angle, frame):
+    '''
+    Add Cylindrical info as text to PIL image
+    
+    :param image: Description
+    :param angle: Description
+    :param frame: Description
+    '''
+    draw = ImageDraw.Draw(image)
+    #text fields
+    text = f"""
+H+ {frame}
+
+    """
+    draw.multiline_text((0,0), text, fill = "black")
+
 def convertFullToPackedBytes():
     '''
     Perfom the entire conversion process from .obj to packed bytes
@@ -78,7 +107,7 @@ def convertFullToPackedBytes():
     sys.stdout.flush()
     flatBits = convertVoxelsToFlatList(quantizedVoxels, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT)
     packedBytes = packFlattenedVoxelsToBytes(flatBits)
-    return packedBytes, objFilepath, quantizedVoxels, len(flatBits)
+    return packedBytes, objFilepath, quantizedVoxels, len(flatBits), cylindricalVoxels
 
 
 #arg actions
@@ -99,7 +128,7 @@ def actionConvertToHeader():
     '''
     global SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT
 
-    packedBytes, objFilepath, quantizedVoxels, flatBitCount  = convertFullToPackedBytes()
+    packedBytes, objFilepath, quantizedVoxels, flatBitCount, _  = convertFullToPackedBytes()
     #build the output string
     dataStringLines = []
     valuesPerLine = 16#change the to change how long each data segment is in the data formatting
@@ -133,7 +162,7 @@ def actionConvertToPipe():
     convert an .obj file to custom byte array and return in a windows pipe
     '''
     global args, parser, SLICE_COUNT, BOARD_WIDTH, BOARD_HEIGHT
-    packedBytes, objFilepath, _, _ = convertFullToPackedBytes()
+    packedBytes, objFilepath, _, _, _ = convertFullToPackedBytes()
     #Send the frame over pipe
     print("Writing voxel data to pipe...")
     sys.stdout.flush()
@@ -232,6 +261,45 @@ def actionConvertToAnimatedPipe():
     print(f"finished converting {objFilepath}!")
     sys.stdout.flush()
 
+def actionDebugCylindrical():
+    '''
+    Output a test polar graph at the cylindrical pipeline step
+    
+    write the output to a .gif in script directory called "CylindricalAnimation.gif"
+    '''
+    global BOARD_HEIGHT
+    plotImages = []
+    _, _, _, _, cylindricalVoxels  = convertFullToPackedBytes()
+
+    i = 0
+    for currentH in range(BOARD_HEIGHT):
+        filteredVoxels = [(theta, r) for theta, r, h in cylindricalVoxels if h == currentH]
+        if len(filteredVoxels) == 0:
+            theta , r = [],[]
+        else:
+            theta, r = zip(*filteredVoxels)
+        fig, ax = plt.subplots(subplot_kw={'projection' : 'polar'})
+        ax.scatter(theta, r, color="blue", linewidth=2)
+        plt.title(f"horizontal polar slice")
+        #plt.show()
+        fig.canvas.draw()
+        buffer = BytesIO()
+        plt.savefig(buffer, format="png")
+        buffer.seek(0)
+        image = Image.open(buffer).convert("RGB")
+        image.load()
+        draw = ImageDraw.Draw(image)
+        #text fields
+        text = f"""
+H =  {currentH}
+
+"""
+        draw.multiline_text((0,0), text, fill = "black")
+        plotImages.append(image)
+        buffer.close()
+        plt.close()
+        i += 1
+    plotImages[0].save("CylindricalAnimation.gif", save_all = True, append_images = plotImages[1:], duration = 500, loop = 0)
 
     
 
@@ -253,6 +321,7 @@ def argsInit():
     parser.add_argument("-cpa","--convertPipeAnimated", action="store_true", help="convert .obj file to a byte array, formatted as an animation returned in a windows pipe. The UI pipe server MUST be running with named pipe VoxelPipe")
     parser.add_argument("-as", "--animationSpeed", type=int, help=f"Set the animation speed, default:{bounceMultiplier}")
     parser.add_argument("-fv", "--fillVoxels", action="store_true", help="Enable fill when converting voxels (takes a longer time)")
+    parser.add_argument("-dcy", "--debugCylindrical", action="store_true", help="visualize slices of the cylindrical step")
     args = parser.parse_args()
 
 def argsParseAndRunFlags():
@@ -275,6 +344,8 @@ def argsParseAndRunFlags():
         actionConvertToPipe()
     if args.convertPipeAnimated:
         actionConvertToAnimatedPipe()
+    if args.debugCylindrical:
+        actionDebugCylindrical()
 
 
 def argsGetFilepath():
